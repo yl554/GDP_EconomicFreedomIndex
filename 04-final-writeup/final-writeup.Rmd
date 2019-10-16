@@ -1,0 +1,20 @@
+---
+title: "PROJECT TITLE"
+author: "NAME HERE"
+date: "TODAY'S DATE"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Your project goes here! Before you submit, make sure your chunks are turned off with `echo = FALSE`. 
+
+You can add sections as you see fit. At a minimum, you should have the following sections: 
+
+## Section 1: Introduction (includes introduction and exploratory data analysis)
+## Section 2: Regression Analysis (includes the final model and discussion of assumptions)
+## Section 3: Discussion and Limitations 
+## Section 4: Conclusion
+## Section 5: Additional Work

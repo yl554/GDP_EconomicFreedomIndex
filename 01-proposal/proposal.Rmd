@@ -1,0 +1,17 @@
+---
+title: "PROJECT TITLE"
+subtitle: "Project Proposal"
+author: "NAME HERE"
+date: "TODAY'S DATE"
+output: github_document
+---
+
+## Section 1. Introduction
+
+## Section 2. Analysis plan
+
+## Section 3. Regression Analysis Plan
+
+## Section 4. References
+
+## The Data
