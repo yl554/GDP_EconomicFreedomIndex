@@ -6,9 +6,33 @@ date: "TODAY'S DATE"
 output: github_document
 ---
 
+```{r libraries}
+library(tidyverse)
+library(readxl)
+```
+
+```{r data}
+economic_data <- read_excel("project/01-proposal/economic_data.xlsx", 
+    col_types = c("text", "text", "text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+
+happiness_data <- read_excel("project/01-proposal/happiness_data.xlsx")
+
+country_data <- full_join(economic_data, happiness_data, by = "Country")
+country_data
+```
+
 ## Section 1. Introduction
 
+
+
+
 ## Section 2. Analysis plan
+
+
 
 ## Section 3. Regression Analysis Plan
 
