@@ -12,14 +12,14 @@ library(readxl)
 ```
 
 ```{r data}
-economic_data <- read_excel("project/01-proposal/economic_data.xlsx", 
+economic_data <- read_excel("project/02-data/economic_data.xlsx", 
     col_types = c("text", "text", "text", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric"))
 
-happiness_data <- read_excel("project/01-proposal/happiness_data.xlsx")
+happiness_data <- read_excel("project/02-data/happiness_data.xlsx")
 
 country_data <- full_join(economic_data, happiness_data, by = "Country")
 country_data
