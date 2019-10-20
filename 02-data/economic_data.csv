@@ -1,0 +1,186 @@
+﻿Country,Region,GovInterference,TariffRate,IncomeTaxRate,CorporateTaxRate,TaxBurden,GovSpending,Population,GDP ,GDPGrowth,GDPperCap,Unemployment,Inflation,PublicDebt
+Afghanistan,Asia-Pacific,Repressive,7,20,20,5,25.6,35.5,$69.60 ,2.5,"$1,958 ",8.8,5,7.3
+Albania,Europe,Moderate,1.1,23,15,24.9,29.5,2.9,$36.00 ,3.9,"$12,507 ",13.9,2,71.2
+Algeria,Middle East and North Africa,Extensive,8.8,35,23,24.5,41.4,41.5,$632.90 ,2,"$15,237 ",10,5.6,25.8
+Angola,Sub-Saharan Africa,Extensive,9.4,17,30,20.6,25.3,28.2,$190.30 ,0.7,"$6,753 ",8.2,31.7,65.3
+Argentina,Americas,Moderate,7.5,35,30,30.8,41,44.1,$920.20 ,2.9,"$20,876 ",8.7,25.7,52.6
+Armenia,Europe,Moderate,2.1,26,20,21.3,26.4,3,$28.30 ,7.5,"$9,456 ",18.2,0.9,53.5
+Australia,Asia-Pacific,Limited,1.2,45,30,28.2,36.5,24.8,"$1,246.50 ",2.3,"$50,334 ",5.6,2,41.6
+Austria,Europe,Moderate,2,50,25,42.7,50.2,8.8,$439.60 ,2.9,"$49,869 ",5.5,2.2,78.8
+Azerbaijan,Asia-Pacific,Moderate,5.2,25,20,15,36.7,9.8,$171.80 ,0.1,"$17,492 ",5,13,54.7
+Bahamas,Americas,Moderate,18.6,0,0,16.3,21,0.4,$11.60 ,1.3,"$31,139 ",12.6,1.4,57.2
+Bahrain,Middle East and North Africa,Limited,3.1,0,0,5.6,35.3,1.5,$70.40 ,3.2,"$48,505 ",1.2,1.4,90.3
+Bangladesh,Asia-Pacific,Extensive,10.7,25,45,8.8,13.6,163.2,$687.10 ,7.1,"$4,211 ",4.4,5.7,32.4
+Barbados,Americas,Moderate,14.2,35,25,33.7,34.1,0.3,$5.20 ,0.9,"$18,664 ",9.7,4.4,132.9
+Belarus,Europe,Repressive,1.8,13,18,23.8,44.2,9.5,$178.90 ,2.4,"$18,931 ",0.5,6,51
+Belgium,Europe,Moderate,2,50,29,44.2,53.2,11.4,$528.50 ,1.7,"$46,553 ",7.4,2.2,103.2
+Belize,Americas,Moderate,10.5,25,25,27.6,33.7,0.4,$3.20 ,0.8,"$8,324 ",9.3,1.1,99
+Benin,Sub-Saharan Africa,Moderate,11.6,45,30,11.9,23.5,11.1,$25.30 ,5.6,"$2,277 ",2.5,0.1,54.6
+Bhutan,Asia-Pacific,Extensive,2.8,25,30,13.4,30.7,0.8,$7.00 ,6,"$8,744 ",2.4,3.4,102.4
+Bolivia,Americas,Extensive,4.8,13,25,31.1,41.1,11.1,$83.60 ,4.2,"$7,547 ",3.1,2.8,50.9
+Bosnia and Herzegovina,Europe,Moderate,1.2,10,10,37,42.4,3.5,$44.60 ,2.7,"$12,724 ",25.6,1.3,41
+Botswana,Sub-Saharan Africa,Moderate,0.6,25,22,24.9,33.7,2.2,$38.90 ,2.2,"$17,828 ",17.4,3.3,15.6
+Brazil,Americas,Moderate,8,27.5,34,32.2,38.6,207.7,"$3,240.30 ",1,"$15,603 ",13.3,3.4,84
+Brunei Darussalam,Asia-Pacific,Moderate,0.5,0,18.5,24.2,36.6,0.4,$33.50 ,0.5,"$78,196 ",7.1,-0.1,2.7
+Bulgaria,Europe,Moderate,2,10,10,28,34.7,7.1,$153.10 ,3.6,"$21,687 ",6.2,1.2,23.9
+Burkina Faso,Sub-Saharan Africa,Extensive,7.4,27.5,28,16.3,25.8,18.9,$35.80 ,6.4,"$1,889 ",6.3,0.4,38.3
+Burma,Asia-Pacific,Extensive,4.6,20,30,6.5,22.1,52.6,$328.70 ,6.7,"$6,244 ",0.8,5.1,34.7
+Burundi,Sub-Saharan Africa,Extensive,5.9,35,35,12.3,23.6,10.9,$8.00 ,0,$735 ,1.6,16.6,56.7
+Cambodia,Asia-Pacific,Moderate,9.8,20,20,15,21.7,16,$64.30 ,6.9,"$4,012 ",0.2,2.9,35.1
+Cameroon,Sub-Saharan Africa,Moderate,15.8,35,33,15.6,20.4,24.3,$88.90 ,3.2,"$3,660 ",4.2,0.6,33.8
+Canada,Americas,Limited,1.6,33,15,31.7,40.3,36.7,"$1,769.30 ",3,"$48,265 ",6.3,1.6,89.7
+Cabo Verde,Sub-Saharan Africa,Moderate,10.9,35,24,23.7,31,0.5,$3.70 ,4,"$6,944 ",10.3,0.8,126
+Central African Republic,Sub-Saharan Africa,Extensive,14.5,50,30,9,13.9,5,$3.40 ,4,$677 ,6,3.8,53.4
+Chad,Sub-Saharan Africa,Extensive,16.4,60,45,5.3,15.9,12.2,$28.60 ,-3.1,"$2,344 ",5.9,-0.9,52.5
+Chile,Americas,Moderate,0.6,35,25,20.4,25.2,18.4,$451.10 ,1.5,"$24,537 ",7,2.2,23.6
+China,Asia-Pacific,Extensive,3.5,45,25,17.5,31.6,1390.1,"$23,159.10 ",6.9,"$16,660 ",4.7,1.6,47.8
+Colombia,Americas,Moderate,7,33,33,19.9,28.9,49.3,$714.00 ,1.8,"$14,485 ",8.9,4.3,49.4
+Comoros,Sub-Saharan Africa,Extensive,5,30,50,14.5,29.8,0.8,$1.30 ,2.5,"$1,588 ",4.3,1,28.4
+Democratic Republic of the Congo,Sub-Saharan Africa,Extensive,11.2,30,40,10.8,14.2,86.7,$68.50 ,3.4,$790 ,3.7,41.5,15.7
+Republic of Congo,Sub-Saharan Africa,Extensive,11.6,45,34,29.5,44.5,4.3,$28.90 ,-4.6,"$6,642 ",11,0.5,119.1
+Costa Rica,Americas,Moderate,1.8,25,30,23.6,19.6,5,$83.90 ,3.2,"$16,877 ",8.1,1.6,49.1
+CÙte d'Ivoire,Sub-Saharan Africa,Moderate,8.2,36,25,18.2,23.1,25,$96.90 ,7.8,"$3,883 ",2.6,0.8,46.4
+Croatia,Europe,Moderate,2,40,18,37.9,47.1,4.1,$101.30 ,2.8,"$24,424 ",11.2,1.1,78.4
+Cuba,Americas,Repressive,8,50,30,41.5,64.2,11.5,$148.00 ,0.9,"$12,920 ",2.6,5.5,47.7
+Cyprus,Europe,Moderate,2,35,12.5,33.6,38.7,0.9,$31.60 ,3.9,"$37,023 ",11,0.7,99.3
+Czech Republic,Europe,Limited,2,15,19,34,40,10.6,$375.70 ,4.3,"$35,512 ",2.9,2.4,34.7
+Denmark,Europe,Limited,2,56,23.5,45.9,53.4,5.7,$286.80 ,2.1,"$49,883 ",5.7,1.1,36.4
+Djibouti,Sub-Saharan Africa,Moderate,17.3,30,25,29.2,49.2,1,$3.60 ,6.7,"$3,559 ",5.8,0.7,30.6
+Dominica,Americas,Extensive,8.4,35,30,25.8,39.4,0.1,$0.80 ,-4.2,"$11,102 ",N/A,0.6,87.6
+Dominican Republic,Americas,Extensive,4.6,25,27,13.6,17.9,10.2,$172.40 ,4.6,"$16,944 ",5.5,3.3,37.7
+Ecuador,Americas,Extensive,6.8,35,25,21.2,38.5,16.8,$192.60 ,2.7,"$11,482 ",3.8,0.4,45
+Egypt,Middle East and North Africa,Moderate,6.6,25,23,18,32.6,94.8,"$1,201.20 ",4.2,"$12,671 ",12.1,23.5,103.3
+El Salvador,Americas,Moderate,1.8,30,30,19.7,21.4,6.4,$57.00 ,2.4,"$8,948 ",4.5,1,59.3
+Equatorial Guinea,Sub-Saharan Africa,Extensive,15.6,35,35,20.4,32.8,0.8,$30.40 ,-4.4,"$36,017 ",6.9,0.7,42.7
+Eritrea,Sub-Saharan Africa,Extensive,5.4,30,30,8,29.5,5.9,$9.40 ,5,"$1,581 ",6.4,9,131.2
+Estonia,Europe,Moderate,2,20,20,34.7,40.4,1.3,$41.60 ,4.9,"$31,750 ",5.8,3.7,8.8
+Eswatini,Sub-Saharan Africa,Extensive,1.2,33,28,25.5,33.9,1.1,$11.30 ,0.2,"$9,884 ",26.4,6.3,29.2
+Ethiopia,Sub-Saharan Africa,Extensive,12.1,35,30,12.4,17.9,92.7,$200.20 ,10.9,"$2,161 ",5.2,9.9,56.2
+Fiji,Asia-Pacific,Moderate,11.1,29,20,25.5,30.7,0.9,$8.70 ,3.8,"$9,777 ",6.3,3.4,46.6
+Finland,Europe,Limited,2,31.3,20,44.1,55.6,5.5,$244.00 ,3,"$44,333 ",8.6,0.8,61.4
+France,Europe,Moderate,2,45,33,45.3,56.6,64.8,"$2,835.80 ",1.8,"$43,761 ",9.4,1.2,97
+Gabon,Sub-Saharan Africa,Extensive,16.9,35,30,17.3,21.1,1.9,$36.70 ,0.8,"$19,254 ",19.7,3,61.1
+Gambia,Sub-Saharan Africa,Moderate,14.2,35,32,17.9,31.3,2.1,$3.60 ,3.5,"$1,713 ",9.5,8,123.2
+Georgia,Europe,Moderate,0.7,20,15,25.8,29.6,3.7,$39.70 ,4.8,"$10,747 ",11.6,6,44.9
+Germany,Europe,Moderate,2,47.5,15.8,37.6,43.9,82.7,"$4,170.80 ",2.5,"$50,425 ",3.8,1.7,64.1
+Ghana,Sub-Saharan Africa,Moderate,10.8,35,25,16.5,24.5,28.3,$133.70 ,8.4,"$4,729 ",2.4,12.4,71.8
+Greece,Europe,Moderate,2,42,29,38.6,50.6,10.8,$298.70 ,1.4,"$27,737 ",21.5,1.1,181.9
+Guatemala,Americas,Moderate,1.4,31,31,12.6,12.1,16.9,$137.80 ,2.8,"$8,145 ",2.7,4.4,24.4
+Guinea,Sub-Saharan Africa,Extensive,10.9,40,35,15.3,18.4,13,$26.50 ,6.7,"$2,041 ",4.5,8.9,39.7
+Guinea-Bissau,Sub-Saharan Africa,Extensive,12.2,20,25,9.6,21,1.7,$3.10 ,5.5,"$1,845 ",6.1,1.1,42
+Guyana,Americas,Extensive,6.6,33.3,40,24.4,32,0.8,$6.30 ,2.1,"$8,161 ",12,2.1,50.7
+Haiti,Americas,Extensive,6.5,30,30,14.5,19.7,11,$19.90 ,1.2,"$1,815 ",14,14.7,31.1
+Honduras,Americas,Moderate,2.8,25,25,21.6,27,8.3,$46.20 ,4.8,"$5,562 ",4.5,3.9,43.9
+Hong Kong,Asia-Pacific,Limited,0,15,16.5,14,17.9,7.4,$454.90 ,3.8,"$61,393 ",3.1,1.5,0.1
+Hungary,Europe,Moderate,2,15,19,39.4,47.7,9.8,$289.00 ,4,"$29,474 ",4.2,2.4,69.9
+Iceland,Europe,Moderate,1.5,31.8,20,36.4,43.2,0.3,$17.60 ,3.6,"$51,842 ",2.8,1.8,40.9
+India,Asia-Pacific,Extensive,6.3,30.9,32.4,7.2,27.5,1316.9,"$9,459.00 ",6.7,"$7,183 ",3.5,3.6,70.2
+Indonesia,Asia-Pacific,Moderate,2.6,30,25,10.4,16.9,262,"$3,242.80 ",5.1,"$12,377 ",4.2,3.8,28.9
+Iran,Middle East and North Africa,Repressive,15.2,35,25,8,18.5,81.4,"$1,644.70 ",4.3,"$20,200 ",12.5,9.9,40.9
+Iraq,Middle East and North Africa,False,N/A,15,15,N/A,39.7,38.9,$658.80 ,-0.8,"$16,954 ",8.2,0.1,58
+Ireland,Europe,Moderate,2,41,12.5,23,27.4,4.7,$357.20 ,7.8,"$75,538 ",6.4,0.3,68.5
+Israel,Middle East and North Africa,Moderate,2.8,48,23,31.2,39.8,8.7,$316.50 ,3.3,"$36,340 ",4.3,0.2,61
+Italy,Europe,Moderate,2,43,27.5,42.9,49.5,60.6,"$2,310.90 ",1.5,"$38,140 ",11.2,1.3,131.5
+Jamaica,Americas,Moderate,10.8,25,25,27.1,28.3,2.8,$26.10 ,1,"$9,163 ",12.5,4.4,104.1
+Japan,Asia-Pacific,Moderate,2.5,40.8,23.9,30.7,38.7,126.7,"$5,428.80 ",1.7,"$42,832 ",2.8,0.5,236.4
+Jordan,Middle East and North Africa,Moderate,4.3,14,20,16.3,29.8,7.1,$89.10 ,2.3,"$12,494 ",14.9,3.3,95.6
+Kazakhstan,Asia-Pacific,Moderate,2.5,10,20,12.8,23.3,18.2,$477.60 ,4,"$26,252 ",4.9,7.4,21.2
+Kenya,Sub-Saharan Africa,Moderate,12.3,30,30,15.7,27.2,46.7,$163.10 ,4.8,"$3,491 ",11.5,8,55.6
+Kiribati,Asia-Pacific,Extensive,15.9,35,35,15.7,117.9,0.1,$0.20 ,3.1,"$1,976 ",N/A,2.2,26.3
+"Korea, North ",Asia-Pacific,Repressive,50,N/A,N/A,N/A,100,25.4,$40.0 (2015 est.),1.1,"$1,700 (2015 est.)",4.8,N/A,N/A
+"Korea, South",Asia-Pacific,Moderate,4.8,46.2,27.5,26.3,32.4,51.5,"$2,029.00 ",3.1,"$39,434 ",3.7,1.9,39.8
+Kosovo,Europe,Extensive,7.1,10,10,23.5,27.2,1.9,$19.60 ,4.1,"$10,515 ",N/A,1.5,20.9
+Kuwait,Middle East and North Africa,Moderate,3,0,15,1.6,52.5,4.4,$291.50 ,-2.5,"$66,163 ",2.1,1.5,20.6
+Kyrgyz Republic,Asia-Pacific,Moderate,3.2,10,10,19.7,39.1,6.3,$23.00 ,4.5,"$3,667 ",7.3,3.2,59.1
+Laos,Asia-Pacific,Extensive,1.6,24,24,12.8,22.1,6.7,$49.20 ,6.8,"$7,366 ",0.7,0.8,62.8
+Latvia,Europe,Moderate,2,31.4,20,30.2,37.8,2,$53.90 ,4.5,"$27,644 ",8.7,2.9,34.8
+Lebanon,Middle East and North Africa,Moderate,3,20,15,13.8,28.5,4.5,$87.70 ,1.2,"$19,439 ",6.6,4.5,152.8
+Lesotho,Sub-Saharan Africa,Extensive,2,35,25,47,47.3,1.9,$7.00 ,3.1,"$3,581 ",27.3,5.6,34.7
+Liberia,Sub-Saharan Africa,Extensive,12.4,25,25,21.8,35.5,4.5,$6.10 ,2.5,"$1,354 ",2.4,12.4,34.4
+Libya,Middle East and North Africa,False,N/A,10,20,N/A,139.2,6.4,$64.40 ,70.8,"$9,986 ",17.7,28,4.7
+Liechtenstein,Europe,Limited,N/A,7,12.5,N/A,N/A,"38,000 ppl.",$6.1 CHF (2014 ),N/A,"$139,100 (2009 est.)",2.1 (2016),N/A,N/A
+Lithuania,Europe,Moderate,2,15,15,30.2,34.1,2.8,$91.20 ,3.8,"$32,299 ",7.1,3.7,36.5
+Luxembourg,Europe,Limited,2,42,18,37.1,42.2,0.6,$62.70 ,3.5,"$106,374 ",5.5,2.1,23
+Macau,Asia-Pacific,Moderate,0,12,39,25,17.9,0.6,$71.80 ,9.3,"$111,629 ",2,1.2,0
+Macedonia,Europe,Moderate,4,10,10,24.8,31.6,2.1,$31.00 ,0,"$14,914 ",22.4,1.4,39.3
+Madagascar,Sub-Saharan Africa,Moderate,7.9,20,20,10.1,16.6,25.6,$39.70 ,4.1,"$1,551 ",1.8,8.1,37.3
+Malawi,Sub-Saharan Africa,Moderate,4.8,30,30,14.8,31.5,19.2,$22.40 ,4,"$1,167 ",5.9,11.5,59.3
+Malaysia,Asia-Pacific,Moderate,4,25,25,13.8,23.7,32.1,$930.80 ,5.9,"$29,041 ",3.4,3.8,54.2
+Maldives,Asia-Pacific,Extensive,11.2,0,0,20.5,36.1,0.4,$6.90 ,4.8,"$19,151 ",5,2.8,68.1
+Mali,Sub-Saharan Africa,Extensive,7.6,40,35,17.6,22.1,18.9,$41.00 ,5.3,"$2,170 ",7.9,1.8,35.6
+Malta,Europe,Moderate,2,35,35,33.6,38.3,0.5,$19.30 ,6.6,"$41,945 ",4,1.3,52.6
+Mauritania,Sub-Saharan Africa,Extensive,8.7,30,25,25.9,29.3,3.9,$17.30 ,3.2,"$4,444 ",9.9,2.3,91.1
+Mauritius,Sub-Saharan Africa,Moderate,0.8,15,15,18.4,25.6,1.3,$27.50 ,3.9,"$21,640 ",7.1,3.7,60.2
+Mexico,Americas,Moderate,4.3,35,30,17.2,26.9,123.5,"$2,458.40 ",2,"$19,903 ",3.4,6,54.2
+Micronesia,Asia-Pacific,Extensive,2.2,10,21,13.2,59.2,0.1,$0.30 ,2,"$3,393 ",N/A,0.5,24.5
+Moldova,Europe,Moderate,3.5,18,12,31.5,36.9,3.5,$20.10 ,4,"$5,661 ",4.5,6.6,37.7
+Mongolia,Asia-Pacific,Moderate,4.6,10,25,20.7,35.1,3.1,$39.70 ,5.1,"$12,979 ",7,4.6,91.4
+Montenegro,Europe,Moderate,2.6,9,9,36.1,47.4,0.6,$11.00 ,4.2,"$17,736 ",16.1,2.4,67.5
+Morocco,Middle East and North Africa,Moderate,3.8,38,30,20.9,30.2,34.9,$298.60 ,4.2,"$8,567 ",9.3,0.8,64.4
+Mozambique,Sub-Saharan Africa,Moderate,3.5,32,32,20.2,33.2,29.5,$36.70 ,3,"$1,244 ",25,15.3,102.2
+Namibia,Sub-Saharan Africa,Extensive,1,37,34,28.6,41.3,2.3,$26.50 ,-1.2,"$11,312 ",23.3,6.1,46.1
+Nepal,Asia-Pacific,Extensive,12.3,25,25,18.7,23.3,29.3,$78.60 ,7.5,"$2,679 ",2.7,4.5,27.2
+Netherlands,Europe,Limited,2,52,25,38.8,43.6,17.1,$916.10 ,3.1,"$53,635 ",4.8,1.3,56.7
+New Zealand,Asia-Pacific,Limited,1.3,33,28,32.1,40.7,4.8,$188.60 ,3,"$38,934 ",4.9,1.9,26.4
+Nicaragua,Americas,Moderate,2,30,30,22.6,26.4,6.2,$36.40 ,4.9,"$5,849 ",4.4,3.9,33.6
+Niger,Sub-Saharan Africa,Extensive,9.6,35,30,13.5,28.5,18.8,$21.80 ,5.2,"$1,164 ",0.4,2.4,46.5
+Nigeria,Sub-Saharan Africa,Extensive,11.3,24,30,5.2,10.8,188.7,"$1,118.80 ",0.8,"$5,929 ",7,16.5,23.4
+Norway,Europe,Moderate,3.4,47.8,23,38,49.9,5.3,$380.00 ,1.8,"$71,831 ",4.2,1.9,36.7
+Oman,Middle East and North Africa,Moderate,1.5,0,12,8.5,47.4,4.1,$186.60 ,-0.3,"$45,157 ",3.3,1.6,44.2
+Pakistan,Asia-Pacific,Extensive,10.1,30,30,12.4,20.3,197.3,"$1,057.00 ",5.3,"$5,358 ",4,4.1,67.2
+Panama,Americas,Moderate,5.4,25,25,15.8,22.2,4.1,$103.90 ,5.4,"$25,351 ",4.5,0.9,38.2
+Papua New Guinea,Asia-Pacific,Extensive,2,42,30,12.5,19.1,8.3,$30.30 ,2.5,"$3,675 ",2.7,5.2,32.6
+Paraguay,Americas,Moderate,4.2,10,10,13,26.5,7,$68.30 ,4.3,"$9,826 ",4.6,3.6,25.6
+Peru,Americas,Moderate,1.8,30,28,16,21.5,31.8,$424.40 ,2.5,"$13,334 ",3.6,2.8,25.5
+Philippines,Asia-Pacific,Moderate,3.4,35,30,13.7,19.4,105.3,$875.60 ,6.7,"$8,315 ",2.4,3.2,37.8
+Poland,Europe,Moderate,2,32,19,33.6,41.3,38,"$1,121.00 ",4.6,"$29,521 ",4.9,2,51.4
+Portugal,Europe,Moderate,2,48,23,34.4,46.3,10.3,$313.40 ,2.7,"$30,417 ",8.9,1.6,125.6
+Qatar,Middle East and North Africa,Moderate,3.4,0,0,5.7,37.9,2.7,$340.60 ,2.1,"$124,529 ",0.1,0.4,54
+Romania,Europe,Moderate,2,10,16,26,32.1,19.6,$481.50 ,7,"$24,508 ",4.9,1.3,36.9
+Russia,Europe,Extensive,3.6,13,20,22.2,35.4,144,"$4,007.80 ",1.5,"$27,834 ",5.2,3.7,17.4
+Rwanda,Sub-Saharan Africa,Extensive,7.3,30,30,15,26.2,11.8,$24.60 ,6.1,"$2,080 ",1.3,4.8,40.6
+Saint Lucia,Americas,Extensive,5.9,30,30,24,26.3,0.2,$2.50 ,3,"$14,450 ",21,0.1,71.3
+Saint Vincent and the Grenadines,Americas,Extensive,9.2,32.5,33,27.1,29.3,0.1,$1.30 ,1,"$11,491 ",18.3,2,80.8
+Samoa,Asia-Pacific,Extensive,10.6,27,27,23.6,35.5,0.2,$1.10 ,2.4,"$5,740 ",8.2,1.3,49.1
+Saudi Arabia,Middle East and North Africa,Moderate,4.5,2.5,2.5,3.4,37.6,32.4,"$1,773.60 ",-0.7,"$54,777 ",5.5,-0.9,17.3
+Senegal,Sub-Saharan Africa,Extensive,9,40,30,20.4,29.8,15.9,$43.20 ,7.2,"$2,727 ",4.9,1.4,61.2
+Serbia,Europe,Moderate,6.5,10,15,38.4,42.8,7,$105.50 ,1.8,"$15,000 ",14.1,3.1,61.5
+Seychelles,Sub-Saharan Africa,Extensive,4.3,15,33,32.6,36.4,0.1,$2.70 ,4.2,"$28,779 ",N/A,2.9,63.3
+Sierra Leone,Sub-Saharan Africa,Extensive,10.3,15,30,12.2,22.8,7.4,$11.50 ,3.5,"$1,553 ",4.5,18,58.4
+Singapore,Asia-Pacific,Limited,0.1,22,17,13.7,17.6,5.6,$527.00 ,3.6,"$93,906 ",2,0.6,110.9
+Slovakia,Europe,Moderate,2,25,21,32.7,42.4,5.4,$179.40 ,3.4,"$33,025 ",8.1,1.3,50.4
+Slovenia,Europe,Moderate,2,50,17,37,45.4,2.1,$71.10 ,5,"$34,407 ",6.6,1.4,75.4
+Solomon Islands,Asia-Pacific,Extensive,14.1,40,30,30.8,46,0.6,$1.30 ,3.2,"$2,157 ",2.1,-0.4,10
+Somalia,Sub-Saharan Africa,False,N/A,N/A,N/A,N/A,N/A,14.3,$18.70 ,1.8,N/A,6,N/A,N/A
+South Africa,Sub-Saharan Africa,Moderate,4.5,45,28,31.3,32.8,56.5,$765.60 ,1.3,"$13,545 ",27.3,5.3,52.7
+Spain,Europe,Moderate,2,45,25,33.5,42.3,46.3,"$1,773.90 ",3.1,"$38,286 ",17.2,2,98.4
+Sri Lanka,Asia-Pacific,Extensive,4.4,24,28,12.3,19.8,21.4,$274.70 ,3.1,"$12,811 ",4.1,6.5,79.4
+Sudan,Sub-Saharan Africa,Extensive,17.5,10,35,6.7,10.6,40.8,$187.00 ,3.2,"$4,586 ",12.7,32.4,126
+Suriname,Americas,Extensive,10.2,38,36,13.2,27.6,0.6,$8.50 ,0,"$14,606 ",8.1,22,72.1
+Sweden,Europe,Limited,2,57,22,44.1,49.4,10.1,$520.90 ,2.4,"$51,475 ",6.7,1.9,40.9
+Switzerland,Europe,Limited,1.3,40,24,27.8,34.3,8.4,$517.20 ,1.1,"$61,422 ",4.8,0.5,42.8
+Syria,Middle East and North Africa,False,16.5,22,28,N/A,N/A,18.4,N/A,N/A,N/A,14.9,N/A,N/A
+Taiwan ,Asia-Pacific,Moderate,1.5,45,20,8.9,17.7,23.6,"$1,185.50 ",2.8,"$50,294 ",3.8,0.6,35.2
+Tajikistan,Asia-Pacific,Extensive,5.7,13,15,20.6,34.3,8.8,$28.40 ,7.1,"$3,212 ",10.3,7.3,47.8
+Tanzania,Sub-Saharan Africa,Moderate,8.6,30,30,12.4,18,50,$162.20 ,6,"$3,240 ",2.2,5.3,38.2
+Thailand,Asia-Pacific,Moderate,3.5,35,20,15.6,21.8,69.1,"$1,233.70 ",3.9,"$17,856 ",1.1,0.7,41.9
+Timor-Leste,Asia-Pacific,Extensive,2.5,10,10,13.1,57.5,1.2,$6.80 ,-0.5,"$5,444 ",3.4,0.6,0
+Togo,Sub-Saharan Africa,Extensive,10.3,45,27,21.5,27.7,7.8,$12.90 ,4.4,"$1,659 ",1.8,-0.7,78.6
+Tonga,Asia-Pacific,Extensive,5.7,20,25,20.7,44.4,0.1,$0.60 ,3.1,"$5,608 ",1.1,8,48
+Trinidad and Tobago,Americas,Moderate,8.3,25,25,22.8,35.7,1.4,$43.00 ,-2.6,"$31,367 ",4.8,1.9,41.3
+Tunisia,Middle East and North Africa,Extensive,9.3,35,30,20.8,29.2,11.5,$135.40 ,1.9,"$11,755 ",15.4,5.3,71.3
+Turkey,Europe,Moderate,2.7,35,22,25.5,34.1,80.8,"$2,173.20 ",7,"$26,893 ",11.3,11.1,28.5
+Turkmenistan,Asia-Pacific,Repressive,2,10,8,15.6,16.4,5.7,$103.50 ,6.5,"$18,126 ",3.4,8,28.8
+Uganda,Sub-Saharan Africa,Extensive,7.3,40,30,12.9,19.4,37.7,$88.70 ,4.5,"$2,354 ",2.1,5.6,39
+Ukraine,Europe,Extensive,2.5,20,18,33.1,42.1,42.3,$368.80 ,2.5,"$8,713 ",9.5,14.4,75.6
+United Arab Emirates,Middle East and North Africa,Moderate,2.8,0,0,8.9,32.3,10.1,$686.80 ,0.5,"$67,741 ",1.7,2,19.5
+United Kingdom,Europe,Limited,2,45,20,33.2,41.6,66.1,"$2,914.00 ",1.8,"$44,118 ",4.3,2.7,87
+United States,Americas,Limited,1.7,37,21,26,37.8,325.9,"$19,390.60 ",2.3,"$59,501 ",4.4,2.1,107.8
+Uruguay,Americas,Extensive,5.7,30,25,27.4,32.9,3.5,$78.10 ,3.1,"$22,371 ",7.9,6.2,66.2
+Uzbekistan,Asia-Pacific,Repressive,8.7,22,7.5,18.2,33,32.1,$222.60 ,5.3,"$6,929 ",7.2,12.5,24.5
+Vanuatu,Asia-Pacific,Extensive,7.8,0,0,16.3,39.1,0.3,$0.80 ,4.2,"$2,739 ",5.2,3.1,48.4
+Venezuela,Americas,Repressive,10,34,34,14.9,37.4,31.4,$380.70 ,-14,"$12,114 ",7.7,1087.5,34.9
+Vietnam,Asia-Pacific,Extensive,2.9,35,22,18,29.4,93.6,$647.40 ,6.8,"$6,913 ",2.1,3.5,58.2
+Yemen,Middle East and North Africa,False,4.3,N/A,N/A,N/A,N/A,30,$38.60 ,-13.8,"$1,287 ",14,4.9,141
+Zambia,Sub-Saharan Africa,Moderate,6.2,35,35,17.9,25.8,17.2,$68.90 ,3.6,"$3,996 ",7.8,6.6,62.2
+Zimbabwe,Sub-Saharan Africa,Repressive,5,51.5,25,22.3,29.2,14.9,$34.00 ,3,"$2,283 ",5,1.3,78.4
