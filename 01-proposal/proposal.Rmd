@@ -2,7 +2,7 @@
 title: "PROJECT TITLE"
 subtitle: "Project Proposal"
 author: "NAME HERE"
-date: "TODAY'S DATE"
+date: "2019/10/26"
 output: github_document
 ---
 
@@ -11,15 +11,16 @@ library(tidyverse)
 library(readxl)
 ```
 
-```{r data}
-economic_data <- read_excel("project/02-data/economic_data.xlsx", 
+```{r load data}
+setwd("/cloud/project")
+economic_data <- read_excel("02-data/economic_data.xlsx", 
     col_types = c("text", "text", "text", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric"))
 
-happiness_data <- read_excel("project/02-data/happiness_data.xlsx")
+happiness_data <- read_excel("02-data/happiness_data.xlsx")
 
 country_data <- full_join(economic_data, happiness_data, by = "Country")
 country_data
@@ -27,10 +28,15 @@ country_data
 
 ## Section 1. Introduction
 
+```{r glimpse}
+glimpse(country_data)
+```
+
+We first take an overview of the data. We can see that there are 193 observations --- one observation corresponds to one country, and 16 variables, including country name, 14 predictor variables and one response variable that we want to predict, the happiness score.
+
+## Section 2. Regression Analysis
 
 
-
-## Section 2. Analysis plan
 
 
 
