@@ -7,14 +7,22 @@ NAME HERE
 library(tidyverse)
 ```
 
+<<<<<<< HEAD
     ## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+=======
+    ## ── Attaching packages ─────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+>>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
+<<<<<<< HEAD
     ## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+=======
+    ## ── Conflicts ────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+>>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -24,12 +32,21 @@ library(readxl)
 
 ``` r
 setwd("/cloud/project")
+<<<<<<< HEAD
 economic_data <- read_excel("02-data/economic_data.xlsx", 
     col_types = c("text", "text", "text", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric"))
+=======
+economic_data <- read_excel("02-data/economic_data.xlsx",
+col_types = c("text", "text", "text",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric"))
+>>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
 ```
 
     ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
@@ -194,6 +211,11 @@ country_data
 
 ## Section 1. Introduction
 
+<<<<<<< HEAD
+=======
+## Section 2. Regression Analysis
+
+>>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
 ``` r
 glimpse(country_data)
 ```
@@ -220,6 +242,7 @@ glimpse(country_data)
 We first take an overview of the data. We can see that there are 193
 observations — one observation corresponds to one country, and 16
 variables, including country name, 14 predictor variables and one
+<<<<<<< HEAD
 response variable that we want to predict, the happiness
 score.
 
@@ -247,6 +270,73 @@ ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
 ```
 
 ![](proposal_files/figure-gfm/EDA-1.png)<!-- -->
+=======
+response variable that we want to predict, the happiness score.
+
+``` r
+ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
+  geom_histogram() + 
+  labs(x = "Tax Burden (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Tax Burden")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 15 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/Tax%20Burden-1.png)<!-- -->
+
+``` r
+ggplot(data = country_data, mapping = aes(x = GovSpending)) +
+  geom_histogram(binwidth = 4) + 
+  labs(x = "Government Spending (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Government Spending")
+```
+
+    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/Government%20Spending-1.png)<!-- -->
+
+``` r
+ggplot(data = country_data, mapping = aes(x = Population)) +
+  geom_histogram(binwidth = 40) + 
+  labs(x = "Population (Million)",
+       y = "Frequency",
+       title = "Distribution of Population")
+```
+
+    ## Warning: Removed 9 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/Population-1.png)<!-- -->
+
+``` r
+ggplot(data = country_data, mapping = aes(x = Unemployment)) +
+  geom_histogram(binwidth = 1) + 
+  labs(x = "Unemployment (%)",
+       y = "Frequency",
+       title = "Distribution of Unemployment")
+```
+
+    ## Warning: Removed 14 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/Unemployment-1.png)<!-- -->
+
+``` r
+ggplot(data = country_data, mapping = aes(x = Inflation)) +
+  geom_histogram() + 
+  labs(x = "Inflation (%)",
+       y = "Frequency",
+       title = "Distribution of Inflation")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/Inflation-1.png)<!-- -->
+>>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
 
 ``` r
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
@@ -290,7 +380,34 @@ labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "
 
     ## Warning: Removed 3 rows containing non-finite values (stat_bin).
 
+<<<<<<< HEAD
 ![](proposal_files/figure-gfm/EDA-5.png)<!-- -->
+=======
+![](proposal_files/figure-gfm/EDA-4.png)<!-- -->
+
+``` r
+country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
+ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
+  geom_histogram(binwidth = 1) + 
+  labs(x = "Inflation (%)",
+       y = "Frequency",
+       title = "Distribution of Inflation without Outlier")
+```
+
+![](proposal_files/figure-gfm/Inflation%20without%20outlier-1.png)<!-- -->
+
+``` r
+ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
+  geom_histogram(binwidth = 8) + 
+  labs(x = "Public Debt (% of GDP)",
+       y = "Frequency",
+       title = "Distribution of Public Debt")
+```
+
+    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/Public%20Debt-1.png)<!-- -->
+>>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
 
 ## Section 3. Regression Analysis Plan
 
