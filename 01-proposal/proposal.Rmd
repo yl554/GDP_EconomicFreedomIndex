@@ -11,17 +11,7 @@ library(tidyverse)
 library(readxl)
 ```
 
-<<<<<<< HEAD
 ```{r data}
-setwd("/cloud/project")
-economic_data <- read_excel("02-data/economic_data.xlsx",
-col_types = c("text", "text", "text",
-"numeric", "numeric", "numeric",
-"numeric", "numeric", "numeric",
-"numeric", "numeric", "numeric",
-"numeric", "numeric", "numeric"))
-=======
-```{r load data}
 setwd("/cloud/project")
 economic_data <- read_excel("02-data/economic_data.xlsx", 
     col_types = c("text", "text", "text", 
@@ -29,7 +19,6 @@ economic_data <- read_excel("02-data/economic_data.xlsx",
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric"))
->>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 
 happiness_data <- read_excel("02-data/happiness_data.xlsx")
 
@@ -50,6 +39,16 @@ We first take an overview of the data. We can see that there are 193 observation
 
 
 ```{r EDA}
+aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
+
+regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47))
+mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#99D492")
+ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
+    geom_bar(stat = "identity", color = "white") +
+    coord_polar("y", start = 0) +
+    scale_fill_manual(values = mycols) +
+    theme_void()
+
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
 geom_bar(fill = "cornflowerblue") +
 labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
@@ -66,6 +65,8 @@ ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
 ```
+
+
 
 
 ## Section 3. Regression Analysis Plan

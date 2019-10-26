@@ -1,32 +1,20 @@
 PROJECT TITLE
 ================
 NAME HERE
-<<<<<<< HEAD
-TODAY’S DATE
-=======
 2019/10/26
->>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 
 ``` r
 library(tidyverse)
 ```
 
-<<<<<<< HEAD
     ## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
-=======
-    ## ── Attaching packages ─────────────────────────────────────────── tidyverse 1.2.1 ──
->>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-<<<<<<< HEAD
     ## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-=======
-    ## ── Conflicts ────────────────────────────────────────────── tidyverse_conflicts() ──
->>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -36,21 +24,12 @@ library(readxl)
 
 ``` r
 setwd("/cloud/project")
-<<<<<<< HEAD
-economic_data <- read_excel("02-data/economic_data.xlsx",
-col_types = c("text", "text", "text",
-"numeric", "numeric", "numeric",
-"numeric", "numeric", "numeric",
-"numeric", "numeric", "numeric",
-"numeric", "numeric", "numeric"))
-=======
 economic_data <- read_excel("02-data/economic_data.xlsx", 
     col_types = c("text", "text", "text", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric", 
         "numeric", "numeric", "numeric"))
->>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 ```
 
     ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
@@ -215,53 +194,6 @@ country_data
 
 ## Section 1. Introduction
 
-<<<<<<< HEAD
-## Section 2. Analysis plan
-
-``` r
-ggplot(mapping = aes(x = GovInterference), data = economic_data) +
-geom_bar(fill = "cornflowerblue") +
-labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
-```
-
-![](proposal_files/figure-gfm/EDA-1.png)<!-- -->
-
-``` r
-ggplot(mapping = aes(x = TariffRate), data = economic_data) +
-geom_histogram(fill = "cornflowerblue") +
-labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
-```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
-
-![](proposal_files/figure-gfm/EDA-2.png)<!-- -->
-
-``` r
-ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
-geom_histogram(fill = "cornflowerblue") +
-labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
-```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-    ## Warning: Removed 3 rows containing non-finite values (stat_bin).
-
-![](proposal_files/figure-gfm/EDA-3.png)<!-- -->
-
-``` r
-ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
-geom_histogram(fill = "cornflowerblue") +
-labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
-```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-    ## Warning: Removed 3 rows containing non-finite values (stat_bin).
-
-![](proposal_files/figure-gfm/EDA-4.png)<!-- -->
-=======
 ``` r
 glimpse(country_data)
 ```
@@ -288,10 +220,77 @@ glimpse(country_data)
 We first take an overview of the data. We can see that there are 193
 observations — one observation corresponds to one country, and 16
 variables, including country name, 14 predictor variables and one
-response variable that we want to predict, the happiness score.
+response variable that we want to predict, the happiness
+score.
 
 ## Section 2. Regression Analysis
->>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
+
+``` r
+aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
+```
+
+    ##                         Region count
+    ## 1                     Americas    32
+    ## 2                 Asia-Pacific    43
+    ## 3                       Europe    45
+    ## 4 Middle East and North Africa    18
+    ## 5           Sub-Saharan Africa    47
+
+``` r
+regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47))
+mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#99D492")
+ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
+    geom_bar(stat = "identity", color = "white") +
+    coord_polar("y", start = 0) +
+    scale_fill_manual(values = mycols) +
+    theme_void()
+```
+
+![](proposal_files/figure-gfm/EDA-1.png)<!-- -->
+
+``` r
+ggplot(mapping = aes(x = GovInterference), data = economic_data) +
+geom_bar(fill = "cornflowerblue") +
+labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+```
+
+![](proposal_files/figure-gfm/EDA-2.png)<!-- -->
+
+``` r
+ggplot(mapping = aes(x = TariffRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/EDA-3.png)<!-- -->
+
+``` r
+ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 3 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/EDA-4.png)<!-- -->
+
+``` r
+ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 3 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/EDA-5.png)<!-- -->
 
 ## Section 3. Regression Analysis Plan
 
