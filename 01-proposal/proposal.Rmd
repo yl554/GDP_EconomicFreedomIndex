@@ -12,14 +12,15 @@ library(readxl)
 ```
 
 ```{r data}
-economic_data <- read_excel("project/02-data/economic_data.xlsx", 
-    col_types = c("text", "text", "text", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric"))
+setwd("/cloud/project")
+economic_data <- read_excel("02-data/economic_data.xlsx",
+col_types = c("text", "text", "text",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric"))
 
-happiness_data <- read_excel("project/02-data/happiness_data.xlsx")
+happiness_data <- read_excel("02-data/happiness_data.xlsx")
 
 country_data <- full_join(economic_data, happiness_data, by = "Country")
 country_data
@@ -32,6 +33,23 @@ country_data
 
 ## Section 2. Analysis plan
 
+```{r EDA}
+ggplot(mapping = aes(x = GovInterference), data = economic_data) +
+geom_bar(fill = "cornflowerblue") +
+labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+
+ggplot(mapping = aes(x = TariffRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+
+ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+
+ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
+```
 
 
 ## Section 3. Regression Analysis Plan
