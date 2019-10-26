@@ -76,19 +76,37 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
        title = "Distribution of Inflation")
 ```
 
-```{r EDA}
+```{r Region}
+aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
+
+regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47))
+mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#99D492")
+ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
+    geom_bar(stat = "identity", color = "white") +
+    coord_polar("y", start = 0) +
+    scale_fill_manual(values = mycols) +
+    theme_void()
+```
+
+```{r Government Interference}
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
 geom_bar(fill = "cornflowerblue") +
 labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+```
 
+```{r Tariff Rate}
 ggplot(mapping = aes(x = TariffRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+```
 
+```{r Income Tax Rate}
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+```
 
+```{r Corporate Tax Rate}
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
@@ -110,6 +128,8 @@ ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
        y = "Frequency",
        title = "Distribution of Public Debt")
 ```
+
+
 
 ## Section 3. Regression Analysis Plan
 
