@@ -11,14 +11,15 @@ library(tidyverse)
 library(readxl)
 ```
 
-```{r load data}
+
+```{r data}
 setwd("/cloud/project")
-economic_data <- read_excel("02-data/economic_data.xlsx", 
-    col_types = c("text", "text", "text", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric"))
+economic_data <- read_excel("02-data/economic_data.xlsx",
+col_types = c("text", "text", "text",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric"))
 
 happiness_data <- read_excel("02-data/happiness_data.xlsx")
 
@@ -77,9 +78,26 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
        title = "Distribution of Inflation")
 ```
 
+```{r EDA}
+ggplot(mapping = aes(x = GovInterference), data = economic_data) +
+geom_bar(fill = "cornflowerblue") +
+labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+
+ggplot(mapping = aes(x = TariffRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+
+ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+
+ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
+geom_histogram(fill = "cornflowerblue") +
+labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
+```
+
 ```{r Inflation without outlier}
 country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
-
 ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
   geom_histogram(binwidth = 1) + 
   labs(x = "Inflation (%)",
