@@ -11,16 +11,6 @@ library(tidyverse)
 library(readxl)
 ```
 
-<<<<<<< HEAD
-```{r data}
-setwd("/cloud/project")
-economic_data <- read_excel("02-data/economic_data.xlsx", 
-    col_types = c("text", "text", "text", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric", 
-        "numeric", "numeric", "numeric"))
-=======
 
 ```{r data}
 setwd("/cloud/project")
@@ -30,7 +20,6 @@ col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric"))
->>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
 
 happiness_data <- read_excel("02-data/happiness_data.xlsx")
 
@@ -89,7 +78,7 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
        title = "Distribution of Inflation")
 ```
 
-```{r EDA}
+```{r Region}
 aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
 
 regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47))
@@ -99,19 +88,27 @@ ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
     coord_polar("y", start = 0) +
     scale_fill_manual(values = mycols) +
     theme_void()
+```
 
+```{r Government Interference}
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
 geom_bar(fill = "cornflowerblue") +
 labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+```
 
+```{r Tariff Rate}
 ggplot(mapping = aes(x = TariffRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+```
 
+```{r Income Tax Rate}
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+```
 
+```{r Corporate Tax Rate}
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
