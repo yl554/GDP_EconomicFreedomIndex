@@ -1,6 +1,6 @@
 PROJECT TITLE
 ================
-NAME HERE
+Rtists
 2019/10/26
 
 ``` r
@@ -23,8 +23,7 @@ library(readxl)
 ```
 
 ``` r
-setwd("/cloud/project")
-economic_data <- read_excel("02-data/economic_data.xlsx",
+economic_data <- read_excel("/cloud/project/02-data/economic_data.xlsx",
 col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
@@ -168,29 +167,10 @@ col_types = c("text", "text", "text",
     ## sheet, : Expecting numeric in H184 / R184C8: got 'N/A'
 
 ``` r
-happiness_data <- read_excel("02-data/happiness_data.xlsx")
+happiness_data <- read_excel("/cloud/project/02-data/happiness_data.xlsx")
 
 country_data <- full_join(economic_data, happiness_data, by = "Country")
-country_data
 ```
-
-    ## # A tibble: 193 x 16
-    ##    Country Region GovInterference TariffRate IncomeTaxRate CorporateTaxRate
-    ##    <chr>   <chr>  <chr>                <dbl>         <dbl>            <dbl>
-    ##  1 Afghan… Asia-… Repressive             7              20               20
-    ##  2 Albania Europe Moderate               1.1            23               15
-    ##  3 Algeria Middl… Extensive              8.8            35               23
-    ##  4 Angola  Sub-S… Extensive              9.4            17               30
-    ##  5 Argent… Ameri… Moderate               7.5            35               30
-    ##  6 Armenia Europe Moderate               2.1            26               20
-    ##  7 Austra… Asia-… Limited                1.2            45               30
-    ##  8 Austria Europe Moderate               2              50               25
-    ##  9 Azerba… Asia-… Moderate               5.2            25               20
-    ## 10 Bahamas Ameri… Moderate              18.6             0                0
-    ## # … with 183 more rows, and 10 more variables: TaxBurden <dbl>,
-    ## #   GovSpending <dbl>, Population <dbl>, GDP <dbl>, GDPGrowth <dbl>,
-    ## #   GDPperCap <dbl>, Unemployment <dbl>, Inflation <dbl>,
-    ## #   PublicDebt <dbl>, Happiness_Score <dbl>
 
 ## Section 1. Introduction
 
