@@ -2,7 +2,7 @@
 title: "PROJECT TITLE"
 subtitle: "Project Proposal"
 author: "NAME HERE"
-date: "TODAY'S DATE"
+date: "2019/10/26"
 output: github_document
 ---
 
@@ -11,6 +11,7 @@ library(tidyverse)
 library(readxl)
 ```
 
+<<<<<<< HEAD
 ```{r data}
 setwd("/cloud/project")
 economic_data <- read_excel("02-data/economic_data.xlsx",
@@ -19,6 +20,16 @@ col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric"))
+=======
+```{r load data}
+setwd("/cloud/project")
+economic_data <- read_excel("02-data/economic_data.xlsx", 
+    col_types = c("text", "text", "text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+>>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 
 happiness_data <- read_excel("02-data/happiness_data.xlsx")
 
@@ -28,10 +39,15 @@ country_data
 
 ## Section 1. Introduction
 
+```{r glimpse}
+glimpse(country_data)
+```
+
+We first take an overview of the data. We can see that there are 193 observations --- one observation corresponds to one country, and 16 variables, including country name, 14 predictor variables and one response variable that we want to predict, the happiness score.
+
+## Section 2. Regression Analysis
 
 
-
-## Section 2. Analysis plan
 
 ```{r EDA}
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +

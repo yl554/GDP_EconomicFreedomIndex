@@ -1,20 +1,32 @@
 PROJECT TITLE
 ================
 NAME HERE
+<<<<<<< HEAD
 TODAY’S DATE
+=======
+2019/10/26
+>>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 
 ``` r
 library(tidyverse)
 ```
 
+<<<<<<< HEAD
     ## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+=======
+    ## ── Attaching packages ─────────────────────────────────────────── tidyverse 1.2.1 ──
+>>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
+<<<<<<< HEAD
     ## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+=======
+    ## ── Conflicts ────────────────────────────────────────────── tidyverse_conflicts() ──
+>>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -24,12 +36,21 @@ library(readxl)
 
 ``` r
 setwd("/cloud/project")
+<<<<<<< HEAD
 economic_data <- read_excel("02-data/economic_data.xlsx",
 col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric"))
+=======
+economic_data <- read_excel("02-data/economic_data.xlsx", 
+    col_types = c("text", "text", "text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+>>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 ```
 
     ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
@@ -194,6 +215,7 @@ country_data
 
 ## Section 1. Introduction
 
+<<<<<<< HEAD
 ## Section 2. Analysis plan
 
 ``` r
@@ -239,6 +261,37 @@ labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "
     ## Warning: Removed 3 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/EDA-4.png)<!-- -->
+=======
+``` r
+glimpse(country_data)
+```
+
+    ## Observations: 193
+    ## Variables: 16
+    ## $ Country          <chr> "Afghanistan", "Albania", "Algeria", "Angola", …
+    ## $ Region           <chr> "Asia-Pacific", "Europe", "Middle East and Nort…
+    ## $ GovInterference  <chr> "Repressive", "Moderate", "Extensive", "Extensi…
+    ## $ TariffRate       <dbl> 7.0, 1.1, 8.8, 9.4, 7.5, 2.1, 1.2, 2.0, 5.2, 18…
+    ## $ IncomeTaxRate    <dbl> 20.0, 23.0, 35.0, 17.0, 35.0, 26.0, 45.0, 50.0,…
+    ## $ CorporateTaxRate <dbl> 20.0, 15.0, 23.0, 30.0, 30.0, 20.0, 30.0, 25.0,…
+    ## $ TaxBurden        <dbl> 5.0, 24.9, 24.5, 20.6, 30.8, 21.3, 28.2, 42.7, …
+    ## $ GovSpending      <dbl> 25.6, 29.5, 41.4, 25.3, 41.0, 26.4, 36.5, 50.2,…
+    ## $ Population       <dbl> 35.5, 2.9, 41.5, 28.2, 44.1, 3.0, 24.8, 8.8, 9.…
+    ## $ GDP              <dbl> 69.6, 36.0, 632.9, 190.3, 920.2, 28.3, 1246.5, …
+    ## $ GDPGrowth        <dbl> 2.5, 3.9, 2.0, 0.7, 2.9, 7.5, 2.3, 2.9, 0.1, 1.…
+    ## $ GDPperCap        <dbl> 1958, 12507, 15237, 6753, 20876, 9456, 50334, 4…
+    ## $ Unemployment     <dbl> 8.8, 13.9, 10.0, 8.2, 8.7, 18.2, 5.6, 5.5, 5.0,…
+    ## $ Inflation        <dbl> 5.0, 2.0, 5.6, 31.7, 25.7, 0.9, 2.0, 2.2, 13.0,…
+    ## $ PublicDebt       <dbl> 7.3, 71.2, 25.8, 65.3, 52.6, 53.5, 41.6, 78.8, …
+    ## $ Happiness_Score  <dbl> 37.94, 46.44, 58.72, 37.95, 65.99, 43.76, 72.84…
+
+We first take an overview of the data. We can see that there are 193
+observations — one observation corresponds to one country, and 16
+variables, including country name, 14 predictor variables and one
+response variable that we want to predict, the happiness score.
+
+## Section 2. Regression Analysis
+>>>>>>> ca233bf2c7192573595ee9dc0f85afee323621fa
 
 ## Section 3. Regression Analysis Plan
 
