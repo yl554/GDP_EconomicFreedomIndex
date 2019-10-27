@@ -7,20 +7,28 @@ NAME HERE
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
 ``` r
 library(readxl)
+library(skimr)
 ```
+
+    ## 
+    ## Attaching package: 'skimr'
+
+    ## The following object is masked from 'package:stats':
+    ## 
+    ##     filter
 
 ``` r
 setwd("/cloud/project")
@@ -239,6 +247,27 @@ ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
 ![](proposal_files/figure-gfm/Tax%20Burden-1.png)<!-- -->
 
 ``` r
+economic_data %>%
+select(TaxBurden) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
+    ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
+    ##      hist
+    ##  ▂▅▇▆▅▅▂▂
+
+The distribution of tax burden is unimodal and only slightly right
+skewed. The mode is around 14-15%. In general, the tax burden across
+countries appear normally distributed. The mean tax burden is 22.19 and
+the standard deviation of the distribution is 10.17.
+
+``` r
 ggplot(data = country_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 4) + 
   labs(x = "Government Spending (% of Country's GDP)",
@@ -249,6 +278,30 @@ ggplot(data = country_data, mapping = aes(x = GovSpending)) +
     ## Warning: Removed 12 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Government%20Spending-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(GovSpending) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
+    ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
+    ##      hist
+    ##  ▅▇▂▁▁▁▁▁
+
+The distribution of government spending is generally symmmetric and
+unimodal. There are several outliers which have significantly higher
+government spending: with government spending either equal to or more
+than 100% of the country’s GDP. The mode of the distribution is around
+25%. Since there is minimal skewing, we report the mean and standard
+deviation. The mean government spending is 33.87 and the distribution
+has a standard deviation of 15.52
 
 ``` r
 ggplot(data = country_data, mapping = aes(x = Population)) +
@@ -273,6 +326,27 @@ ggplot(data = country_data, mapping = aes(x = Unemployment)) +
     ## Warning: Removed 14 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Unemployment-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(Unemployment) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
+    ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
+    ##      hist
+    ##  ▅▇▅▂▁▁▁▁
+
+The distribution of unemployment is unimodal and right-skewed. The mode
+of the distribution is around 4-5%. Since the median and IQR are more
+robust to skewing, we report them instead as a measures of center and
+spread. The median is 5.7 and the IQR is 5.6.
 
 ``` r
 ggplot(data = country_data, mapping = aes(x = Inflation)) +
@@ -300,16 +374,43 @@ aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x
     ## 5           Sub-Saharan Africa    47
 
 ``` r
-regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47))
+regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47), "prop"=c(17.4,23.2, 24.3, 9.7, 25.4))
 mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#99D492")
+
+# Add label position
+regional <- regional %>%
+  arrange(desc(Region)) %>%
+  mutate(lab.ypos = cumsum(prop) - 0.5*prop)
+regional
+```
+
+    ##                         Region share prop lab.ypos
+    ## 1           Sub-Saharan Africa    47 25.4    12.70
+    ## 2 Middle East and North Africa    18  9.7    30.25
+    ## 3                       Europe    45 24.3    47.25
+    ## 4                 Asia-Pacific    43 23.2    71.00
+    ## 5                     Americas    32 17.4    91.30
+
+``` r
 ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
     geom_bar(stat = "identity", color = "white") +
     coord_polar("y", start = 0) +
+  geom_text(aes(y = lab.ypos, label = prop), color = "white") +
     scale_fill_manual(values = mycols) +
     theme_void()
 ```
 
 ![](proposal_files/figure-gfm/Region-1.png)<!-- -->
+
+The piechart of region shows that there is a relatively equal
+representation of countries from different regions of the world. The
+Americas, Asia-Pacific, and Europe each represent around 25% of all the
+countries in the data. The smallest representation is from the Middle
+East and North Africa at 9.7%. We are not too concerned with the
+distribution because there are 195 countries in the world and our data
+has 185 countries. The difference in distribution across region is
+likely to be largely reflective of the actual geographical distribution
+of nation-states.
 
 ``` r
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
@@ -318,6 +419,13 @@ labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of G
 ```
 
 ![](proposal_files/figure-gfm/Government%20Interference-1.png)<!-- -->
+
+The distribution of government interference shows that most countries
+either have extensive or moderate government inteference. The mode of
+the distribution is moderate government interference. Economies with
+limited and repressive intervention are significanly lesser, each having
+around 10-15 countries. We do not report the center or spread here
+because government interference is a categorical variable.
 
 ``` r
 ggplot(mapping = aes(x = TariffRate), data = economic_data) +
@@ -330,6 +438,26 @@ labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
     ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Tariff%20Rate-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(TariffRate) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
+    ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
+
+The distribution of tariff rate is generally right skewed and unimodal.
+There are several outlier economies with 50% tariff rate such as Central
+African Republic and North Korea. The mode of the distribution is around
+2%. The median tariff rate is 4.3 and the interquartile range of the
+distribution is 6.7.
 
 ``` r
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +

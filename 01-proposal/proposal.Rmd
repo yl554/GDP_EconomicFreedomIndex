@@ -9,6 +9,7 @@ output: github_document
 ```{r libraries}
 library(tidyverse)
 library(readxl)
+library(skimr)
 ```
 
 
@@ -44,7 +45,13 @@ ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Tax Burden")
+
+economic_data %>%
+select(TaxBurden) %>%
+skim()
 ```
+
+The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appear normally distributed. The mean tax burden is 22.19 and the standard deviation of the distribution is 10.17.
 
 ```{r Government Spending}
 ggplot(data = country_data, mapping = aes(x = GovSpending)) +
@@ -52,7 +59,13 @@ ggplot(data = country_data, mapping = aes(x = GovSpending)) +
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Government Spending")
+
+economic_data %>%
+select(GovSpending) %>%
+skim()
 ```
+
+The distribution of government spending is generally symmmetric and unimodal. There are several outliers which have significantly higher government spending: with government spending either equal to or more than 100% of the country's GDP. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87 and the distribution has a standard deviation of 15.52 
 
 ```{r Population}
 ggplot(data = country_data, mapping = aes(x = Population)) +
@@ -68,7 +81,13 @@ ggplot(data = country_data, mapping = aes(x = Unemployment)) +
   labs(x = "Unemployment (%)",
        y = "Frequency",
        title = "Distribution of Unemployment")
+
+economic_data %>%
+select(Unemployment) %>%
+skim()
 ```
+
+The distribution of unemployment is unimodal and right-skewed. The mode of the distribution is around 4-5%. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 5.7 and the IQR is 5.6.
 
 ```{r Inflation}
 ggplot(data = country_data, mapping = aes(x = Inflation)) +
@@ -81,14 +100,24 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
 ```{r Region}
 aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
 
-regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47))
+regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47), "prop"=c(17.4,23.2, 24.3, 9.7, 25.4))
 mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#99D492")
+
+# Add label position
+regional <- regional %>%
+  arrange(desc(Region)) %>%
+  mutate(lab.ypos = cumsum(prop) - 0.5*prop)
+regional
+
 ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
     geom_bar(stat = "identity", color = "white") +
     coord_polar("y", start = 0) +
+  geom_text(aes(y = lab.ypos, label = prop), color = "white") +
     scale_fill_manual(values = mycols) +
     theme_void()
 ```
+
+The piechart of region shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 9.7%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 185 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
 
 ```{r Government Interference}
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
@@ -96,11 +125,19 @@ geom_bar(fill = "cornflowerblue") +
 labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
 ```
 
+The distribution of government interference shows that most countries either have extensive or moderate government inteference. The mode of the distribution is moderate government interference. Economies with limited and repressive intervention are significanly lesser, each having around 10-15 countries. We do not report the center or spread here because government interference is a categorical variable.
+
 ```{r Tariff Rate}
 ggplot(mapping = aes(x = TariffRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+
+economic_data %>%
+select(TariffRate) %>%
+skim()
 ```
+
+The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. 
 
 ```{r Income Tax Rate}
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
