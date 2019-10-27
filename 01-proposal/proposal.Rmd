@@ -1,7 +1,7 @@
 ---
 title: "PROJECT TITLE"
 subtitle: "Project Proposal"
-author: "NAME HERE"
+author: "Rtists"
 date: "2019/10/26"
 output: github_document
 ---
@@ -14,18 +14,16 @@ library(skimr)
 
 
 ```{r data}
-setwd("/cloud/project")
-economic_data <- read_excel("02-data/economic_data.xlsx",
+economic_data <- read_excel("/cloud/project/02-data/economic_data.xlsx",
 col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric"))
 
-happiness_data <- read_excel("02-data/happiness_data.xlsx")
+happiness_data <- read_excel("/cloud/project/02-data/happiness_data.xlsx")
 
 country_data <- full_join(economic_data, happiness_data, by = "Country")
-country_data
 ```
 
 ## Section 1. Introduction
