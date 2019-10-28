@@ -28,6 +28,7 @@ country_data <- full_join(economic_data, happiness_data, by = "Country")
 
 ## Section 1. Introduction
 
+GDP is a measure of how productive a given country or region is based on the value of the goods and services that it produces. Consequently, a high GDP signals that a country has a great deal of economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP.
 
 ## Section 2. Regression Analysis
 
