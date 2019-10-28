@@ -93,7 +93,15 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation")
+
+country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
+ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
+  geom_histogram(binwidth = 1) + 
+  labs(x = "Inflation (%)",
+       y = "Frequency",
+       title = "Distribution of Inflation without Outlier")
 ```
+
 
 ```{r Region}
 aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
@@ -141,22 +149,25 @@ The distribution of tariff rate is generally right skewed and unimodal. There ar
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+
+economic_data %>%
+select(IncomeTaxRate) %>%
+skim()
 ```
+
+The distribution of income tax rate is unimodal and generally symmetric. While its general shape resembles a normal distribution, there are several values of income tax rate which have particularly high frequency such as 10%, 25% and 34-35%. The mode of the distribution occurs at 35%. Since there is relatively minimal skewing, we report the mean and standard deviation as measures of center and spread. The mean income tax rate is 28.23 and the standard deviation of the distribution is 13.4. 
 
 ```{r Corporate Tax Rate}
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
+
+economic_data %>%
+select(CorporateTaxRate) %>%
+skim()
 ```
 
-```{r Inflation without outlier}
-country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
-ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
-  geom_histogram(binwidth = 1) + 
-  labs(x = "Inflation (%)",
-       y = "Frequency",
-       title = "Distribution of Inflation without Outlier")
-```
+The distribution of corporate tax rate is unimodal and only slightly right skewed. The mode of the distribution is around 28-30%. Since there is minimal skewing, we report the mean and the standard deviation as measures of center and spread. The mean corporate tax rate is 23.89% and the standard deviation is 8.88%.
 
 ```{r Public Debt}
 ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
@@ -164,8 +175,12 @@ ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
        title = "Distribution of Public Debt")
-```
 
+economic_data %>%
+select(PublicDebt) %>%
+skim()
+```
+The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
 
 ## Section 3. Regression Analysis Plan

@@ -7,14 +7,14 @@ Rtists
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -236,7 +236,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
     ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
     ##      hist
@@ -269,7 +269,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
     ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
     ##      hist
@@ -317,7 +317,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
     ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
     ##      hist
@@ -341,6 +341,17 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
     ## Warning: Removed 12 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Inflation-1.png)<!-- -->
+
+``` r
+country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
+ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
+  geom_histogram(binwidth = 1) + 
+  labs(x = "Inflation (%)",
+       y = "Frequency",
+       title = "Distribution of Inflation without Outlier")
+```
+
+![](proposal_files/figure-gfm/Inflation-2.png)<!-- -->
 
 ``` r
 aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
@@ -429,7 +440,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
 
@@ -452,6 +463,30 @@ labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Freque
 ![](proposal_files/figure-gfm/Income%20Tax%20Rate-1.png)<!-- -->
 
 ``` r
+economic_data %>%
+select(IncomeTaxRate) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  IncomeTaxRate       3      182 185 28.23 13.4  0  20  30  35   60
+    ##      hist
+    ##  ▂▆▃▇▇▅▂▁
+
+The distribution of income tax rate is unimodal and generally symmetric.
+While its general shape resembles a normal distribution, there are
+several values of income tax rate which have particularly high frequency
+such as 10%, 25% and 34-35%. The mode of the distribution occurs at 35%.
+Since there is relatively minimal skewing, we report the mean and
+standard deviation as measures of center and spread. The mean income tax
+rate is 28.23 and the standard deviation of the distribution is 13.4.
+
+``` r
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
@@ -464,15 +499,26 @@ labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "
 ![](proposal_files/figure-gfm/Corporate%20Tax%20Rate-1.png)<!-- -->
 
 ``` r
-country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
-ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
-  geom_histogram(binwidth = 1) + 
-  labs(x = "Inflation (%)",
-       y = "Frequency",
-       title = "Distribution of Inflation without Outlier")
+economic_data %>%
+select(CorporateTaxRate) %>%
+skim()
 ```
 
-![](proposal_files/figure-gfm/Inflation%20without%20outlier-1.png)<!-- -->
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  CorporateTaxRate       3      182 185 23.89 8.88  0  20  25  30   50
+    ##      hist
+    ##  ▁▂▂▇▆▂▁▁
+
+The distribution of corporate tax rate is unimodal and only slightly
+right skewed. The mode of the distribution is around 28-30%. Since there
+is minimal skewing, we report the mean and the standard deviation as
+measures of center and spread. The mean corporate tax rate is 23.89% and
+the standard deviation is 8.88%.
 
 ``` r
 ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
@@ -485,6 +531,27 @@ ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
     ## Warning: Removed 12 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Public%20Debt-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(PublicDebt) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
+    ##  PublicDebt       4      181 185 56.32 34.2  0 34.9 49.4 69.9 236.4
+    ##      hist
+    ##  ▃▇▃▂▁▁▁▁
+
+The distribution of public debt is unimodal and right skewed. There are
+several outliers with public debt more than 175%. The mode of the
+distribution is around 30%. The median public debt is 49.4% and the
+interquartile range is 35%.
 
 ## Section 3. Regression Analysis Plan
 
