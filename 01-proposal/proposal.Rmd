@@ -100,8 +100,12 @@ ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation without Outlier")
-```
 
+economic_data %>%
+select(Inflation) %>%
+skim()
+```
+The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. THe second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%.
 
 ```{r Region}
 aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})

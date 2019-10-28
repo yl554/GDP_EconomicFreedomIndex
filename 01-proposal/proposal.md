@@ -354,6 +354,32 @@ ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
 ![](proposal_files/figure-gfm/Inflation-2.png)<!-- -->
 
 ``` r
+economic_data %>%
+select(Inflation) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
+    ##  Inflation       4      181 185 10.61 80.73 -0.9 1.3 2.7 5.3 1087.5
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The first distribution of inflation rates includes all outliers. Because
+of the size and resolution of the diagram, the distribution of most
+economies are not visible. THe second diagram shows the distribution of
+inflation rates without the outlier with more than 1000% inflation. The
+distribution of inflation rate is generally unimodal and right skewed.
+The mode of the distribution is around 2%. Given significant skewing, we
+report the median and IQR as measures of center and spread. The median
+inflation rate is 2.7% and the IQR is
+4%.
+
+``` r
 aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
 ```
 
