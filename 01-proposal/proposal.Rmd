@@ -210,17 +210,30 @@ skim()
 ```
 The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
-```{r scatterplot matrix}
+```{r scatterplot matrix GDP}
 pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
 
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
 
 temp <- economic_data %>%
-  filter(GDP<5000)
+  filter(GDP<3000)
 
 pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+```{r scatterplot matrix GDP growth}
+pairs(GDPGrowth ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+
+pairs(GDPGrowth ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+
+temp2 <- economic_data %>%
+  filter(GDPGrowth < 10, -10< GDPGrowth)
+
+pairs(GDPGrowth ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp2, lower.panel = NULL)
+
+pairs(GDPGrowth ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp2, lower.panel = NULL)
 
 ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
   geom_point() + 

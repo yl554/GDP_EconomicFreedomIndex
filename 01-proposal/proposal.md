@@ -526,28 +526,55 @@ interquartile range is
 pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
 ```
 
-![](proposal_files/figure-gfm/scatterplot%20matrix-1.png)<!-- -->
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-1.png)<!-- -->
 
 ``` r
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
 ```
 
-![](proposal_files/figure-gfm/scatterplot%20matrix-2.png)<!-- -->
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-2.png)<!-- -->
 
 ``` r
 temp <- economic_data %>%
-  filter(GDP<5000)
+  filter(GDP<3000)
 
 pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 ```
 
-![](proposal_files/figure-gfm/scatterplot%20matrix-3.png)<!-- -->
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-3.png)<!-- -->
 
 ``` r
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
 
-![](proposal_files/figure-gfm/scatterplot%20matrix-4.png)<!-- -->
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-4.png)<!-- -->
+
+``` r
+pairs(GDPGrowth ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-1.png)<!-- -->
+
+``` r
+pairs(GDPGrowth ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-2.png)<!-- -->
+
+``` r
+temp2 <- economic_data %>%
+  filter(GDPGrowth < 10, -10< GDPGrowth)
+
+pairs(GDPGrowth ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp2, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-3.png)<!-- -->
+
+``` r
+pairs(GDPGrowth ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp2, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-4.png)<!-- -->
 
 ``` r
 ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
@@ -559,7 +586,7 @@ ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
 
     ## Warning: Removed 4 rows containing missing values (geom_point).
 
-![](proposal_files/figure-gfm/scatterplot%20matrix-5.png)<!-- -->
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-5.png)<!-- -->
 
 ## Section 3. Regression Analysis Plan
 
