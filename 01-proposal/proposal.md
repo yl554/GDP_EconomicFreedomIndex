@@ -37,10 +37,6 @@ col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric"))
-
-happiness_data <- read_excel("/cloud/project/02-data/happiness_data.xlsx")
-
-country_data <- full_join(economic_data, happiness_data, by = "Country")
 ```
 
 ## Section 1. Introduction
@@ -64,11 +60,11 @@ will most effectively predict GDP.
 ## Section 2. Regression Analysis
 
 ``` r
-glimpse(country_data)
+glimpse(economic_data)
 ```
 
-    ## Observations: 193
-    ## Variables: 16
+    ## Observations: 185
+    ## Variables: 15
     ## $ Country          <chr> "Afghanistan", "Albania", "Algeria", "Angola", …
     ## $ Region           <chr> "Asia-Pacific", "Europe", "Middle East and Nort…
     ## $ GovInterference  <chr> "Repressive", "Moderate", "Extensive", "Extensi…
@@ -84,7 +80,6 @@ glimpse(country_data)
     ## $ Unemployment     <dbl> 8.8, 13.9, 10.0, 8.2, 8.7, 18.2, 5.6, 5.5, 5.0,…
     ## $ Inflation        <dbl> 5.0, 2.0, 5.6, 31.7, 25.7, 0.9, 2.0, 2.2, 13.0,…
     ## $ PublicDebt       <dbl> 7.3, 71.2, 25.8, 65.3, 52.6, 53.5, 41.6, 78.8, …
-    ## $ Happiness_Score  <dbl> 37.94, 46.44, 58.72, 37.95, 65.99, 43.76, 72.84…
 
 We first take an overview of the data. We can see that there are 193
 observations — one observation corresponds to one country, and 16
@@ -92,7 +87,34 @@ variables, including country name, 14 predictor variables and one
 response variable that we want to predict, the happiness score.
 
 ``` r
-ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
+temp <- economic_data %>%
+  filter(GDP<5000)
+
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix-1.png)<!-- -->
+
+``` r
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix-2.png)<!-- -->
+
+``` r
+ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
+  geom_point() + 
+  labs(x = "Tax Burden (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Tax Burden")
+```
+
+    ## Warning: Removed 4 rows containing missing values (geom_point).
+
+![](proposal_files/figure-gfm/scatterplot%20matrix-3.png)<!-- -->
+
+``` r
+ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
   geom_histogram() + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
@@ -101,7 +123,7 @@ ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-    ## Warning: Removed 15 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 7 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Tax%20Burden-1.png)<!-- -->
 
@@ -127,14 +149,14 @@ countries appear normally distributed. The mean tax burden is 22.19 and
 the standard deviation of the distribution is 10.17.
 
 ``` r
-ggplot(data = country_data, mapping = aes(x = GovSpending)) +
+ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 4) + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Government Spending")
 ```
 
-    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Government%20Spending-1.png)<!-- -->
 
@@ -163,26 +185,80 @@ deviation. The mean government spending is 33.87 and the distribution
 has a standard deviation of 15.52
 
 ``` r
-ggplot(data = country_data, mapping = aes(x = Population)) +
+ggplot(data = economic_data, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 40) + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
 ```
 
-    ## Warning: Removed 9 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 1 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Population-1.png)<!-- -->
 
 ``` r
-ggplot(data = country_data, mapping = aes(x = Unemployment)) +
+economic_data %>%
+select(Population) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
+    ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of population is unimodal and right-skewed.Because
+there are two extreme outliers in population, we will plot another graph
+of population without these two outliers
+below.
+
+``` r
+economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
+
+ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
+  geom_histogram(binwidth = 10) + 
+  labs(x = "Population (Million)",
+       y = "Frequency",
+       title = "Distribution of Population")
+```
+
+![](proposal_files/figure-gfm/Population%20without%20Outlier-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(Population) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
+    ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of population is unimodal and right-skewed. The mode of
+the distribution is around 1 million. Since the median and IQR are more
+robust to skewing, we report them instead as a measures of center and
+spread. The median is 9.15 and the IQR is 26.85.
+
+``` r
+ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
   geom_histogram(binwidth = 1) + 
   labs(x = "Unemployment (%)",
        y = "Frequency",
        title = "Distribution of Unemployment")
 ```
 
-    ## Warning: Removed 14 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 6 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Unemployment-1.png)<!-- -->
 
@@ -208,7 +284,7 @@ robust to skewing, we report them instead as a measures of center and
 spread. The median is 5.7 and the IQR is 5.6.
 
 ``` r
-ggplot(data = country_data, mapping = aes(x = Inflation)) +
+ggplot(data = economic_data, mapping = aes(x = Inflation)) +
   geom_histogram() + 
   labs(x = "Inflation (%)",
        y = "Frequency",
@@ -217,13 +293,13 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Inflation-1.png)<!-- -->
 
 ``` r
-country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
-ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
+economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
+ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
   geom_histogram(binwidth = 1) + 
   labs(x = "Inflation (%)",
        y = "Frequency",
@@ -426,14 +502,14 @@ measures of center and spread. The mean corporate tax rate is 23.89% and
 the standard deviation is 8.88%.
 
 ``` r
-ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
+ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
   geom_histogram(binwidth = 8) + 
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
        title = "Distribution of Public Debt")
 ```
 
-    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Public%20Debt-1.png)<!-- -->
 
