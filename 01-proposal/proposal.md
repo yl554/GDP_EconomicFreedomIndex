@@ -424,7 +424,7 @@ actual geographical distribution of nation-states.
 
 ``` r
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
-  geom_bar(fill = "cornflowerblue") +
+  geom_bar() +
   labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
 ```
 
@@ -441,11 +441,9 @@ because government interference is a categorical variable.
 
 ``` r
 ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
-  geom_histogram(fill = "cornflowerblue") +
+  geom_histogram(binwidth = 1) +
   labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 ```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](proposal_files/figure-gfm/Tariff%20Rate-1.png)<!-- -->
 
@@ -473,11 +471,9 @@ right-skew, log-transforming this variable might be necessary.
 
 ``` r
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
-  geom_histogram(fill = "cornflowerblue") +
+  geom_histogram(binwidth = 5) +
   labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
 ```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](proposal_files/figure-gfm/Income%20Tax%20Rate-1.png)<!-- -->
 
@@ -509,11 +505,9 @@ the distribution is 13.4.
 
 ``` r
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
-geom_histogram(fill = "cornflowerblue") +
+geom_histogram(binwidth = 4) +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
 ```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](proposal_files/figure-gfm/Corporate%20Tax%20Rate-1.png)<!-- -->
 

@@ -185,7 +185,7 @@ ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
 
 ```{r Government Interference}
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
-  geom_bar(fill = "cornflowerblue") +
+  geom_bar() +
   labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
 ```
 
@@ -193,7 +193,7 @@ ggplot(mapping = aes(x = GovInterference), data = economic_data) +
 
 ```{r Tariff Rate}
 ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
-  geom_histogram(fill = "cornflowerblue") +
+  geom_histogram(binwidth = 1) +
   labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 
 economic_data %>%
@@ -205,7 +205,7 @@ economic_data %>%
 
 ```{r Income Tax Rate}
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
-  geom_histogram(fill = "cornflowerblue") +
+  geom_histogram(binwidth = 5) +
   labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
 
 economic_data %>%
@@ -217,7 +217,7 @@ economic_data %>%
 
 ```{r Corporate Tax Rate}
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
-geom_histogram(fill = "cornflowerblue") +
+geom_histogram(binwidth = 4) +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
 
 economic_data %>%
