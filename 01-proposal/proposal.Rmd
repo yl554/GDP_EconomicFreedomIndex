@@ -20,10 +20,6 @@ col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric"))
-
-happiness_data <- read_excel("/cloud/project/02-data/happiness_data.xlsx")
-
-country_data <- full_join(economic_data, happiness_data, by = "Country")
 ```
 
 ## Section 1. Introduction
@@ -32,19 +28,19 @@ GDP is a measure of the total market value of all goods and services produced wi
 
 The use of multiple linear regression in the study of GDP and GDP growth is not novel. The approach has been widely employed by economists. For instance, Anghelache et. al has employed multiple linear regression model in analyzing the influence of final consumption and gross investment on Romania's GDP over time. Urrutia et. al, on the other hand, modeled Philippines's real GDP using multiple linear regression techniques. (Refer to citation of articles in the Citation section)
 
-In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP.
-
+In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables.
 
 ## Section 2. Regression Analysis
 
 ```{r glimpse}
-glimpse(country_data)
+glimpse(economic_data)
 ```
 
-We first take an overview of the data. We can see that there are 193 observations --- one observation corresponds to one country, and 16 variables, including country name, 14 predictor variables and one response variable that we want to predict, the happiness score.
+We first take an overview of the data. We can see that there are 193 observations --- one observation corresponds to one country, and 15 variables, including country name, 14 predictor variables and one response variable that we want to predict, GDP.
+
 
 ```{r Tax Burden}
-ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
+ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
   geom_histogram() + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
@@ -58,7 +54,7 @@ skim()
 The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appear normally distributed. The mean tax burden is 22.19 and the standard deviation of the distribution is 10.17.
 
 ```{r Government Spending}
-ggplot(data = country_data, mapping = aes(x = GovSpending)) +
+ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 4) + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
@@ -69,18 +65,40 @@ select(GovSpending) %>%
 skim()
 ```
 
-The distribution of government spending is generally symmmetric and unimodal. There are several outliers which have significantly higher government spending: with government spending either equal to or more than 100% of the country's GDP. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87 and the distribution has a standard deviation of 15.52 
+The distribution of government spending is generally symmmetric and unimodal. There are several outliers which have significantly higher government spending: with government spending either equal to or more than 100% of the country's GDP. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87 and the distribution has a standard deviation of 15.52.
 
 ```{r Population}
-ggplot(data = country_data, mapping = aes(x = Population)) +
+ggplot(data = economic_data, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 40) + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
+
+economic_data %>%
+select(Population) %>%
+skim()
 ```
 
+The distribution of population is unimodal and right-skewed.Because there are two extreme outliers in population, we will plot another graph of population without these two outliers below.
+
+```{r Population without Outlier}
+economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
+
+ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
+  geom_histogram(binwidth = 10) + 
+  labs(x = "Population (Million)",
+       y = "Frequency",
+       title = "Distribution of Population")
+
+economic_data %>%
+select(Population) %>%
+skim()
+```
+
+The distribution of population is unimodal and right-skewed. The mode of the distribution is around 1 million. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 9.15 and the IQR is 26.85.
+
 ```{r Unemployment}
-ggplot(data = country_data, mapping = aes(x = Unemployment)) +
+ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
   geom_histogram(binwidth = 1) + 
   labs(x = "Unemployment (%)",
        y = "Frequency",
@@ -94,14 +112,14 @@ skim()
 The distribution of unemployment is unimodal and right-skewed. The mode of the distribution is around 4-5%. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 5.7 and the IQR is 5.6.
 
 ```{r Inflation}
-ggplot(data = country_data, mapping = aes(x = Inflation)) +
+ggplot(data = economic_data, mapping = aes(x = Inflation)) +
   geom_histogram() + 
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation")
 
-country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
-ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
+economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
+ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
   geom_histogram(binwidth = 1) + 
   labs(x = "Inflation (%)",
        y = "Frequency",
@@ -180,7 +198,7 @@ skim()
 The distribution of corporate tax rate is unimodal and only slightly right skewed. The mode of the distribution is around 28-30%. Since there is minimal skewing, we report the mean and the standard deviation as measures of center and spread. The mean corporate tax rate is 23.89% and the standard deviation is 8.88%.
 
 ```{r Public Debt}
-ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
+ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
   geom_histogram(binwidth = 8) + 
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
@@ -192,16 +210,40 @@ skim()
 ```
 The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
+```{r scatterplot matrix GDP}
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+
+temp <- economic_data %>%
+  filter(GDP<3000)
+
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+```{r scatterplot matrix GDP growth}
+pairs(GDPGrowth ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+
+pairs(GDPGrowth ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+
+temp2 <- economic_data %>%
+  filter(GDPGrowth < 10, -10< GDPGrowth)
+
+pairs(GDPGrowth ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp2, lower.panel = NULL)
+
+pairs(GDPGrowth ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp2, lower.panel = NULL)
+
+ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
+  geom_point() + 
+  labs(x = "Tax Burden (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Tax Burden")
+```
 
 ## Section 3. Regression Analysis Plan
 
 ## Section 4. References
-
-ANGHELACHE, Constantin, Alexandru MANOLE, and Mădălina Gabriela ANGHEL. "Analysis of Final Consumption and Gross Investment Influence on GDP – Multiple Linear Regression Model." Theoretical and Applied Economics XXII, no. 3 (2015): 137-142.
-
-Urrutia, Jackie D., Razzcelle L. Tampis, Joseph Mercado, Aaron Vito M. Baygan, and Edcon B. Baccay. 2016. "Modeling the Philippines’ real gross domestic product: A normal estimation equation for multiple linear regression." AIP Conference Proceedings 1707 (1): 050016. https://doi.org/10.1063/1.4940848. https://aip.scitation.org/doi/abs/10.1063/1.4940848.
-
-
-
 
 ## The Data

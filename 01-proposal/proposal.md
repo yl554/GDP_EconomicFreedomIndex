@@ -1,212 +1,84 @@
-PROJECT TITLE
+What makes a country economical great
 ================
-NAME HERE
+Rtists
 2019/10/26
 
 ``` r
 library(tidyverse)
 ```
 
-
-    ## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
 ``` r
 library(readxl)
+library(skimr)
 ```
 
+    ## 
+    ## Attaching package: 'skimr'
+
+    ## The following object is masked from 'package:stats':
+    ## 
+    ##     filter
+
 ``` r
-setwd("/cloud/project")
-economic_data <- read_excel("02-data/economic_data.xlsx",
+economic_data <- read_excel("/cloud/project/02-data/economic_data.xlsx",
 col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric"))
-
-happiness_data <- read_excel("/cloud/project/02-data/happiness_data.xlsx")
-
-country_data <- full_join(economic_data, happiness_data, by = "Country")
 ```
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M49 / R49C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in D80 / R80C4: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G80 / R80C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M89 / R89C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in E90 / R90C5: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in F90 / R90C6: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G90 / R90C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in J90 / R90C10: got '$40.0 (2015 est.)'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in L90 / R90C12: got '$1,700 (2015 est.)'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in N90 / R90C14: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in O90 / R90C15: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M92 / R92C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in D100 / R100C4: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G100 / R100C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in D101 / R101C4: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G101 / R101C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in H101 / R101C8: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in I101 / R101C9: got '38,000 ppl.'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in J101 / R101C10: got '$6.1 CHF (2014 )'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in K101 / R101C11: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in L101 / R101C12: got '$139,100 (2009 est.)'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M101 / R101C13: got '2.1 (2016)'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in N101 / R101C14: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in O101 / R101C15: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M115 / R115C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M148 / R148C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in D154 / R154C4: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in E154 / R154C5: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in F154 / R154C6: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G154 / R154C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in H154 / R154C8: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in L154 / R154C12: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in N154 / R154C14: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in O154 / R154C15: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G162 / R162C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in H162 / R162C8: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in J162 / R162C10: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in K162 / R162C11: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in L162 / R162C12: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in N162 / R162C14: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in O162 / R162C15: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in E184 / R184C5: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in F184 / R184C6: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G184 / R184C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in H184 / R184C8: got 'N/A'
-
-``` r
-happiness_data <- read_excel("02-data/happiness_data.xlsx")
-
-country_data <- full_join(economic_data, happiness_data, by = "Country")
-country_data
-```
-
-    ## # A tibble: 193 x 16
-    ##    Country Region GovInterference TariffRate IncomeTaxRate CorporateTaxRate
-    ##    <chr>   <chr>  <chr>                <dbl>         <dbl>            <dbl>
-    ##  1 Afghan… Asia-… Repressive             7              20               20
-    ##  2 Albania Europe Moderate               1.1            23               15
-    ##  3 Algeria Middl… Extensive              8.8            35               23
-    ##  4 Angola  Sub-S… Extensive              9.4            17               30
-    ##  5 Argent… Ameri… Moderate               7.5            35               30
-    ##  6 Armenia Europe Moderate               2.1            26               20
-    ##  7 Austra… Asia-… Limited                1.2            45               30
-    ##  8 Austria Europe Moderate               2              50               25
-    ##  9 Azerba… Asia-… Moderate               5.2            25               20
-    ## 10 Bahamas Ameri… Moderate              18.6             0                0
-    ## # … with 183 more rows, and 10 more variables: TaxBurden <dbl>,
-    ## #   GovSpending <dbl>, Population <dbl>, GDP <dbl>, GDPGrowth <dbl>,
-    ## #   GDPperCap <dbl>, Unemployment <dbl>, Inflation <dbl>,
-    ## #   PublicDebt <dbl>, Happiness_Score <dbl>
 
 ## Section 1. Introduction
+
+GDP is a measure of the total market value of all goods and services
+produced within a country over a period of time. Consequently, a high
+GDP implies that a country has significant economic influence. As
+emerging markets continue to industrialize, the question of how one
+achieves a larger GDP is becoming a critical one in policy selection;
+failure to design policies that encourage GDP growth can cause
+widespread suffering for a country’s population. Consider the case of
+Venezuela, where GDP-friendly policies were shunned and massive unrest
+appeared as a nearly direct consequence. In order to avoid this fate,
+nations must analyze which economic sectors are most influential on GDP
+in order to create guiding policies.
+
+The use of multiple linear regression in the study of GDP and GDP growth
+is not novel. The approach has been widely employed by economists. For
+instance, Anghelache et. al has employed multiple linear regression
+model in analyzing the influence of final consumption and gross
+investment on Romania’s GDP over time. Urrutia et. al, on the other
+hand, modeled Philippines’s real GDP using multiple linear regression
+techniques. (Refer to citation of articles in the Citation section)
+
+In this project, we will address the research question of what
+predictors are most useful in predicting GDP and to what extent GDP can
+be predicted successfully; we expect that factors such as population,
+inflation, GovInterference, and TaxBurden will most effectively predict
+GDP. The predictor variables used in our analysis are used in the
+calculation of the annual Economic Freedom Index. These predictors are
+not traditionally used in the multiple linear regression of GDP and we
+are interested to know the composite strength of these particular
+predictor variables.
 
 ## Section 2. Regression Analysis
 
 ``` r
-glimpse(country_data)
+glimpse(economic_data)
 ```
 
-    ## Observations: 193
-    ## Variables: 16
+    ## Observations: 185
+    ## Variables: 15
     ## $ Country          <chr> "Afghanistan", "Albania", "Algeria", "Angola", …
     ## $ Region           <chr> "Asia-Pacific", "Europe", "Middle East and Nort…
     ## $ GovInterference  <chr> "Repressive", "Moderate", "Extensive", "Extensi…
@@ -222,47 +94,14 @@ glimpse(country_data)
     ## $ Unemployment     <dbl> 8.8, 13.9, 10.0, 8.2, 8.7, 18.2, 5.6, 5.5, 5.0,…
     ## $ Inflation        <dbl> 5.0, 2.0, 5.6, 31.7, 25.7, 0.9, 2.0, 2.2, 13.0,…
     ## $ PublicDebt       <dbl> 7.3, 71.2, 25.8, 65.3, 52.6, 53.5, 41.6, 78.8, …
-    ## $ Happiness_Score  <dbl> 37.94, 46.44, 58.72, 37.95, 65.99, 43.76, 72.84…
 
 We first take an overview of the data. We can see that there are 193
-observations — one observation corresponds to one country, and 16
+observations — one observation corresponds to one country, and 15
 variables, including country name, 14 predictor variables and one
-<<<<<<< HEAD
-<<<<<<< HEAD
-response variable that we want to predict, the happiness
-score.
-
-## Section 2. Regression Analysis
+response variable that we want to predict, GDP.
 
 ``` r
-aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
-```
-
-    ##                         Region count
-    ## 1                     Americas    32
-    ## 2                 Asia-Pacific    43
-    ## 3                       Europe    45
-    ## 4 Middle East and North Africa    18
-    ## 5           Sub-Saharan Africa    47
-
-``` r
-regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47))
-mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#99D492")
-ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
-    geom_bar(stat = "identity", color = "white") +
-    coord_polar("y", start = 0) +
-    scale_fill_manual(values = mycols) +
-    theme_void()
-```
-
-![](proposal_files/figure-gfm/EDA-1.png)<!-- -->
-=======
-=======
->>>>>>> parent of 57a9d7b... Finished EDA
-response variable that we want to predict, the happiness score.
-
-``` r
-ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
+ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
   geom_histogram() + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
@@ -271,13 +110,11 @@ ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-    ## Warning: Removed 15 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 7 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Tax%20Burden-1.png)<!-- -->
 
 ``` r
-<<<<<<< HEAD
-=======
 economic_data %>%
 select(TaxBurden) %>%
 skim()
@@ -287,7 +124,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
     ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
     ##      hist
@@ -299,21 +136,18 @@ countries appear normally distributed. The mean tax burden is 22.19 and
 the standard deviation of the distribution is 10.17.
 
 ``` r
->>>>>>> parent of 57a9d7b... Finished EDA
-ggplot(data = country_data, mapping = aes(x = GovSpending)) +
+ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 4) + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Government Spending")
 ```
 
-    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Government%20Spending-1.png)<!-- -->
 
 ``` r
-<<<<<<< HEAD
-=======
 economic_data %>%
 select(GovSpending) %>%
 skim()
@@ -323,7 +157,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
     ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
     ##      hist
@@ -335,36 +169,87 @@ government spending: with government spending either equal to or more
 than 100% of the country’s GDP. The mode of the distribution is around
 25%. Since there is minimal skewing, we report the mean and standard
 deviation. The mean government spending is 33.87 and the distribution
-has a standard deviation of 15.52
+has a standard deviation of 15.52.
 
 ``` r
->>>>>>> parent of 57a9d7b... Finished EDA
-ggplot(data = country_data, mapping = aes(x = Population)) +
+ggplot(data = economic_data, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 40) + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
 ```
 
-    ## Warning: Removed 9 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 1 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Population-1.png)<!-- -->
 
 ``` r
-ggplot(data = country_data, mapping = aes(x = Unemployment)) +
+economic_data %>%
+select(Population) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
+    ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of population is unimodal and right-skewed.Because
+there are two extreme outliers in population, we will plot another graph
+of population without these two outliers
+below.
+
+``` r
+economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
+
+ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
+  geom_histogram(binwidth = 10) + 
+  labs(x = "Population (Million)",
+       y = "Frequency",
+       title = "Distribution of Population")
+```
+
+![](proposal_files/figure-gfm/Population%20without%20Outlier-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(Population) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
+    ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of population is unimodal and right-skewed. The mode of
+the distribution is around 1 million. Since the median and IQR are more
+robust to skewing, we report them instead as a measures of center and
+spread. The median is 9.15 and the IQR is 26.85.
+
+``` r
+ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
   geom_histogram(binwidth = 1) + 
   labs(x = "Unemployment (%)",
        y = "Frequency",
        title = "Distribution of Unemployment")
 ```
 
-    ## Warning: Removed 14 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 6 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Unemployment-1.png)<!-- -->
 
 ``` r
-<<<<<<< HEAD
-=======
 economic_data %>%
 select(Unemployment) %>%
 skim()
@@ -374,7 +259,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
     ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
     ##      hist
@@ -386,8 +271,7 @@ robust to skewing, we report them instead as a measures of center and
 spread. The median is 5.7 and the IQR is 5.6.
 
 ``` r
->>>>>>> parent of 57a9d7b... Finished EDA
-ggplot(data = country_data, mapping = aes(x = Inflation)) +
+ggplot(data = economic_data, mapping = aes(x = Inflation)) +
   geom_histogram() + 
   labs(x = "Inflation (%)",
        y = "Frequency",
@@ -396,16 +280,13 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Inflation-1.png)<!-- -->
-<<<<<<< HEAD
->>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
-=======
 
 ``` r
-country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
-ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
+economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
+ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
   geom_histogram(binwidth = 1) + 
   labs(x = "Inflation (%)",
        y = "Frequency",
@@ -424,7 +305,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       4      181 185 10.61 80.73 -0.9 1.3 2.7 5.3 1087.5
     ##      hist
@@ -489,7 +370,6 @@ distribution because there are 195 countries in the world and our data
 has 185 countries. The difference in distribution across region is
 likely to be largely reflective of the actual geographical distribution
 of nation-states.
->>>>>>> parent of 57a9d7b... Finished EDA
 
 ``` r
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
@@ -497,7 +377,14 @@ geom_bar(fill = "cornflowerblue") +
 labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
 ```
 
-![](proposal_files/figure-gfm/EDA-2.png)<!-- -->
+![](proposal_files/figure-gfm/Government%20Interference-1.png)<!-- -->
+
+The distribution of government interference shows that most countries
+either have extensive or moderate government inteference. The mode of
+the distribution is moderate government interference. Economies with
+limited and repressive intervention are significanly lesser, each having
+around 10-15 countries. We do not report the center or spread here
+because government interference is a categorical variable.
 
 ``` r
 ggplot(mapping = aes(x = TariffRate), data = economic_data) +
@@ -509,7 +396,27 @@ labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 
     ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
-![](proposal_files/figure-gfm/EDA-3.png)<!-- -->
+![](proposal_files/figure-gfm/Tariff%20Rate-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(TariffRate) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
+    ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
+
+The distribution of tariff rate is generally right skewed and unimodal.
+There are several outlier economies with 50% tariff rate such as Central
+African Republic and North Korea. The mode of the distribution is around
+2%. The median tariff rate is 4.3 and the interquartile range of the
+distribution is 6.7.
 
 ``` r
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
@@ -521,7 +428,31 @@ labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Freque
 
     ## Warning: Removed 3 rows containing non-finite values (stat_bin).
 
-![](proposal_files/figure-gfm/EDA-4.png)<!-- -->
+![](proposal_files/figure-gfm/Income%20Tax%20Rate-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(IncomeTaxRate) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  IncomeTaxRate       3      182 185 28.23 13.4  0  20  30  35   60
+    ##      hist
+    ##  ▂▆▃▇▇▅▂▁
+
+The distribution of income tax rate is unimodal and generally symmetric.
+While its general shape resembles a normal distribution, there are
+several values of income tax rate which have particularly high frequency
+such as 10%, 25% and 34-35%. The mode of the distribution occurs at 35%.
+Since there is relatively minimal skewing, we report the mean and
+standard deviation as measures of center and spread. The mean income tax
+rate is 28.23 and the standard deviation of the distribution is 13.4.
 
 ``` r
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
@@ -533,34 +464,129 @@ labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "
 
     ## Warning: Removed 3 rows containing non-finite values (stat_bin).
 
-<<<<<<< HEAD
-![](proposal_files/figure-gfm/EDA-5.png)<!-- -->
-=======
-![](proposal_files/figure-gfm/EDA-4.png)<!-- -->
+![](proposal_files/figure-gfm/Corporate%20Tax%20Rate-1.png)<!-- -->
 
 ``` r
-country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
-ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
-  geom_histogram(binwidth = 1) + 
-  labs(x = "Inflation (%)",
-       y = "Frequency",
-       title = "Distribution of Inflation without Outlier")
+economic_data %>%
+select(CorporateTaxRate) %>%
+skim()
 ```
 
-![](proposal_files/figure-gfm/Inflation%20without%20outlier-1.png)<!-- -->
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  CorporateTaxRate       3      182 185 23.89 8.88  0  20  25  30   50
+    ##      hist
+    ##  ▁▂▂▇▆▂▁▁
+
+The distribution of corporate tax rate is unimodal and only slightly
+right skewed. The mode of the distribution is around 28-30%. Since there
+is minimal skewing, we report the mean and the standard deviation as
+measures of center and spread. The mean corporate tax rate is 23.89% and
+the standard deviation is 8.88%.
 
 ``` r
-ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
+ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
   geom_histogram(binwidth = 8) + 
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
        title = "Distribution of Public Debt")
 ```
 
-    ## Warning: Removed 12 rows containing non-finite values (stat_bin).
+    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Public%20Debt-1.png)<!-- -->
->>>>>>> 038baa78673a7a531d9c9d0ae293ed989df5e51b
+
+``` r
+economic_data %>%
+select(PublicDebt) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
+    ##  PublicDebt       4      181 185 56.32 34.2  0 34.9 49.4 69.9 236.4
+    ##      hist
+    ##  ▃▇▃▂▁▁▁▁
+
+The distribution of public debt is unimodal and right skewed. There are
+several outliers with public debt more than 175%. The mode of the
+distribution is around 30%. The median public debt is 49.4% and the
+interquartile range is
+35%.
+
+``` r
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-1.png)<!-- -->
+
+``` r
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-2.png)<!-- -->
+
+``` r
+temp <- economic_data %>%
+  filter(GDP<3000)
+
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-3.png)<!-- -->
+
+``` r
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-4.png)<!-- -->
+
+``` r
+pairs(GDPGrowth ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-1.png)<!-- -->
+
+``` r
+pairs(GDPGrowth ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-2.png)<!-- -->
+
+``` r
+temp2 <- economic_data %>%
+  filter(GDPGrowth < 10, -10< GDPGrowth)
+
+pairs(GDPGrowth ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp2, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-3.png)<!-- -->
+
+``` r
+pairs(GDPGrowth ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp2, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-4.png)<!-- -->
+
+``` r
+ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
+  geom_point() + 
+  labs(x = "Tax Burden (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Tax Burden")
+```
+
+    ## Warning: Removed 4 rows containing missing values (geom_point).
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-5.png)<!-- -->
 
 ## Section 3. Regression Analysis Plan
 
