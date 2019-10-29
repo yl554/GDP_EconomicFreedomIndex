@@ -7,14 +7,14 @@ Rtists
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ─────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ───────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -41,21 +41,35 @@ col_types = c("text", "text", "text",
 
 ## Section 1. Introduction
 
-GDP is a measure of how productive a given country or region is based on
-the value of the goods and services that it produces. Consequently, a
-high GDP signals that a country has a great deal of economic influence.
-As emerging markets continue to industrialize, the question of how one
+GDP is a measure of the total market value of all goods and services
+produced within a country over a period of time. Consequently, a high
+GDP implies that a country has significant economic influence. As
+emerging markets continue to industrialize, the question of how one
 achieves a larger GDP is becoming a critical one in policy selection;
 failure to design policies that encourage GDP growth can cause
 widespread suffering for a country’s population. Consider the case of
 Venezuela, where GDP-friendly policies were shunned and massive unrest
 appeared as a nearly direct consequence. In order to avoid this fate,
 nations must analyze which economic sectors are most influential on GDP
-in order to create guiding policies. In this project, we will address
-the research question of what predictors are most useful in predicting
-GDP and to what extent GDP can be predicted successfully; we expect that
-factors such as population, inflation, GovInterference, and TaxBurden
-will most effectively predict GDP.
+in order to create guiding policies.
+
+The use of multiple linear regression in the study of GDP and GDP growth
+is not novel. The approach has been widely employed by economists. For
+instance, Anghelache et. al has employed multiple linear regression
+model in analyzing the influence of final consumption and gross
+investment on Romania’s GDP over time. Urrutia et. al, on the other
+hand, modeled Philippines’s real GDP using multiple linear regression
+techniques. (Refer to citation of articles in the Citation section)
+
+In this project, we will address the research question of what
+predictors are most useful in predicting GDP and to what extent GDP can
+be predicted successfully; we expect that factors such as population,
+inflation, GovInterference, and TaxBurden will most effectively predict
+GDP. The predictor variables used in our analysis are used in the
+calculation of the annual Economic Freedom Index. These predictors are
+not traditionally used in the multiple linear regression of GDP and we
+are interested to know the composite strength of these particular
+predictor variables.
 
 ## Section 2. Regression Analysis
 
@@ -82,36 +96,9 @@ glimpse(economic_data)
     ## $ PublicDebt       <dbl> 7.3, 71.2, 25.8, 65.3, 52.6, 53.5, 41.6, 78.8, …
 
 We first take an overview of the data. We can see that there are 193
-observations — one observation corresponds to one country, and 16
+observations — one observation corresponds to one country, and 15
 variables, including country name, 14 predictor variables and one
-response variable that we want to predict, the happiness score.
-
-``` r
-temp <- economic_data %>%
-  filter(GDP<5000)
-
-pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
-```
-
-![](proposal_files/figure-gfm/scatterplot%20matrix-1.png)<!-- -->
-
-``` r
-pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
-```
-
-![](proposal_files/figure-gfm/scatterplot%20matrix-2.png)<!-- -->
-
-``` r
-ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
-  geom_point() + 
-  labs(x = "Tax Burden (% of Country's GDP)",
-       y = "Frequency",
-       title = "Distribution of Tax Burden")
-```
-
-    ## Warning: Removed 4 rows containing missing values (geom_point).
-
-![](proposal_files/figure-gfm/scatterplot%20matrix-3.png)<!-- -->
+response variable that we want to predict, GDP.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
@@ -137,7 +124,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
     ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
     ##      hist
@@ -170,7 +157,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
     ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
     ##      hist
@@ -206,7 +193,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
     ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
     ##      hist
@@ -239,7 +226,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
     ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
     ##      hist
@@ -272,7 +259,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
     ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
     ##      hist
@@ -318,7 +305,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       4      181 185 10.61 80.73 -0.9 1.3 2.7 5.3 1087.5
     ##      hist
@@ -421,7 +408,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
 
@@ -453,7 +440,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       3      182 185 28.23 13.4  0  20  30  35   60
     ##      hist
@@ -489,7 +476,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       3      182 185 23.89 8.88  0  20  25  30   50
     ##      hist
@@ -523,7 +510,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       4      181 185 56.32 34.2  0 34.9 49.4 69.9 236.4
     ##      hist
@@ -532,7 +519,47 @@ skim()
 The distribution of public debt is unimodal and right skewed. There are
 several outliers with public debt more than 175%. The mode of the
 distribution is around 30%. The median public debt is 49.4% and the
-interquartile range is 35%.
+interquartile range is
+35%.
+
+``` r
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix-1.png)<!-- -->
+
+``` r
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix-2.png)<!-- -->
+
+``` r
+temp <- economic_data %>%
+  filter(GDP<5000)
+
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix-3.png)<!-- -->
+
+``` r
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix-4.png)<!-- -->
+
+``` r
+ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
+  geom_point() + 
+  labs(x = "Tax Burden (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Tax Burden")
+```
+
+    ## Warning: Removed 4 rows containing missing values (geom_point).
+
+![](proposal_files/figure-gfm/scatterplot%20matrix-5.png)<!-- -->
 
 ## Section 3. Regression Analysis Plan
 
