@@ -1,4 +1,4 @@
-What makes a country economically great
+What makes a country economically great?
 ================
 Rtists
 2019/10/26
@@ -74,7 +74,7 @@ economic indicators correlate to GDP, it could provide policy makers and
 economists with a path towards sound governmental decisions.
 
 We hypothesize that out of the predictors in our dataset,
-“GovInterference” and both measures of TaxRate will have a very strong
+`GovInterference` and both measures of `TaxRate` will have a very strong
 correlation with the GDP of the country, because they both reflect not
 only the government’s economic policy but often times the government’s
 approach to the macroecononmy. We predict that as government
@@ -118,17 +118,61 @@ organization that provides information and data about the economic
 health of countries and is used by policy makers to motivate their
 economic policy decisions.
 
+Before looking at each of the predictor variables, we would like to
+ensure that the data is cleaned and error-free. We will remove
+observations that have missing information, such as countries like Iraq,
+Syria, North Korea, and others that have very little outside
+involvement. Additionally, we would like to remove the `GDPperCap`
+variable from the dataset, as it is simply the GDP divided by the
+population, both values we have as separate variables in the dataset, as
+to prevent potential future issues of multicolinearity.
+
+``` r
+economic_data <- na.omit(economic_data)
+economic_data$GDPperCap = NULL
+```
+
+Now that our data set is ready to explore, let’s begin by looking at the
+distribution of GDP’s of countries in our data set.
+
+``` r
+ggplot(data = economic_data, mapping = aes(x = GDP)) +
+  geom_histogram(binwidth = 1000) +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+```
+
+![](proposal_files/figure-gfm/gdp-vis-1.png)<!-- -->
+
+Clearly, there is incredible right skew in the data, which is reasonable
+as the world has countries such as the US and China with significantly
+greater GDP’s than the average country. This calls for a log-transform
+of the response variable, whose distribution is visualized below:
+
+``` r
+ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
+  geom_histogram(binwidth = 1) +
+  labs(x = "log(GDP)",
+       y = "Frequency",
+       title = "Distribution of log-GDPs")
+```
+
+![](proposal_files/figure-gfm/log-gdp-vis-1.png)<!-- -->
+
+This distribution looks much more normal, and as a result, as we begin
+our analysis, we will likely use this as our response variable.
+
+We will now look at each of the 12 predictor variables that we will use
+to predict GDP, starting with `TaxBurden`.
+
 ``` r
 ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
-  geom_histogram() + 
+  geom_histogram(binwidth = 2) + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Tax Burden")
 ```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-    ## Warning: Removed 7 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Tax%20Burden-1.png)<!-- -->
 
@@ -139,25 +183,14 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
-    ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
+    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
+    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
     ##  ▂▅▇▆▅▅▂▂
-
-``` r
-ggplot(data = economic_data %>% filter(Country != "Libya"), mapping = aes(x = log(GDP))) +
-  geom_histogram()
-```
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-    ## Warning: Removed 3 rows containing non-finite values (stat_bin).
-
-![](proposal_files/figure-gfm/Tax%20Burden-2.png)<!-- -->
 
 The distribution of tax burden is unimodal and only slightly right
 skewed. The mode is around 14-15%. In general, the tax burden across
@@ -172,8 +205,6 @@ ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
        title = "Distribution of Government Spending")
 ```
 
-    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
-
 ![](proposal_files/figure-gfm/Government%20Spending-1.png)<!-- -->
 
 ``` r
@@ -183,14 +214,14 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
-    ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
+    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
+    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
-    ##  ▅▇▂▁▁▁▁▁
+    ##  ▂▇▇▇▇▃▁▁
 
 The distribution of government spending is generally symmmetric and
 unimodal. There are several outliers which have significantly higher
@@ -208,8 +239,6 @@ ggplot(data = economic_data, mapping = aes(x = Population)) +
        title = "Distribution of Population")
 ```
 
-    ## Warning: Removed 1 rows containing non-finite values (stat_bin).
-
 ![](proposal_files/figure-gfm/Population-1.png)<!-- -->
 
 ``` r
@@ -219,12 +248,12 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
-    ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
     ##  ▇▁▁▁▁▁▁▁
 
@@ -252,12 +281,12 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
-    ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
     ##  ▇▁▁▁▁▁▁▁
 
@@ -274,8 +303,6 @@ ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
        title = "Distribution of Unemployment")
 ```
 
-    ## Warning: Removed 6 rows containing non-finite values (stat_bin).
-
 ![](proposal_files/figure-gfm/Unemployment-1.png)<!-- -->
 
 ``` r
@@ -285,14 +312,12 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
-    ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
-    ##      hist
-    ##  ▅▇▅▂▁▁▁▁
+    ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
+    ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
 The distribution of unemployment is unimodal and right-skewed. The mode
 of the distribution is around 4-5%. Since the median and IQR are more
@@ -308,8 +333,6 @@ ggplot(data = economic_data, mapping = aes(x = Inflation)) +
 ```
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Inflation-1.png)<!-- -->
 
@@ -331,12 +354,12 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
-    ##  Inflation       4      181 185 10.61 80.73 -0.9 1.3 2.7 5.3 1087.5
+    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
     ##  ▇▁▁▁▁▁▁▁
 
@@ -355,11 +378,11 @@ aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x
 ```
 
     ##                         Region count
-    ## 1                     Americas    32
-    ## 2                 Asia-Pacific    43
-    ## 3                       Europe    45
-    ## 4 Middle East and North Africa    18
-    ## 5           Sub-Saharan Africa    47
+    ## 1                     Americas    31
+    ## 2                 Asia-Pacific    40
+    ## 3                       Europe    43
+    ## 4 Middle East and North Africa    14
+    ## 5           Sub-Saharan Africa    45
 
 ``` r
 regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47), "prop"=c(17.4,23.2, 24.3, 9.7, 25.4))
@@ -423,8 +446,6 @@ labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
-
 ![](proposal_files/figure-gfm/Tariff%20Rate-1.png)<!-- -->
 
 ``` r
@@ -434,12 +455,12 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
-    ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
+    ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
+    ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
 The distribution of tariff rate is generally right skewed and unimodal.
 There are several outlier economies with 50% tariff rate such as Central
@@ -455,8 +476,6 @@ labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Freque
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-    ## Warning: Removed 3 rows containing non-finite values (stat_bin).
-
 ![](proposal_files/figure-gfm/Income%20Tax%20Rate-1.png)<!-- -->
 
 ``` r
@@ -466,14 +485,14 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##       variable missing complete   n  mean   sd p0 p25 p50 p75 p100
-    ##  IncomeTaxRate       3      182 185 28.23 13.4  0  20  30  35   60
+    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
+    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
-    ##  ▂▆▃▇▇▅▂▁
+    ##  ▂▅▂▇▇▅▂▁
 
 The distribution of income tax rate is unimodal and generally symmetric.
 While its general shape resembles a normal distribution, there are
@@ -491,8 +510,6 @@ labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-    ## Warning: Removed 3 rows containing non-finite values (stat_bin).
-
 ![](proposal_files/figure-gfm/Corporate%20Tax%20Rate-1.png)<!-- -->
 
 ``` r
@@ -502,12 +519,12 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
-    ##  CorporateTaxRate       3      182 185 23.89 8.88  0  20  25  30   50
+    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
     ##  ▁▂▂▇▆▂▁▁
 
@@ -525,8 +542,6 @@ ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
        title = "Distribution of Public Debt")
 ```
 
-    ## Warning: Removed 4 rows containing non-finite values (stat_bin).
-
 ![](proposal_files/figure-gfm/Public%20Debt-1.png)<!-- -->
 
 ``` r
@@ -536,12 +551,12 @@ skim()
 ```
 
     ## Skim summary statistics
-    ##  n obs: 185 
+    ##  n obs: 173 
     ##  n variables: 1 
     ## 
     ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
-    ##  PublicDebt       4      181 185 56.32 34.2  0 34.9 49.4 69.9 236.4
+    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist
     ##  ▃▇▃▂▁▁▁▁
 
@@ -612,8 +627,6 @@ ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
        y = "Frequency",
        title = "Distribution of Tax Burden")
 ```
-
-    ## Warning: Removed 4 rows containing missing values (geom_point).
 
 ![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-5.png)<!-- -->
 

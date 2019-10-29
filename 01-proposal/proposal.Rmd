@@ -1,5 +1,5 @@
 ---
-title: "What makes a country economically great"
+title: "What makes a country economically great?"
 subtitle: "Project Proposal"
 author: "Rtists"
 date: "2019/10/26"
@@ -30,7 +30,7 @@ The use of multiple linear regression in the study of GDP and GDP growth is not 
 
 In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables. If we can get a better understanding of how these economic indicators correlate to GDP, it could provide policy makers and economists with a path towards sound governmental decisions. 
 
-We hypothesize that out of the predictors in our dataset, "GovInterference" and both measures of TaxRate will have a very strong correlation with the GDP of the country, because they both reflect not only the government's economic policy but often times the government's approach to the macroecononmy. We predict that as government interference increases, GDP declines, and as tax rates increase, GDP declines as well.
+We hypothesize that out of the predictors in our dataset, `GovInterference` and both measures of `TaxRate` will have a very strong correlation with the GDP of the country, because they both reflect not only the government's economic policy but often times the government's approach to the macroecononmy. We predict that as government interference increases, GDP declines, and as tax rates increase, GDP declines as well.
 
 ## Section 2. Regression Analysis
 
@@ -42,10 +42,40 @@ From a glimpse of the data, can see that there are 193 observations --- each obs
 
 The data was collected by the World Economic Freedom Index, an organization that provides information and data about the economic health of countries and is used by policy makers to motivate their economic policy decisions.
 
+Before looking at each of the predictor variables, we would like to ensure that the data is cleaned and error-free. We will remove observations that have missing information, such as countries like Iraq, Syria, North Korea, and others that have very little outside involvement. Additionally, we would like to remove the `GDPperCap` variable from the dataset, as it is simply the GDP divided by the population, both values we have as separate variables in the dataset, as to prevent potential future issues of multicolinearity.
+
+```{r clean-data}
+economic_data <- na.omit(economic_data)
+economic_data$GDPperCap = NULL
+```
+
+Now that our data set is ready to explore, let's begin by looking at the distribution of GDP's of countries in our data set.
+
+```{r gdp-vis}
+ggplot(data = economic_data, mapping = aes(x = GDP)) +
+  geom_histogram(binwidth = 1000) +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+```
+
+Clearly, there is incredible right skew in the data, which is reasonable as the world has countries such as the US and China with significantly greater GDP's than the average country. This calls for a log-transform of the response variable, whose distribution is visualized below:
+
+```{r log-gdp-vis}
+ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
+  geom_histogram(binwidth = 1) +
+  labs(x = "log(GDP)",
+       y = "Frequency",
+       title = "Distribution of log-GDPs")
+```
+
+This distribution looks much more normal, and as a result, as we begin our analysis, we will likely use this as our response variable.
+
+We will now look at each of the 12 predictor variables that we will use to predict GDP, starting with `TaxBurden`.
 
 ```{r Tax Burden}
 ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
-  geom_histogram() + 
+  geom_histogram(binwidth = 2) + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Tax Burden")
@@ -53,9 +83,6 @@ ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
 economic_data %>%
 select(TaxBurden) %>%
 skim()
-
-ggplot(data = economic_data %>% filter(Country != "Libya"), mapping = aes(x = log(GDP))) +
-  geom_histogram()
 ```
 
 The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appear normally distributed. The mean tax burden is 22.19 and the standard deviation of the distribution is 10.17.
