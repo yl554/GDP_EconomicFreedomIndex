@@ -65,7 +65,7 @@ select(GovSpending) %>%
 skim()
 ```
 
-The distribution of government spending is generally symmmetric and unimodal. There are several outliers which have significantly higher government spending: with government spending either equal to or more than 100% of the country's GDP. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87 and the distribution has a standard deviation of 15.52 
+The distribution of government spending is generally symmmetric and unimodal. There are several outliers which have significantly higher government spending: with government spending either equal to or more than 100% of the country's GDP. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87 and the distribution has a standard deviation of 15.52.
 
 ```{r Population}
 ggplot(data = economic_data, mapping = aes(x = Population)) +
