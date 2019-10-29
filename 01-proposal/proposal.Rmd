@@ -250,6 +250,12 @@ pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=eco
 
 ## Section 3. Regression Analysis Plan
 
+Our plan is to conduct a multiple linear regression to find a model that is able to predict with a large degree of accuracy the GDP of a country. We will use each continuous variable as a single variable and use several dummy/indicator variables to represent the categorical variables `GovInterference` and `Region`. Additionally, based on our visualizations of the distributions of `GDP` and the response variables, `GDP`, along with some response variables, will have to be log-transformed to make their distributions normal. A linear regression is a good choice in this case because we have a continuous response variable and will allow us to generate a clear relationship between our independent and dependent variables.
+
+In order to add an additional layer of nuance and depth to our models, we will include interactions between `GovInterference` and the variables `CorporateTaxRate` and `TariffRate`. This is because we suspect that for difference levels of government interference, variation in the corporate tax rate and tariff rates can have difference meanings based on how a country's economy is set up. Without this interaction, we would have to interpret these two variables as simply their effect on the GDP without being able to interpret them in the context of a particular level of interference. Similarly, we would like to understand the interaction between `Region` and `TaxBurden`, as the role of taxes can vary across different regions based on the economic model of a country. This interaction will allow us to understand how tax burden predicts the GDP of a country across different global regions.
+
+As part of our analysis, we will implement a backwards selection that utilized measurse of AIC and adjusted-R-squared to identify our best model. This is because if we include all dummy and predictor variables in our model, it will have over 20 variables predicting GDP, which will be excessive and hurt the conciseness of the model. A backwards selection technique that looks at AIC and adjusted-R-squared will penalize for additional variables and may allow us to have a more concise version of our model that predicts GDP.
+
 ## Section 4. References
 https://www.heritage.org/index/ranking
 https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html
