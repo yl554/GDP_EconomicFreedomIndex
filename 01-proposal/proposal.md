@@ -7,14 +7,14 @@ Rtists
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ─────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -182,21 +182,31 @@ country_data <- full_join(economic_data, happiness_data, by = "Country")
 
 ## Section 1. Introduction
 
-GDP is a measure of how productive a given country or region is based on
-the value of the goods and services that it produces. Consequently, a
-high GDP signals that a country has a great deal of economic influence.
-As emerging markets continue to industrialize, the question of how one
+GDP is a measure of the total market value of all goods and services
+produced within a country over a period of time. Consequently, a high
+GDP implies that a country has significant economic influence. As
+emerging markets continue to industrialize, the question of how one
 achieves a larger GDP is becoming a critical one in policy selection;
 failure to design policies that encourage GDP growth can cause
 widespread suffering for a country’s population. Consider the case of
 Venezuela, where GDP-friendly policies were shunned and massive unrest
 appeared as a nearly direct consequence. In order to avoid this fate,
 nations must analyze which economic sectors are most influential on GDP
-in order to create guiding policies. In this project, we will address
-the research question of what predictors are most useful in predicting
-GDP and to what extent GDP can be predicted successfully; we expect that
-factors such as population, inflation, GovInterference, and TaxBurden
-will most effectively predict GDP.
+in order to create guiding policies.
+
+The use of multiple linear regression in the study of GDP and GDP growth
+is not novel. The approach has been widely employed by economists. For
+instance, Anghelache et. al has employed multiple linear regression
+model in analyzing the influence of final consumption and gross
+investment on Romania’s GDP over time. Urrutia et. al, on the other
+hand, modeled Philippines’s real GDP using multiple linear regression
+techniques. (Refer to citation of articles in the Citation section)
+
+In this project, we will address the research question of what
+predictors are most useful in predicting GDP and to what extent GDP can
+be predicted successfully; we expect that factors such as population,
+inflation, GovInterference, and TaxBurden will most effectively predict
+GDP.
 
 ## Section 2. Regression Analysis
 
@@ -252,7 +262,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
     ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
     ##      hist
@@ -285,7 +295,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
     ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
     ##      hist
@@ -333,7 +343,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
     ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
     ##      hist
@@ -379,7 +389,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       4      181 185 10.61 80.73 -0.9 1.3 2.7 5.3 1087.5
     ##      hist
@@ -482,7 +492,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
 
@@ -514,7 +524,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       3      182 185 28.23 13.4  0  20  30  35   60
     ##      hist
@@ -550,7 +560,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       3      182 185 23.89 8.88  0  20  25  30   50
     ##      hist
@@ -584,7 +594,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       4      181 185 56.32 34.2  0 34.9 49.4 69.9 236.4
     ##      hist
@@ -598,5 +608,17 @@ interquartile range is 35%.
 ## Section 3. Regression Analysis Plan
 
 ## Section 4. References
+
+ANGHELACHE, Constantin, Alexandru MANOLE, and Mădălina Gabriela ANGHEL.
+“Analysis of Final Consumption and Gross Investment Influence on GDP –
+Multiple Linear Regression Model.” Theoretical and Applied Economics
+XXII, no. 3 (2015): 137-142.
+
+Urrutia, Jackie D., Razzcelle L. Tampis, Joseph Mercado, Aaron Vito M.
+Baygan, and Edcon B. Baccay. 2016. “Modeling the Philippines’ real gross
+domestic product: A normal estimation equation for multiple linear
+regression.” AIP Conference Proceedings 1707 (1): 050016.
+<https://doi.org/10.1063/1.4940848>.
+<https://aip.scitation.org/doi/abs/10.1063/1.4940848>.
 
 ## The Data

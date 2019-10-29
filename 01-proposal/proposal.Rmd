@@ -28,7 +28,12 @@ country_data <- full_join(economic_data, happiness_data, by = "Country")
 
 ## Section 1. Introduction
 
-GDP is a measure of how productive a given country or region is based on the value of the goods and services that it produces. Consequently, a high GDP signals that a country has a great deal of economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP.
+GDP is a measure of the total market value of all goods and services produced within a country over a period of time. Consequently, a high GDP implies that a country has significant economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. 
+
+The use of multiple linear regression in the study of GDP and GDP growth is not novel. The approach has been widely employed by economists. For instance, Anghelache et. al has employed multiple linear regression model in analyzing the influence of final consumption and gross investment on Romania's GDP over time. Urrutia et. al, on the other hand, modeled Philippines's real GDP using multiple linear regression techniques. (Refer to citation of articles in the Citation section)
+
+In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP.
+
 
 ## Section 2. Regression Analysis
 
@@ -191,5 +196,12 @@ The distribution of public debt is unimodal and right skewed. There are several 
 ## Section 3. Regression Analysis Plan
 
 ## Section 4. References
+
+ANGHELACHE, Constantin, Alexandru MANOLE, and Mădălina Gabriela ANGHEL. "Analysis of Final Consumption and Gross Investment Influence on GDP – Multiple Linear Regression Model." Theoretical and Applied Economics XXII, no. 3 (2015): 137-142.
+
+Urrutia, Jackie D., Razzcelle L. Tampis, Joseph Mercado, Aaron Vito M. Baygan, and Edcon B. Baccay. 2016. "Modeling the Philippines’ real gross domestic product: A normal estimation equation for multiple linear regression." AIP Conference Proceedings 1707 (1): 050016. https://doi.org/10.1063/1.4940848. https://aip.scitation.org/doi/abs/10.1063/1.4940848.
+
+
+
 
 ## The Data
