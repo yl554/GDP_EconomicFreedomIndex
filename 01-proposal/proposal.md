@@ -1,4 +1,4 @@
-What makes a country economical great
+What makes a country economically great
 ================
 Rtists
 2019/10/26
@@ -7,14 +7,14 @@ Rtists
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -69,7 +69,17 @@ GDP. The predictor variables used in our analysis are used in the
 calculation of the annual Economic Freedom Index. These predictors are
 not traditionally used in the multiple linear regression of GDP and we
 are interested to know the composite strength of these particular
-predictor variables.
+predictor variables. If we can get a better understanding of how these
+economic indicators correlate to GDP, it could provide policy makers and
+economists with a path towards sound governmental decisions.
+
+We hypothesize that out of the predictors in our dataset,
+“GovInterference” and both measures of TaxRate will have a very strong
+correlation with the GDP of the country, because they both reflect not
+only the government’s economic policy but often times the government’s
+approach to the macroecononmy. We predict that as government
+interference increases, GDP declines, and as tax rates increase, GDP
+declines as well.
 
 ## Section 2. Regression Analysis
 
@@ -95,10 +105,18 @@ glimpse(economic_data)
     ## $ Inflation        <dbl> 5.0, 2.0, 5.6, 31.7, 25.7, 0.9, 2.0, 2.2, 13.0,…
     ## $ PublicDebt       <dbl> 7.3, 71.2, 25.8, 65.3, 52.6, 53.5, 41.6, 78.8, …
 
-We first take an overview of the data. We can see that there are 193
-observations — one observation corresponds to one country, and 15
-variables, including country name, 14 predictor variables and one
-response variable that we want to predict, GDP.
+From a glimpse of the data, can see that there are 193 observations —
+each observation corresponds to one country has 15 variables providing
+information about it, including country name and 14 predictor variables
+that are economic and demographic indicators about the country. The data
+also contains the response variable that we want to predict, GDP. This
+response variable is a numeric and continuous variable that is in the
+billions of US dollars.
+
+The data was collected by the World Economic Freedom Index, an
+organization that provides information and data about the economic
+health of countries and is used by policy makers to motivate their
+economic policy decisions.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
@@ -124,11 +142,22 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
     ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
     ##      hist
     ##  ▂▅▇▆▅▅▂▂
+
+``` r
+ggplot(data = economic_data %>% filter(Country != "Libya"), mapping = aes(x = log(GDP))) +
+  geom_histogram()
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 3 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/Tax%20Burden-2.png)<!-- -->
 
 The distribution of tax burden is unimodal and only slightly right
 skewed. The mode is around 14-15%. In general, the tax burden across
@@ -157,7 +186,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
     ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
     ##      hist
@@ -193,7 +222,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
     ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
     ##      hist
@@ -226,7 +255,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0  p25  p50   p75   p100
     ##  Population       1      184 185 40.37 145.52 0.1 2.77 9.15 29.62 1390.1
     ##      hist
@@ -259,7 +288,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
     ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
     ##      hist
@@ -305,7 +334,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       4      181 185 10.61 80.73 -0.9 1.3 2.7 5.3 1087.5
     ##      hist
@@ -408,7 +437,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
 
@@ -440,7 +469,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       3      182 185 28.23 13.4  0  20  30  35   60
     ##      hist
@@ -476,7 +505,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       3      182 185 23.89 8.88  0  20  25  30   50
     ##      hist
@@ -510,7 +539,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       4      181 185 56.32 34.2  0 34.9 49.4 69.9 236.4
     ##      hist
@@ -523,7 +552,7 @@ interquartile range is
 35%.
 
 ``` r
-pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+pairs((GDP) ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
 ```
 
 ![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP-1.png)<!-- -->
@@ -592,4 +621,6 @@ ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
 
 ## Section 4. References
 
-## The Data
+<https://www.heritage.org/index/ranking>
+<https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html>
+<https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008>

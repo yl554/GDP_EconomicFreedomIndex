@@ -1,5 +1,5 @@
 ---
-title: "What makes a country economical great"
+title: "What makes a country economically great"
 subtitle: "Project Proposal"
 author: "Rtists"
 date: "2019/10/26"
@@ -28,7 +28,9 @@ GDP is a measure of the total market value of all goods and services produced wi
 
 The use of multiple linear regression in the study of GDP and GDP growth is not novel. The approach has been widely employed by economists. For instance, Anghelache et. al has employed multiple linear regression model in analyzing the influence of final consumption and gross investment on Romania's GDP over time. Urrutia et. al, on the other hand, modeled Philippines's real GDP using multiple linear regression techniques. (Refer to citation of articles in the Citation section)
 
-In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables.
+In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables. If we can get a better understanding of how these economic indicators correlate to GDP, it could provide policy makers and economists with a path towards sound governmental decisions. 
+
+We hypothesize that out of the predictors in our dataset, "GovInterference" and both measures of TaxRate will have a very strong correlation with the GDP of the country, because they both reflect not only the government's economic policy but often times the government's approach to the macroecononmy. We predict that as government interference increases, GDP declines, and as tax rates increase, GDP declines as well.
 
 ## Section 2. Regression Analysis
 
@@ -36,7 +38,9 @@ In this project, we will address the research question of what predictors are mo
 glimpse(economic_data)
 ```
 
-We first take an overview of the data. We can see that there are 193 observations --- one observation corresponds to one country, and 15 variables, including country name, 14 predictor variables and one response variable that we want to predict, GDP.
+From a glimpse of the data, can see that there are 193 observations --- each observation corresponds to one country has 15 variables providing information about it, including country name and 14 predictor variables that are economic and demographic indicators about the country. The data also contains the response variable that we want to predict, GDP. This response variable is a numeric and continuous variable that is in the billions of US dollars.
+
+The data was collected by the World Economic Freedom Index, an organization that provides information and data about the economic health of countries and is used by policy makers to motivate their economic policy decisions.
 
 
 ```{r Tax Burden}
@@ -49,6 +53,9 @@ ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
 economic_data %>%
 select(TaxBurden) %>%
 skim()
+
+ggplot(data = economic_data %>% filter(Country != "Libya"), mapping = aes(x = log(GDP))) +
+  geom_histogram()
 ```
 
 The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appear normally distributed. The mean tax burden is 22.19 and the standard deviation of the distribution is 10.17.
@@ -211,7 +218,7 @@ skim()
 The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
 ```{r scatterplot matrix GDP}
-pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+pairs((GDP) ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
 
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
 
@@ -245,5 +252,6 @@ ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
 ## Section 3. Regression Analysis Plan
 
 ## Section 4. References
-
-## The Data
+https://www.heritage.org/index/ranking
+https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html
+https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008
