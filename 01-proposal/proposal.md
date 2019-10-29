@@ -182,7 +182,7 @@ government spending: with government spending either equal to or more
 than 100% of the country’s GDP. The mode of the distribution is around
 25%. Since there is minimal skewing, we report the mean and standard
 deviation. The mean government spending is 33.87 and the distribution
-has a standard deviation of 15.52
+has a standard deviation of 15.52.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = Population)) +
