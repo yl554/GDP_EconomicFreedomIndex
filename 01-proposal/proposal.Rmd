@@ -24,7 +24,11 @@ col_types = c("text", "text", "text",
 
 ## Section 1. Introduction
 
-GDP is a measure of how productive a given country or region is based on the value of the goods and services that it produces. Consequently, a high GDP signals that a country has a great deal of economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP.
+GDP is a measure of the total market value of all goods and services produced within a country over a period of time. Consequently, a high GDP implies that a country has significant economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. 
+
+The use of multiple linear regression in the study of GDP and GDP growth is not novel. The approach has been widely employed by economists. For instance, Anghelache et. al has employed multiple linear regression model in analyzing the influence of final consumption and gross investment on Romania's GDP over time. Urrutia et. al, on the other hand, modeled Philippines's real GDP using multiple linear regression techniques. (Refer to citation of articles in the Citation section)
+
+In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables.
 
 ## Section 2. Regression Analysis
 
@@ -32,24 +36,8 @@ GDP is a measure of how productive a given country or region is based on the val
 glimpse(economic_data)
 ```
 
-We first take an overview of the data. We can see that there are 193 observations --- one observation corresponds to one country, and 16 variables, including country name, 14 predictor variables and one response variable that we want to predict, the happiness score.
+We first take an overview of the data. We can see that there are 193 observations --- one observation corresponds to one country, and 15 variables, including country name, 14 predictor variables and one response variable that we want to predict, GDP.
 
-```{r scatterplot matrix}
-
-
-temp <- economic_data %>%
-  filter(GDP<5000)
-
-pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
-
-pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
-
-ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
-  geom_point() + 
-  labs(x = "Tax Burden (% of Country's GDP)",
-       y = "Frequency",
-       title = "Distribution of Tax Burden")
-```
 
 ```{r Tax Burden}
 ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
@@ -222,6 +210,24 @@ skim()
 ```
 The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
+```{r scatterplot matrix}
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+
+temp <- economic_data %>%
+  filter(GDP<5000)
+
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+
+ggplot(data = temp, mapping = aes(x = TaxBurden, y = GDP)) +
+  geom_point() + 
+  labs(x = "Tax Burden (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Tax Burden")
+```
 
 ## Section 3. Regression Analysis Plan
 
