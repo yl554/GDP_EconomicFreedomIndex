@@ -1,4 +1,4 @@
-PROJECT TITLE
+What makes a country economical great
 ================
 Rtists
 2019/10/26
@@ -7,20 +7,36 @@ Rtists
 library(tidyverse)
 ```
 
+<<<<<<< HEAD
     ## ── Attaching packages ─────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+=======
+    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+>>>>>>> 42dbf59705cd3e0ead5fe17a77a9a3e2ee48e133
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
+<<<<<<< HEAD
     ## ── Conflicts ────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+=======
+    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+>>>>>>> 42dbf59705cd3e0ead5fe17a77a9a3e2ee48e133
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
 ``` r
 library(readxl)
+library(skimr)
 ```
+
+    ## 
+    ## Attaching package: 'skimr'
+
+    ## The following object is masked from 'package:stats':
+    ## 
+    ##     filter
 
 ``` r
 economic_data <- read_excel("/cloud/project/02-data/economic_data.xlsx",
@@ -174,6 +190,22 @@ country_data <- full_join(economic_data, happiness_data, by = "Country")
 
 ## Section 1. Introduction
 
+GDP is a measure of how productive a given country or region is based on
+the value of the goods and services that it produces. Consequently, a
+high GDP signals that a country has a great deal of economic influence.
+As emerging markets continue to industrialize, the question of how one
+achieves a larger GDP is becoming a critical one in policy selection;
+failure to design policies that encourage GDP growth can cause
+widespread suffering for a country’s population. Consider the case of
+Venezuela, where GDP-friendly policies were shunned and massive unrest
+appeared as a nearly direct consequence. In order to avoid this fate,
+nations must analyze which economic sectors are most influential on GDP
+in order to create guiding policies. In this project, we will address
+the research question of what predictors are most useful in predicting
+GDP and to what extent GDP can be predicted successfully; we expect that
+factors such as population, inflation, GovInterference, and TaxBurden
+will most effectively predict GDP.
+
 ## Section 2. Regression Analysis
 
 ``` r
@@ -219,6 +251,27 @@ ggplot(data = country_data, mapping = aes(x = TaxBurden)) +
 ![](proposal_files/figure-gfm/Tax%20Burden-1.png)<!-- -->
 
 ``` r
+economic_data %>%
+select(TaxBurden) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
+    ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
+    ##      hist
+    ##  ▂▅▇▆▅▅▂▂
+
+The distribution of tax burden is unimodal and only slightly right
+skewed. The mode is around 14-15%. In general, the tax burden across
+countries appear normally distributed. The mean tax burden is 22.19 and
+the standard deviation of the distribution is 10.17.
+
+``` r
 ggplot(data = country_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 4) + 
   labs(x = "Government Spending (% of Country's GDP)",
@@ -229,6 +282,30 @@ ggplot(data = country_data, mapping = aes(x = GovSpending)) +
     ## Warning: Removed 12 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Government%20Spending-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(GovSpending) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
+    ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
+    ##      hist
+    ##  ▅▇▂▁▁▁▁▁
+
+The distribution of government spending is generally symmmetric and
+unimodal. There are several outliers which have significantly higher
+government spending: with government spending either equal to or more
+than 100% of the country’s GDP. The mode of the distribution is around
+25%. Since there is minimal skewing, we report the mean and standard
+deviation. The mean government spending is 33.87 and the distribution
+has a standard deviation of 15.52
 
 ``` r
 ggplot(data = country_data, mapping = aes(x = Population)) +
@@ -255,6 +332,27 @@ ggplot(data = country_data, mapping = aes(x = Unemployment)) +
 ![](proposal_files/figure-gfm/Unemployment-1.png)<!-- -->
 
 ``` r
+economic_data %>%
+select(Unemployment) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
+    ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
+    ##      hist
+    ##  ▅▇▅▂▁▁▁▁
+
+The distribution of unemployment is unimodal and right-skewed. The mode
+of the distribution is around 4-5%. Since the median and IQR are more
+robust to skewing, we report them instead as a measures of center and
+spread. The median is 5.7 and the IQR is 5.6.
+
+``` r
 ggplot(data = country_data, mapping = aes(x = Inflation)) +
   geom_histogram() + 
   labs(x = "Inflation (%)",
@@ -269,6 +367,43 @@ ggplot(data = country_data, mapping = aes(x = Inflation)) +
 ![](proposal_files/figure-gfm/Inflation-1.png)<!-- -->
 
 ``` r
+country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
+ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
+  geom_histogram(binwidth = 1) + 
+  labs(x = "Inflation (%)",
+       y = "Frequency",
+       title = "Distribution of Inflation without Outlier")
+```
+
+![](proposal_files/figure-gfm/Inflation-2.png)<!-- -->
+
+``` r
+economic_data %>%
+select(Inflation) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
+    ##  Inflation       4      181 185 10.61 80.73 -0.9 1.3 2.7 5.3 1087.5
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The first distribution of inflation rates includes all outliers. Because
+of the size and resolution of the diagram, the distribution of most
+economies are not visible. THe second diagram shows the distribution of
+inflation rates without the outlier with more than 1000% inflation. The
+distribution of inflation rate is generally unimodal and right skewed.
+The mode of the distribution is around 2%. Given significant skewing, we
+report the median and IQR as measures of center and spread. The median
+inflation rate is 2.7% and the IQR is
+4%.
+
+``` r
 aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x){NROW(x)})
 ```
 
@@ -280,16 +415,43 @@ aggregate(cbind(count = Region) ~ Region, data = economic_data, FUN = function(x
     ## 5           Sub-Saharan Africa    47
 
 ``` r
-regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47))
+regional = data.frame("Region" = c("Americas","Asia-Pacific","Europe","Middle East and North Africa","Sub-Saharan Africa"), "share" = c(32, 43, 45, 18, 47), "prop"=c(17.4,23.2, 24.3, 9.7, 25.4))
 mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#99D492")
+
+# Add label position
+regional <- regional %>%
+  arrange(desc(Region)) %>%
+  mutate(lab.ypos = cumsum(prop) - 0.5*prop)
+regional
+```
+
+    ##                         Region share prop lab.ypos
+    ## 1           Sub-Saharan Africa    47 25.4    12.70
+    ## 2 Middle East and North Africa    18  9.7    30.25
+    ## 3                       Europe    45 24.3    47.25
+    ## 4                 Asia-Pacific    43 23.2    71.00
+    ## 5                     Americas    32 17.4    91.30
+
+``` r
 ggplot(mapping = aes(x = "", y = share, fill = Region), data = regional) +
     geom_bar(stat = "identity", color = "white") +
     coord_polar("y", start = 0) +
+  geom_text(aes(y = lab.ypos, label = prop), color = "white") +
     scale_fill_manual(values = mycols) +
     theme_void()
 ```
 
 ![](proposal_files/figure-gfm/Region-1.png)<!-- -->
+
+The piechart of region shows that there is a relatively equal
+representation of countries from different regions of the world. The
+Americas, Asia-Pacific, and Europe each represent around 25% of all the
+countries in the data. The smallest representation is from the Middle
+East and North Africa at 9.7%. We are not too concerned with the
+distribution because there are 195 countries in the world and our data
+has 185 countries. The difference in distribution across region is
+likely to be largely reflective of the actual geographical distribution
+of nation-states.
 
 ``` r
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
@@ -298,6 +460,13 @@ labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of G
 ```
 
 ![](proposal_files/figure-gfm/Government%20Interference-1.png)<!-- -->
+
+The distribution of government interference shows that most countries
+either have extensive or moderate government inteference. The mode of
+the distribution is moderate government interference. Economies with
+limited and repressive intervention are significanly lesser, each having
+around 10-15 countries. We do not report the center or spread here
+because government interference is a categorical variable.
 
 ``` r
 ggplot(mapping = aes(x = TariffRate), data = economic_data) +
@@ -312,6 +481,26 @@ labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 ![](proposal_files/figure-gfm/Tariff%20Rate-1.png)<!-- -->
 
 ``` r
+economic_data %>%
+select(TariffRate) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
+    ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
+
+The distribution of tariff rate is generally right skewed and unimodal.
+There are several outlier economies with 50% tariff rate such as Central
+African Republic and North Korea. The mode of the distribution is around
+2%. The median tariff rate is 4.3 and the interquartile range of the
+distribution is 6.7.
+
+``` r
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
 geom_histogram(fill = "cornflowerblue") +
 labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
@@ -322,6 +511,30 @@ labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Freque
     ## Warning: Removed 3 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Income%20Tax%20Rate-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(IncomeTaxRate) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  IncomeTaxRate       3      182 185 28.23 13.4  0  20  30  35   60
+    ##      hist
+    ##  ▂▆▃▇▇▅▂▁
+
+The distribution of income tax rate is unimodal and generally symmetric.
+While its general shape resembles a normal distribution, there are
+several values of income tax rate which have particularly high frequency
+such as 10%, 25% and 34-35%. The mode of the distribution occurs at 35%.
+Since there is relatively minimal skewing, we report the mean and
+standard deviation as measures of center and spread. The mean income tax
+rate is 28.23 and the standard deviation of the distribution is 13.4.
 
 ``` r
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
@@ -336,15 +549,26 @@ labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "
 ![](proposal_files/figure-gfm/Corporate%20Tax%20Rate-1.png)<!-- -->
 
 ``` r
-country_data_temp <- country_data %>% select(Inflation) %>% filter(Inflation < 100)
-ggplot(data = country_data_temp, mapping = aes(x = Inflation)) +
-  geom_histogram(binwidth = 1) + 
-  labs(x = "Inflation (%)",
-       y = "Frequency",
-       title = "Distribution of Inflation without Outlier")
+economic_data %>%
+select(CorporateTaxRate) %>%
+skim()
 ```
 
-![](proposal_files/figure-gfm/Inflation%20without%20outlier-1.png)<!-- -->
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  CorporateTaxRate       3      182 185 23.89 8.88  0  20  25  30   50
+    ##      hist
+    ##  ▁▂▂▇▆▂▁▁
+
+The distribution of corporate tax rate is unimodal and only slightly
+right skewed. The mode of the distribution is around 28-30%. Since there
+is minimal skewing, we report the mean and the standard deviation as
+measures of center and spread. The mean corporate tax rate is 23.89% and
+the standard deviation is 8.88%.
 
 ``` r
 ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
@@ -357,6 +581,27 @@ ggplot(data = country_data, mapping = aes(x = PublicDebt)) +
     ## Warning: Removed 12 rows containing non-finite values (stat_bin).
 
 ![](proposal_files/figure-gfm/Public%20Debt-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(PublicDebt) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 185 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
+    ##  PublicDebt       4      181 185 56.32 34.2  0 34.9 49.4 69.9 236.4
+    ##      hist
+    ##  ▃▇▃▂▁▁▁▁
+
+The distribution of public debt is unimodal and right skewed. There are
+several outliers with public debt more than 175%. The mode of the
+distribution is around 30%. The median public debt is 49.4% and the
+interquartile range is 35%.
 
 ## Section 3. Regression Analysis Plan
 
