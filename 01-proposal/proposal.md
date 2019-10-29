@@ -7,22 +7,14 @@ Rtists
 library(tidyverse)
 ```
 
-<<<<<<< HEAD
     ## ── Attaching packages ─────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
-=======
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
->>>>>>> 42dbf59705cd3e0ead5fe17a77a9a3e2ee48e133
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-<<<<<<< HEAD
     ## ── Conflicts ────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-=======
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
->>>>>>> 42dbf59705cd3e0ead5fe17a77a9a3e2ee48e133
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -45,144 +37,7 @@ col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric",
 "numeric", "numeric", "numeric"))
-```
 
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M49 / R49C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in D80 / R80C4: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G80 / R80C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M89 / R89C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in E90 / R90C5: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in F90 / R90C6: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G90 / R90C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in J90 / R90C10: got '$40.0 (2015 est.)'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in L90 / R90C12: got '$1,700 (2015 est.)'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in N90 / R90C14: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in O90 / R90C15: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M92 / R92C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in D100 / R100C4: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G100 / R100C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in D101 / R101C4: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G101 / R101C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in H101 / R101C8: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in I101 / R101C9: got '38,000 ppl.'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in J101 / R101C10: got '$6.1 CHF (2014 )'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in K101 / R101C11: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in L101 / R101C12: got '$139,100 (2009 est.)'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M101 / R101C13: got '2.1 (2016)'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in N101 / R101C14: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in O101 / R101C15: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M115 / R115C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in M148 / R148C13: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in D154 / R154C4: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in E154 / R154C5: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in F154 / R154C6: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G154 / R154C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in H154 / R154C8: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in L154 / R154C12: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in N154 / R154C14: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in O154 / R154C15: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G162 / R162C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in H162 / R162C8: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in J162 / R162C10: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in K162 / R162C11: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in L162 / R162C12: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in N162 / R162C14: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in O162 / R162C15: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in E184 / R184C5: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in F184 / R184C6: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in G184 / R184C7: got 'N/A'
-
-    ## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-    ## sheet, : Expecting numeric in H184 / R184C8: got 'N/A'
-
-``` r
 happiness_data <- read_excel("/cloud/project/02-data/happiness_data.xlsx")
 
 country_data <- full_join(economic_data, happiness_data, by = "Country")
@@ -260,7 +115,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0   p25   p50   p75 p100
     ##  TaxBurden       7      178 185 22.19 10.17 1.6 14.12 20.75 30.02   47
     ##      hist
@@ -293,7 +148,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n  mean    sd   p0  p25  p50  p75  p100
     ##  GovSpending       4      181 185 33.87 15.52 10.6 24.5 32.3 40.3 139.2
     ##      hist
@@ -341,7 +196,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0  p25 p50  p75 p100
     ##  Unemployment       6      179 185 7.39 5.68 0.1 3.75 5.7 9.35 27.3
     ##      hist
@@ -387,7 +242,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       4      181 185 10.61 80.73 -0.9 1.3 2.7 5.3 1087.5
     ##      hist
@@ -490,7 +345,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean   sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       4      181 185 5.96 5.54  0   2 4.3 8.7   50 ▇▃▁▁▁▁▁▁
 
@@ -522,7 +377,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       3      182 185 28.23 13.4  0  20  30  35   60
     ##      hist
@@ -558,7 +413,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       3      182 185 23.89 8.88  0  20  25  30   50
     ##      hist
@@ -592,7 +447,7 @@ skim()
     ##  n obs: 185 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       4      181 185 56.32 34.2  0 34.9 49.4 69.9 236.4
     ##      hist

@@ -13,7 +13,7 @@ library(skimr)
 ```
 
 
-```{r data}
+```{r data, warning=FALSE}
 economic_data <- read_excel("/cloud/project/02-data/economic_data.xlsx",
 col_types = c("text", "text", "text",
 "numeric", "numeric", "numeric",
