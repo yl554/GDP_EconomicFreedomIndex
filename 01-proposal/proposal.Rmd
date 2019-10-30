@@ -34,11 +34,7 @@ We hypothesize that out of the predictors in our dataset, `GovInterference` and 
 
 ## Section 2. Regression Analysis
 
-```{r glimpse}
-glimpse(economic_data)
-```
-
-From a glimpse of the data, can see that there are 193 observations --- each observation corresponds to one country has 15 variables providing information about it, including country name and 14 predictor variables that are economic and demographic indicators about the country. The data also contains the response variable that we want to predict, GDP. This response variable is a numeric and continuous variable that is in the billions of US dollars.
+From the glimpse of the data in the Data Section, we know that there are 193 observations. Each observation corresponds to one country has 15 variables providing information about it, including country name and 14 predictor variables that are economic and demographic indicators about the country. The data also contains the response variable that we want to predict, GDP. This response variable is a numeric and continuous variable that is in the billions of US dollars.
 
 The data was collected by the World Economic Freedom Index, an organization that provides information and data about the economic health of countries and is used by policy makers to motivate their economic policy decisions.
 
@@ -51,31 +47,64 @@ economic_data$GDPperCap = NULL
 
 Now that our data set is ready to explore, let's begin by looking at the distribution of GDP's of countries in our data set.
 
+#### Response Variable
+
 ```{r gdp-vis}
 ggplot(data = economic_data, mapping = aes(x = GDP)) +
-  geom_histogram(binwidth = 1000) +
+  geom_histogram(binwidth = 1000, fill = "cornflowerblue") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
        title = "Distribution of GDPs")
+
+economic_data %>%
+select(GDP) %>%
+skim()
 ```
 
-Clearly, there is incredible right skew in the data, which is reasonable as the world has countries such as the US and China with significantly greater GDP's than the average country. This calls for a log-transform of the response variable, whose distribution is visualized below:
+The distribution of GDP shows significant right skew, which is reasonable as the world has countries such as the US and China with significantly greater GDP's than the average country. Because of the extreme outliers in population, we will plot another graph of GDP without the outliers to better show the distribution of most other data points.
+
+```{r GDP without Outlier}
+economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
+
+ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
+  geom_histogram(fill = "cornflowerblue") +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+
+economic_data %>%
+select(GDP) %>%
+skim()
+```
+
+The distribution of GDP is unimodal and right-skewed. Since the media and interquartile range are less influenced by outliers, we report them as measures of center and spread. The median of the distribution is 88.9 and the interquartile range is 411.3. THe values are in billions of dollars.  
+
+This calls for a log-transform of the response variable, whose distribution is visualized below:
 
 ```{r log-gdp-vis}
 ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
-  geom_histogram(binwidth = 1) +
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") +
   labs(x = "log(GDP)",
        y = "Frequency",
        title = "Distribution of log-GDPs")
+
+economic_data <- economic_data %>%
+  mutate(logGDP = log(GDP))
+
+economic_data %>%
+select(logGDP) %>%
+skim()
 ```
 
-This distribution looks much more normal, and as a result, as we begin our analysis, we will likely use this as our response variable.
+This distribution of logGDP is normal and unimodal. We will likely use this as our response variable. Since there is minimal skewing and the distribution is generally symmetric, we report the mean and standard deviation as measures of center and spread. THe mean logGDP is 4.61 and the standard deviation of its distribution is 2.08.
+
+#### Predictor Variable
 
 We will now look at each of the 12 predictor variables that we will use to predict GDP, starting with `TaxBurden`.
 
 ```{r Tax Burden}
 ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
-  geom_histogram(binwidth = 2) + 
+  geom_histogram(binwidth = 2, fill = "cornflowerblue") + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Tax Burden")
@@ -89,7 +118,7 @@ skim()
 
 ```{r Government Spending}
 ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
-  geom_histogram(binwidth = 3) + 
+  geom_histogram(binwidth = 3, fill = "cornflowerblue") + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Government Spending")
@@ -103,7 +132,7 @@ skim()
 
 ```{r Population}
 ggplot(data = economic_data, mapping = aes(x = Population)) +
-  geom_histogram(binwidth = 40) + 
+  geom_histogram(binwidth = 40, fill = "cornflowerblue") + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
@@ -119,7 +148,7 @@ skim()
 economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
 
 ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
-  geom_histogram(binwidth = 10) + 
+  geom_histogram(binwidth = 10, fill = "cornflowerblue") + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
@@ -133,7 +162,7 @@ The distribution of population is unimodal and right-skewed. The mode of the dis
 
 ```{r Unemployment}
 ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
-  geom_histogram(binwidth = 1) + 
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") + 
   labs(x = "Unemployment (%)",
        y = "Frequency",
        title = "Distribution of Unemployment")
@@ -147,14 +176,14 @@ skim()
 
 ```{r Inflation}
 ggplot(data = economic_data, mapping = aes(x = Inflation)) +
-  geom_histogram() + 
+  geom_histogram(fill = "cornflowerblue") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation")
 
 economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
 ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
-  geom_histogram(binwidth = 1) + 
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation without Outlier")
@@ -173,7 +202,11 @@ regional <- economic_data %>%
   tally() %>%
   mutate(prop = n*100/nrow(economic_data))
 
-regional
+ggplot(data = economic_data, mapping = aes(x = Region)) +
+  geom_bar(fill = "cornflowerblue") + 
+  labs(x = "Region",
+       y = "Frequency",
+       title = "Distribution of Region")
 
 ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
     geom_bar(stat = "identity", color = "white") +
@@ -181,11 +214,11 @@ ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
     theme_void()
 ```
 
-`Region` represents the geographical continent/area that the country is situated in. The piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
+`Region` represents the geographical continent/area that the country is situated in. The bar graph and piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
 
 ```{r Government Interference}
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
-  geom_bar() +
+  geom_bar(fill = "cornflowerblue") +
   labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
 ```
 
@@ -193,7 +226,7 @@ ggplot(mapping = aes(x = GovInterference), data = economic_data) +
 
 ```{r Tariff Rate}
 ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
-  geom_histogram(binwidth = 1) +
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") +
   labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 
 economic_data %>%
@@ -205,7 +238,7 @@ economic_data %>%
 
 ```{r Income Tax Rate}
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
-  geom_histogram(binwidth = 5) +
+  geom_histogram(binwidth = 5, fill = "cornflowerblue") +
   labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
 
 economic_data %>%
@@ -217,7 +250,7 @@ economic_data %>%
 
 ```{r Corporate Tax Rate}
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
-geom_histogram(binwidth = 4) +
+geom_histogram(binwidth = 4, fill = "cornflowerblue") +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
 
 economic_data %>%
@@ -229,7 +262,7 @@ skim()
 
 ```{r Public Debt}
 ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
-  geom_histogram(binwidth = 8) + 
+  geom_histogram(binwidth = 8, fill = "cornflowerblue") + 
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
        title = "Distribution of Public Debt")
@@ -246,7 +279,35 @@ Finally, we can visualize paired scatter plots of the relationship between GDP a
 ```{r scatterplot matrix GDP growth}
 pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+
+economic_data %>%
+ggplot(mapping = aes(x = Region, y = GDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of GDP versus Region")
+
+economic_data %>%
+ggplot(mapping = aes(x = GovInterference, y = GDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of Government Interference versus Region")
+
+temp <- economic_data %>%
+  filter(GDP<3000)
+
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+
+temp %>%
+ggplot(mapping = aes(x = Region, y = GDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of GDP versus Region")
+
+temp %>%
+ggplot(mapping = aes(x = GovInterference, y = GDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of GDP versus Government Interference")
 ```
+
+Based on the scatterplots
 
 ## Section 3. Regression Analysis Plan
 
@@ -257,6 +318,14 @@ In order to add an additional layer of nuance and depth to our models, we will i
 As part of our analysis, we will implement a backwards selection that utilized measurse of AIC and adjusted-R-squared to identify our best model. This is because if we include all dummy and predictor variables in our model, it will have over 20 variables predicting GDP, which will be excessive and hurt the conciseness of the model. A backwards selection technique that looks at AIC and adjusted-R-squared will penalize for additional variables and may allow us to have a more concise version of our model that predicts GDP.
 
 ## Section 4. References
+
 https://www.heritage.org/index/ranking
 https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html
 https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008
+
+
+## Data 
+
+```{r glimpse}
+glimpse(economic_data)
+```
