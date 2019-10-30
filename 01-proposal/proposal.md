@@ -7,14 +7,14 @@ Rtists
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ─────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -135,7 +135,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -172,7 +172,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -210,7 +210,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
     ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
     ##      hist
@@ -247,7 +247,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
@@ -280,7 +280,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
@@ -316,7 +316,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -350,7 +350,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -383,7 +383,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -427,7 +427,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
@@ -515,7 +515,7 @@ economic_data %>%
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -545,7 +545,7 @@ economic_data %>%
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
@@ -579,7 +579,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
@@ -612,7 +612,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist
@@ -624,90 +624,99 @@ skewed. There are several outliers with public debt more than 175%. The
 mode of the distribution is around 30%. The median public debt is 49.4%
 and the interquartile range is 35%.
 
+### Multi-Variate Analysis of Response vs Predictor Variables
+
 Finally, we can visualize paired scatter plots of the relationship
 between GDP and each of our predictor variables. This is shown below.
-Some of the plots provide no visual information as there are outliers
-that skew the visualization, but this will be corrected for later in our
-analysis.
+Most of the plots provide no visual information as there are outliers
+that skew the
+visualization.
 
 ``` r
-pairs(logGDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
 ```
 
 ![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-1.png)<!-- -->
 
 ``` r
-pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
 ```
 
 ![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-2.png)<!-- -->
 
-``` r
-economic_data %>%
-ggplot(mapping = aes(x = Region, y = GDP)) +
-  geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of GDP versus Region")
-```
-
-![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-3.png)<!-- -->
-
-``` r
-economic_data %>%
-ggplot(mapping = aes(x = GovInterference, y = GDP)) +
-  geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of Government Interference versus Region")
-```
-
-![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-4.png)<!-- -->
+To better help us visualize the relationship between the predictor and
+response variables for most data points, we plotted a scatterplot matrix
+with most of the outliers removed.
 
 ``` r
 temp <- economic_data %>%
   filter(GDP<3000 & Inflation < 100)
 
-temp <- temp %>%
-  mutate(sqrtGDP = (GDP)^(1/2))
-
-pairs(sqrtGDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 ```
 
-![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-5.png)<!-- -->
+![](proposal_files/figure-gfm/Scatterplot%20GDP%20without%20outliers-1.png)<!-- -->
 
 ``` r
-pairs(sqrtGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
 
-![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-6.png)<!-- -->
+![](proposal_files/figure-gfm/Scatterplot%20GDP%20without%20outliers-2.png)<!-- -->
+
+Based on the scatterplots above, we observe that most predictor
+variables do not have a clear linear relationship with the response
+variable GDP. Thus, we log transform GDP to see if there is a stronger
+linear relationship. As seen previously, logGDP has a normal
+distribution while GDP is extremely right
+skewed.
 
 ``` r
-temp %>%
-ggplot(mapping = aes(x = Region, y = GDP)) +
+pairs(logGDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/Scatterplot%20logGDP-1.png)<!-- -->
+
+``` r
+pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/Scatterplot%20logGDP-2.png)<!-- --> Based
+on the scatterplots of the response variables against the quantitative
+predictor variables, we see that there is now a much stronger a linear
+relationship between the two. Particularly, we note that the logGDP
+against population scatterplot shows a curved distribution which
+resembles a logarithimic function. We can thus log transform the
+population variable.
+
+Moreover, we also noticed some multicollinearity issues between
+predictor variables. In specific, the relationship between GovSpending
+and TaxBurden appears very strongly if not almost linear. Other
+variables suspect of multicollinearity problems include tariff rate and
+unemployment as well as tariff rate and unemployment.
+
+``` r
+economic_data %>%
+ggplot(mapping = aes(x = Region, y = logGDP)) +
   geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of GDP versus Region")
+  labs(title = "Boxplots of log GDP versus Region")
 ```
 
-![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-7.png)<!-- -->
+![](proposal_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-1.png)<!-- -->
 
 ``` r
-temp %>%
-ggplot(mapping = aes(x = GovInterference, y = GDP)) +
+economic_data %>%
+ggplot(mapping = aes(x = GovInterference, y = logGDP)) +
   geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of GDP versus Government Interference")
+  labs(title = "Boxplots of log GDP versus Government Interference")
 ```
 
-![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-8.png)<!-- -->
+![](proposal_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-2.png)<!-- -->
 
-We then made a scatterplot of responser variable against all 10
-predictor variables; because there are more than 5 predictor variables,
-we break the matrix into two so that each scatterplot is not
-indistinguishable. Based on the the first two scatterplot matrix, we can
-see that because of some extreme values in GDP and some predictor
-variables, we cannot see clearly the relationship between the predictor
-and response variables. So, we imposed a threshold on GDP and Inflation
-to better help us visualize the relationship. According to the fifth and
-sixth scatterplot matrix with outliers dropped, we ccan see that there
-is approxiamtely a linear relationship between response variable and all
-predictor variables. However, we noticed some multicollinearity issues
-between predictor variables, like GovSpending and TaxBurden.
+For the relationship between the response and categorical variables, the
+various boxplots suggest that there are generally normally distributed
+with minimal skewing. This means that a linear regression between log
+GDP and the categorical variables of region and government interference
+are appropriate.
 
 ## Section 3. Regression Analysis Plan
 
