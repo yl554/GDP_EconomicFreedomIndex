@@ -284,43 +284,48 @@ skim()
 
 `PublicDebt` represents the debt of the country as a percentage of the country's GDP. The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
-Finally, we can visualize paired scatter plots of the relationship between GDP and each of our predictor variables. This is shown below. Some of the plots provide no visual information as there are outliers that skew the visualization, but this will be corrected for later in our analysis.
+### Multi-Variate Analysis of Response vs Predictor Variables
+
+Finally, we can visualize paired scatter plots of the relationship between GDP and each of our predictor variables. This is shown below. Most of the plots provide no visual information as there are outliers that skew the visualization.
 
 ```{r scatterplot matrix GDP growth}
-pairs(logGDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
-pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+```
 
-economic_data %>%
-ggplot(mapping = aes(x = Region, y = GDP)) +
-  geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of GDP versus Region")
+To better help us visualize the relationship between the predictor and response variables for most data points, we plotted a scatterplot matrix with most of the outliers removed.
 
-economic_data %>%
-ggplot(mapping = aes(x = GovInterference, y = GDP)) +
-  geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of Government Interference versus Region")
-
+```{r Scatterplot GDP without outliers}
 temp <- economic_data %>%
   filter(GDP<3000 & Inflation < 100)
 
-temp <- temp %>%
-  mutate(sqrtGDP = (GDP)^(1/2))
-
-pairs(sqrtGDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
-pairs(sqrtGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
-
-temp %>%
-ggplot(mapping = aes(x = Region, y = GDP)) +
-  geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of GDP versus Region")
-
-temp %>%
-ggplot(mapping = aes(x = GovInterference, y = GDP)) +
-  geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of GDP versus Government Interference")
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
 
-We then made a scatterplot of responser variable against all 10 predictor variables; because there are more than 5 predictor variables, we break the matrix into two so that each scatterplot is not indistinguishable. Based on the the first two scatterplot matrix, we can see that because of some extreme values in GDP and some predictor variables, we cannot see clearly the relationship between the predictor and response variables. So, we imposed a threshold on GDP and Inflation to better help us visualize the relationship. According to the fifth and sixth scatterplot matrix with outliers dropped, we ccan see that there is approxiamtely a linear relationship between response variable and all predictor variables. However, we noticed some multicollinearity issues between predictor variables, like GovSpending and TaxBurden. 
+Based on the scatterplots above, we observe that most predictor variables do not have a clear linear relationship with the response variable GDP. Thus, we log transform GDP to see if there is a stronger linear relationship. As seen previously, logGDP has a normal distribution while GDP is extremely right skewed.
+
+```{r Scatterplot logGDP}
+pairs(logGDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+Based on the scatterplots of the response variables against the quantitative predictor variables, we see that there is now a much stronger a linear relationship between the two. Particularly, we note that the logGDP against population scatterplot shows a curved distribution which resembles a logarithimic function. We can thus log transform the population variable. 
+
+Moreover, we also noticed some multicollinearity issues between predictor variables. In specific, the relationship between GovSpending and TaxBurden appears very strongly if not almost linear. Other variables suspect of multicollinearity problems include tariff rate and unemployment as well as tariff rate and unemployment.
+
+```{r Boxplots for response vs categorical}
+economic_data %>%
+ggplot(mapping = aes(x = Region, y = logGDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of log GDP versus Region")
+
+economic_data %>%
+ggplot(mapping = aes(x = GovInterference, y = logGDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of log GDP versus Government Interference")
+```
+
+For the relationship between the response and categorical variables, the various boxplots suggest that there are generally normally distributed with minimal skewing. This means that a linear regression between log GDP and the categorical variables of region and government interference are appropriate.
 
 ## Section 3. Regression Analysis Plan
 
