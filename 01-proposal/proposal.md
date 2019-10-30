@@ -84,12 +84,12 @@ declines as well.
 ## Section 2. Regression Analysis
 
 From the glimpse of the data in the Data Section, we know that there are
-193 observations. Each observation corresponds to one country has 15
-variables providing information about it, including country name and 14
-predictor variables that are economic and demographic indicators about
-the country. The data also contains the response variable that we want
-to predict, GDP. This response variable is a numeric and continuous
-variable that is in the billions of US dollars.
+193 observations. Each observation corresponds to one country with 15
+associated variables, including country name and 14 predictor variables
+that are economic and demographic indicators about the country. The data
+also contains the response variable that we want to predict, GDP. This
+response variable is a numeric and continuous variable that is denoted
+in billions of US Dollars.
 
 The data was collected by the World Economic Freedom Index, an
 organization that provides information and data about the economic
@@ -142,11 +142,11 @@ skim()
     ##  ▇▁▁▁▁▁▁▁
 
 The distribution of GDP shows significant right skew, which is
-reasonable as the world has countries such as the US and China with
-significantly greater GDP’s than the average country. Because of the
-extreme outliers in population, we will plot another graph of GDP
-without the outliers to better show the distribution of most other data
-points.
+reasonable and expected as the world has countries such as the US and
+China who, due to their population and industrial advantages, have
+significantly greater GDP’s than the average country. We will now show a
+graph of GDP with some of these influential points
+removed.
 
 ``` r
 economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
@@ -181,8 +181,8 @@ skim()
 The distribution of GDP is unimodal and right-skewed. Since the media
 and interquartile range are less influenced by outliers, we report them
 as measures of center and spread. The median of the distribution is 88.9
-and the interquartile range is 411.3. THe values are in billions of
-dollars.
+billion and the interquartile range is 411.3. THe values are in billions
+of dollars.
 
 This calls for a log-transform of the response variable, whose
 distribution is visualized below:
@@ -219,7 +219,7 @@ skim()
 This distribution of logGDP is normal and unimodal. We will likely use
 this as our response variable. Since there is minimal skewing and the
 distribution is generally symmetric, we report the mean and standard
-deviation as measures of center and spread. THe mean logGDP is 4.61 and
+deviation as measures of center and spread. The mean logGDP is 4.61 and
 the standard deviation of its distribution is 2.08.
 
 #### Predictor Variable
