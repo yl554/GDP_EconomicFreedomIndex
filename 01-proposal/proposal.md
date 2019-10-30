@@ -670,7 +670,7 @@ with most of the outliers removed.
 temp <- economic_data %>%
   filter(GDP<3000 & Inflation < 100)
 
-pairs(GDP ~ TariffRate + logpop + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(GDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 ```
 
 ![](proposal_files/figure-gfm/Scatterplot%20GDP%20without%20outliers-1.png)<!-- -->
@@ -689,7 +689,7 @@ distribution while GDP is extremely right
 skewed.
 
 ``` r
-pairs(logGDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(logGDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 ```
 
 ![](proposal_files/figure-gfm/Scatterplot%20logGDP-1.png)<!-- -->
@@ -703,8 +703,8 @@ on the scatterplots of the response variables against the quantitative
 predictor variables, we see that there is now a much stronger a linear
 relationship between the two. Particularly, we note that the logGDP
 against population scatterplot shows a curved distribution which
-resembles a logarithimic function. We can thus log transform the
-population variable.
+resembles a logarithimic function. This is why we transformed population
+into the logpop variable, which has a linear relationship with GDP
 
 Moreover, we also noticed some multicollinearity issues between
 predictor variables. In specific, the relationship between GovSpending

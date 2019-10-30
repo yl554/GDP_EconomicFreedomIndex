@@ -299,17 +299,17 @@ To better help us visualize the relationship between the predictor and response 
 temp <- economic_data %>%
   filter(GDP<3000 & Inflation < 100)
 
-pairs(GDP ~ TariffRate + logpop + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(GDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
 
 Based on the scatterplots above, we observe that most predictor variables do not have a clear linear relationship with the response variable GDP. Thus, we log transform GDP to see if there is a stronger linear relationship. As seen previously, logGDP has a normal distribution while GDP is extremely right skewed.
 
 ```{r Scatterplot logGDP}
-pairs(logGDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(logGDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
-Based on the scatterplots of the response variables against the quantitative predictor variables, we see that there is now a much stronger a linear relationship between the two. Particularly, we note that the logGDP against population scatterplot shows a curved distribution which resembles a logarithimic function. We can thus log transform the population variable. 
+Based on the scatterplots of the response variables against the quantitative predictor variables, we see that there is now a much stronger a linear relationship between the two. Particularly, we note that the logGDP against population scatterplot shows a curved distribution which resembles a logarithimic function. This is why we transformed population into the logpop variable, which has a linear relationship with GDP
 
 Moreover, we also noticed some multicollinearity issues between predictor variables. In specific, the relationship between GovSpending and TaxBurden appears very strongly if not almost linear. Other variables suspect of multicollinearity problems include tariff rate and unemployment as well as tariff rate and unemployment.
 
