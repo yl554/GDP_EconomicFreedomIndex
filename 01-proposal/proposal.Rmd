@@ -114,7 +114,7 @@ select(TaxBurden) %>%
 skim()
 ```
 
-`TaxBurden` represents the amount of tax paid by the citizens of a country as a proportion of the GDP of that country. The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appear normally distributed. The mean tax burden is 22.19 and the standard deviation of the distribution is 10.17.
+`TaxBurden` represents the amount of tax paid by the citizens of a country as a proportion of the GDP of that country. The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appears normally distributed. The mean tax burden is 22.19 and the standard deviation of the distribution is 10.17. 
 
 ```{r Government Spending}
 ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
@@ -142,7 +142,7 @@ select(Population) %>%
 skim()
 ```
 
-`Population` represents the number of individuals living in a country. The distribution of population is unimodal and right-skewed. Because there are two extreme outliers in population, we will plot another graph of population without these two outliers below.
+`Population` represents the number of individuals living in a country. The distribution of population is unimodal and right-skewed. Because there are two influential points in "population", we will plot another graph of population without these two points below.
 
 ```{r Population without Outlier}
 economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
@@ -158,7 +158,17 @@ select(Population) %>%
 skim()
 ```
 
-The distribution of population is unimodal and right-skewed. The mode of the distribution is around 1 million. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 9.15 and the IQR is 26.85. Additionally, when conducting our analysis, we may need to apply a log-transform to make the distribution of the variable more normal.
+The distribution of population is unimodal and right-skewed. The mode of the distribution is around 1 million. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 9.15 and the IQR is 26.85. Additionally, when conducting our analysis, we may need to apply a log-transform to make the distribution of the variable more normal; based on a pairs plot, population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below.
+
+```{r logpop}
+economic_data <- economic_data %>%
+  mutate(logpop=log(Population))
+ggplot(data=economic_data, aes(x=logpop)) +
+  geom_histogram() +
+  labs(title="Distribution of logpop", x="Log(Population)")
+```
+
+Based on the above plot, the logarithmic transformation has been successful in normalizing the population variable as well as creating a more linear relationship with GDP. 
 
 ```{r Unemployment}
 ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
@@ -318,7 +328,7 @@ Our plan is to conduct a multiple linear regression to find a model that is able
 
 In order to add an additional layer of nuance and depth to our models, we will include interactions between `GovInterference` and the variables `CorporateTaxRate` and `TariffRate`. This is because we suspect that for difference levels of government interference, variation in the corporate tax rate and tariff rates can have difference meanings based on how a country's economy is set up. Without this interaction, we would have to interpret these two variables as simply their effect on the GDP without being able to interpret them in the context of a particular level of interference. Similarly, we would like to understand the interaction between `Region` and `TaxBurden`, as the role of taxes can vary across different regions based on the economic model of a country. This interaction will allow us to understand how tax burden predicts the GDP of a country across different global regions.
 
-As part of our analysis, we will implement a backwards selection that utilized measurse of AIC and adjusted-R-squared to identify our best model. This is because if we include all dummy and predictor variables in our model, it will have over 20 variables predicting GDP, which will be excessive and hurt the conciseness of the model. A backwards selection technique that looks at AIC and adjusted-R-squared will penalize for additional variables and may allow us to have a more concise version of our model that predicts GDP.
+As part of our analysis, we will implement a backwards selection that utilized measurse of AIC and adjusted-R-squared to identify our best model. This is because if we include all dummy and predictor variables in our model, it will have over 20 variables predicting GDP, which will be excessive and hurt the conciseness of the model. A backwards selection technique that looks at AIC and adjusted-R-squared will penalize for additional variables and may allow us to have a more concise version of our model that predicts GDP. Furthermore, we will compare the above selection to a model selected via backwards BIC, which should result in a more parsimonious model that may prove more useful for policymakers. We intend to primarily use AIC, but if we find that the model is overly complex we will use BIC instead. 
 
 ## Section 4. References
 

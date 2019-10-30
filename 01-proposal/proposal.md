@@ -256,7 +256,7 @@ skim()
 `TaxBurden` represents the amount of tax paid by the citizens of a
 country as a proportion of the GDP of that country. The distribution of
 tax burden is unimodal and only slightly right skewed. The mode is
-around 14-15%. In general, the tax burden across countries appear
+around 14-15%. In general, the tax burden across countries appears
 normally distributed. The mean tax burden is 22.19 and the standard
 deviation of the distribution is 10.17.
 
@@ -324,8 +324,8 @@ skim()
 
 `Population` represents the number of individuals living in a country.
 The distribution of population is unimodal and right-skewed. Because
-there are two extreme outliers in population, we will plot another graph
-of population without these two outliers
+there are two influential points in “population”, we will plot another
+graph of population without these two points
 below.
 
 ``` r
@@ -361,7 +361,25 @@ the distribution is around 1 million. Since the median and IQR are more
 robust to skewing, we report them instead as a measures of center and
 spread. The median is 9.15 and the IQR is 26.85. Additionally, when
 conducting our analysis, we may need to apply a log-transform to make
-the distribution of the variable more normal.
+the distribution of the variable more normal; based on a pairs plot,
+population has a logarithmic relationship with logGDP and thus we will
+apply a logarithmic transform to population below.
+
+``` r
+economic_data <- economic_data %>%
+  mutate(logpop=log(Population))
+ggplot(data=economic_data, aes(x=logpop)) +
+  geom_histogram() +
+  labs(title="Distribution of logpop", x="Log(Population)")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](proposal_files/figure-gfm/logpop-1.png)<!-- -->
+
+Based on the above plot, the logarithmic transformation has been
+successful in normalizing the population variable as well as creating a
+more linear relationship with GDP.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
@@ -744,7 +762,11 @@ in our model, it will have over 20 variables predicting GDP, which will
 be excessive and hurt the conciseness of the model. A backwards
 selection technique that looks at AIC and adjusted-R-squared will
 penalize for additional variables and may allow us to have a more
-concise version of our model that predicts GDP.
+concise version of our model that predicts GDP. Furthermore, we will
+compare the above selection to a model selected via backwards BIC, which
+should result in a more parsimonious model that may prove more useful
+for policymakers. We intend to primarily use AIC, but if we find that
+the model is overly complex we will use BIC instead.
 
 ## Section 4. References
 
@@ -759,7 +781,7 @@ glimpse(economic_data)
 ```
 
     ## Observations: 173
-    ## Variables: 15
+    ## Variables: 16
     ## $ Country          <chr> "Afghanistan", "Albania", "Algeria", "Angola", …
     ## $ Region           <chr> "Asia-Pacific", "Europe", "Middle East and Nort…
     ## $ GovInterference  <chr> "Repressive", "Moderate", "Extensive", "Extensi…
@@ -775,3 +797,4 @@ glimpse(economic_data)
     ## $ Inflation        <dbl> 5.0, 2.0, 5.6, 31.7, 25.7, 0.9, 2.0, 2.2, 13.0,…
     ## $ PublicDebt       <dbl> 7.3, 71.2, 25.8, 65.3, 52.6, 53.5, 41.6, 78.8, …
     ## $ logGDP           <dbl> 4.242765, 3.583519, 6.450312, 5.248602, 6.82459…
+    ## $ logpop           <dbl> 3.5695327, 1.0647107, 3.7256934, 3.3393220, 3.7…
