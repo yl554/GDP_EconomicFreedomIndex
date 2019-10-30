@@ -299,7 +299,7 @@ To better help us visualize the relationship between the predictor and response 
 temp <- economic_data %>%
   filter(GDP<3000 & Inflation < 100)
 
-pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(GDP ~ TariffRate + logpop + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
 

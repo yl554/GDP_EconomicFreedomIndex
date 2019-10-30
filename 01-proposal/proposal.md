@@ -7,14 +7,14 @@ Rtists
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ─────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -135,7 +135,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -172,7 +172,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -210,7 +210,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
     ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
     ##      hist
@@ -247,7 +247,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
@@ -280,7 +280,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
@@ -316,7 +316,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -350,7 +350,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -401,7 +401,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -445,7 +445,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
@@ -533,7 +533,7 @@ economic_data %>%
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -563,7 +563,7 @@ economic_data %>%
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
@@ -597,7 +597,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
@@ -630,7 +630,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist
@@ -670,7 +670,7 @@ with most of the outliers removed.
 temp <- economic_data %>%
   filter(GDP<3000 & Inflation < 100)
 
-pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(GDP ~ TariffRate + logpop + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 ```
 
 ![](proposal_files/figure-gfm/Scatterplot%20GDP%20without%20outliers-1.png)<!-- -->
