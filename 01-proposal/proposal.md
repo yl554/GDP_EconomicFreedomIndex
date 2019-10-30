@@ -7,14 +7,14 @@ Rtists
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ─────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -83,35 +83,13 @@ declines as well.
 
 ## Section 2. Regression Analysis
 
-``` r
-glimpse(economic_data)
-```
-
-    ## Observations: 185
-    ## Variables: 15
-    ## $ Country          <chr> "Afghanistan", "Albania", "Algeria", "Angola", …
-    ## $ Region           <chr> "Asia-Pacific", "Europe", "Middle East and Nort…
-    ## $ GovInterference  <chr> "Repressive", "Moderate", "Extensive", "Extensi…
-    ## $ TariffRate       <dbl> 7.0, 1.1, 8.8, 9.4, 7.5, 2.1, 1.2, 2.0, 5.2, 18…
-    ## $ IncomeTaxRate    <dbl> 20.0, 23.0, 35.0, 17.0, 35.0, 26.0, 45.0, 50.0,…
-    ## $ CorporateTaxRate <dbl> 20.0, 15.0, 23.0, 30.0, 30.0, 20.0, 30.0, 25.0,…
-    ## $ TaxBurden        <dbl> 5.0, 24.9, 24.5, 20.6, 30.8, 21.3, 28.2, 42.7, …
-    ## $ GovSpending      <dbl> 25.6, 29.5, 41.4, 25.3, 41.0, 26.4, 36.5, 50.2,…
-    ## $ Population       <dbl> 35.5, 2.9, 41.5, 28.2, 44.1, 3.0, 24.8, 8.8, 9.…
-    ## $ GDP              <dbl> 69.6, 36.0, 632.9, 190.3, 920.2, 28.3, 1246.5, …
-    ## $ GDPGrowth        <dbl> 2.5, 3.9, 2.0, 0.7, 2.9, 7.5, 2.3, 2.9, 0.1, 1.…
-    ## $ GDPperCap        <dbl> 1958, 12507, 15237, 6753, 20876, 9456, 50334, 4…
-    ## $ Unemployment     <dbl> 8.8, 13.9, 10.0, 8.2, 8.7, 18.2, 5.6, 5.5, 5.0,…
-    ## $ Inflation        <dbl> 5.0, 2.0, 5.6, 31.7, 25.7, 0.9, 2.0, 2.2, 13.0,…
-    ## $ PublicDebt       <dbl> 7.3, 71.2, 25.8, 65.3, 52.6, 53.5, 41.6, 78.8, …
-
-From a glimpse of the data, can see that there are 193 observations —
-each observation corresponds to one country has 15 variables providing
-information about it, including country name and 14 predictor variables
-that are economic and demographic indicators about the country. The data
-also contains the response variable that we want to predict, GDP. This
-response variable is a numeric and continuous variable that is in the
-billions of US dollars.
+From the glimpse of the data in the Data Section, we know that there are
+193 observations. Each observation corresponds to one country has 15
+variables providing information about it, including country name and 14
+predictor variables that are economic and demographic indicators about
+the country. The data also contains the response variable that we want
+to predict, GDP. This response variable is a numeric and continuous
+variable that is in the billions of US dollars.
 
 The data was collected by the World Economic Freedom Index, an
 organization that provides information and data about the economic
@@ -135,9 +113,11 @@ economic_data$GDPperCap = NULL
 Now that our data set is ready to explore, let’s begin by looking at the
 distribution of GDP’s of countries in our data set.
 
+#### Response Variable
+
 ``` r
 ggplot(data = economic_data, mapping = aes(x = GDP)) +
-  geom_histogram(binwidth = 1000) +
+  geom_histogram(binwidth = 1000, fill = "cornflowerblue") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
        title = "Distribution of GDPs")
@@ -145,14 +125,71 @@ ggplot(data = economic_data, mapping = aes(x = GDP)) +
 
 ![](proposal_files/figure-gfm/gdp-vis-1.png)<!-- -->
 
-Clearly, there is incredible right skew in the data, which is reasonable
-as the world has countries such as the US and China with significantly
-greater GDP’s than the average country. This calls for a log-transform
-of the response variable, whose distribution is visualized below:
+``` r
+economic_data %>%
+select(GDP) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
+    ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of GDP shows significant right skew, which is
+reasonable as the world has countries such as the US and China with
+significantly greater GDP’s than the average country. Because of the
+extreme outliers in population, we will plot another graph of GDP
+without the outliers to better show the distribution of most other data
+points.
+
+``` r
+economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
+
+ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
+  geom_histogram(fill = "cornflowerblue") +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](proposal_files/figure-gfm/GDP%20without%20Outlier-1.png)<!-- -->
+
+``` r
+economic_data %>%
+select(GDP) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
+    ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of GDP is unimodal and right-skewed. Since the media
+and interquartile range are less influenced by outliers, we report them
+as measures of center and spread. The median of the distribution is 88.9
+and the interquartile range is 411.3. THe values are in billions of
+dollars.
+
+This calls for a log-transform of the response variable, whose
+distribution is visualized below:
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
-  geom_histogram(binwidth = 1) +
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") +
   labs(x = "log(GDP)",
        y = "Frequency",
        title = "Distribution of log-GDPs")
@@ -160,15 +197,39 @@ ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
 
 ![](proposal_files/figure-gfm/log-gdp-vis-1.png)<!-- -->
 
-This distribution looks much more normal, and as a result, as we begin
-our analysis, we will likely use this as our response variable.
+``` r
+economic_data <- economic_data %>%
+  mutate(logGDP = log(GDP))
+
+economic_data %>%
+select(logGDP) %>%
+skim()
+```
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
+    ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
+    ##      hist
+    ##  ▁▃▅▇▆▅▂▁
+
+This distribution of logGDP is normal and unimodal. We will likely use
+this as our response variable. Since there is minimal skewing and the
+distribution is generally symmetric, we report the mean and standard
+deviation as measures of center and spread. THe mean logGDP is 4.61 and
+the standard deviation of its distribution is 2.08.
+
+#### Predictor Variable
 
 We will now look at each of the 12 predictor variables that we will use
 to predict GDP, starting with `TaxBurden`.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
-  geom_histogram(binwidth = 2) + 
+  geom_histogram(binwidth = 2, fill = "cornflowerblue") + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Tax Burden")
@@ -186,7 +247,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
@@ -201,7 +262,7 @@ deviation of the distribution is 10.17.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
-  geom_histogram(binwidth = 3) + 
+  geom_histogram(binwidth = 3, fill = "cornflowerblue") + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Government Spending")
@@ -219,7 +280,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
@@ -237,7 +298,7 @@ spending is 33.87 and the distribution has a standard deviation of
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = Population)) +
-  geom_histogram(binwidth = 40) + 
+  geom_histogram(binwidth = 40, fill = "cornflowerblue") + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
@@ -255,7 +316,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -271,7 +332,7 @@ below.
 economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
 
 ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
-  geom_histogram(binwidth = 10) + 
+  geom_histogram(binwidth = 10, fill = "cornflowerblue") + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
@@ -289,7 +350,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -304,7 +365,7 @@ the distribution of the variable more normal.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
-  geom_histogram(binwidth = 1) + 
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") + 
   labs(x = "Unemployment (%)",
        y = "Frequency",
        title = "Distribution of Unemployment")
@@ -322,7 +383,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -335,7 +396,7 @@ IQR is 5.6.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = Inflation)) +
-  geom_histogram() + 
+  geom_histogram(fill = "cornflowerblue") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation")
@@ -348,7 +409,7 @@ ggplot(data = economic_data, mapping = aes(x = Inflation)) +
 ``` r
 economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
 ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
-  geom_histogram(binwidth = 1) + 
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation without Outlier")
@@ -366,7 +427,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
@@ -390,17 +451,14 @@ regional <- economic_data %>%
   tally() %>%
   mutate(prop = n*100/nrow(economic_data))
 
-regional
+ggplot(data = economic_data, mapping = aes(x = Region)) +
+  geom_bar(fill = "cornflowerblue") + 
+  labs(x = "Region",
+       y = "Frequency",
+       title = "Distribution of Region")
 ```
 
-    ## # A tibble: 5 x 3
-    ##   Region                           n  prop
-    ##   <chr>                        <int> <dbl>
-    ## 1 Americas                        31 17.9 
-    ## 2 Asia-Pacific                    40 23.1 
-    ## 3 Europe                          43 24.9 
-    ## 4 Middle East and North Africa    14  8.09
-    ## 5 Sub-Saharan Africa              45 26.0
+![](proposal_files/figure-gfm/Region-1.png)<!-- -->
 
 ``` r
 ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
@@ -409,13 +467,13 @@ ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
     theme_void()
 ```
 
-![](proposal_files/figure-gfm/Region-1.png)<!-- -->
+![](proposal_files/figure-gfm/Region-2.png)<!-- -->
 
 `Region` represents the geographical continent/area that the country is
-situated in. The piechart of `Region` shows that there is a relatively
-equal representation of countries from different regions of the world.
-The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each
-represent around 25% of all the countries in the data. The smallest
+situated in. The bar graph and piechart of `Region` shows that there is
+a relatively equal representation of countries from different regions of
+the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe
+each represent around 25% of all the countries in the data. The smallest
 representation is from the Middle East and North Africa at 8.1%. We are
 not too concerned with the distribution because there are 195 countries
 in the world and our data has 173 countries. The difference in
@@ -424,7 +482,7 @@ actual geographical distribution of nation-states.
 
 ``` r
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
-  geom_bar() +
+  geom_bar(fill = "cornflowerblue") +
   labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
 ```
 
@@ -441,7 +499,7 @@ because government interference is a categorical variable.
 
 ``` r
 ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
-  geom_histogram(binwidth = 1) +
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") +
   labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 ```
 
@@ -457,7 +515,7 @@ economic_data %>%
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -471,7 +529,7 @@ right-skew, log-transforming this variable might be necessary.
 
 ``` r
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
-  geom_histogram(binwidth = 5) +
+  geom_histogram(binwidth = 5, fill = "cornflowerblue") +
   labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
 ```
 
@@ -487,7 +545,7 @@ economic_data %>%
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
@@ -505,7 +563,7 @@ the distribution is 13.4.
 
 ``` r
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
-geom_histogram(binwidth = 4) +
+geom_histogram(binwidth = 4, fill = "cornflowerblue") +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
 ```
 
@@ -521,7 +579,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
@@ -536,7 +594,7 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
 
 ``` r
 ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
-  geom_histogram(binwidth = 8) + 
+  geom_histogram(binwidth = 8, fill = "cornflowerblue") + 
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
        title = "Distribution of Public Debt")
@@ -554,7 +612,7 @@ skim()
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist
@@ -583,6 +641,59 @@ pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=eco
 ```
 
 ![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-2.png)<!-- -->
+
+``` r
+economic_data %>%
+ggplot(mapping = aes(x = Region, y = GDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of GDP versus Region")
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-3.png)<!-- -->
+
+``` r
+economic_data %>%
+ggplot(mapping = aes(x = GovInterference, y = GDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of Government Interference versus Region")
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-4.png)<!-- -->
+
+``` r
+temp <- economic_data %>%
+  filter(GDP<3000)
+
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-5.png)<!-- -->
+
+``` r
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-6.png)<!-- -->
+
+``` r
+temp %>%
+ggplot(mapping = aes(x = Region, y = GDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of GDP versus Region")
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-7.png)<!-- -->
+
+``` r
+temp %>%
+ggplot(mapping = aes(x = GovInterference, y = GDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of GDP versus Government Interference")
+```
+
+![](proposal_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-8.png)<!-- -->
+
+Based on the scatterplots
 
 ## Section 3. Regression Analysis Plan
 
@@ -626,3 +737,27 @@ concise version of our model that predicts GDP.
 <https://www.heritage.org/index/ranking>
 <https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html>
 <https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008>
+
+## Data
+
+``` r
+glimpse(economic_data)
+```
+
+    ## Observations: 173
+    ## Variables: 15
+    ## $ Country          <chr> "Afghanistan", "Albania", "Algeria", "Angola", …
+    ## $ Region           <chr> "Asia-Pacific", "Europe", "Middle East and Nort…
+    ## $ GovInterference  <chr> "Repressive", "Moderate", "Extensive", "Extensi…
+    ## $ TariffRate       <dbl> 7.0, 1.1, 8.8, 9.4, 7.5, 2.1, 1.2, 2.0, 5.2, 18…
+    ## $ IncomeTaxRate    <dbl> 20.0, 23.0, 35.0, 17.0, 35.0, 26.0, 45.0, 50.0,…
+    ## $ CorporateTaxRate <dbl> 20.0, 15.0, 23.0, 30.0, 30.0, 20.0, 30.0, 25.0,…
+    ## $ TaxBurden        <dbl> 5.0, 24.9, 24.5, 20.6, 30.8, 21.3, 28.2, 42.7, …
+    ## $ GovSpending      <dbl> 25.6, 29.5, 41.4, 25.3, 41.0, 26.4, 36.5, 50.2,…
+    ## $ Population       <dbl> 35.5, 2.9, 41.5, 28.2, 44.1, 3.0, 24.8, 8.8, 9.…
+    ## $ GDP              <dbl> 69.6, 36.0, 632.9, 190.3, 920.2, 28.3, 1246.5, …
+    ## $ GDPGrowth        <dbl> 2.5, 3.9, 2.0, 0.7, 2.9, 7.5, 2.3, 2.9, 0.1, 1.…
+    ## $ Unemployment     <dbl> 8.8, 13.9, 10.0, 8.2, 8.7, 18.2, 5.6, 5.5, 5.0,…
+    ## $ Inflation        <dbl> 5.0, 2.0, 5.6, 31.7, 25.7, 0.9, 2.0, 2.2, 13.0,…
+    ## $ PublicDebt       <dbl> 7.3, 71.2, 25.8, 65.3, 52.6, 53.5, 41.6, 78.8, …
+    ## $ logGDP           <dbl> 4.242765, 3.583519, 6.450312, 5.248602, 6.82459…
