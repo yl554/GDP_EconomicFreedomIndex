@@ -765,17 +765,17 @@ interaction will allow us to understand how tax burden predicts the GDP
 of a country across different global regions.
 
 As part of our analysis, we will implement a backwards selection that
-utilized measurse of AIC and adjusted-R-squared to identify our best
-model. This is because if we include all dummy and predictor variables
-in our model, it will have over 20 variables predicting GDP, which will
-be excessive and hurt the conciseness of the model. A backwards
-selection technique that looks at AIC and adjusted-R-squared will
+utilizes measures of AIC, adjusted R-squared, and BIC to create the
+final model.. This is because if we include all dummy and predictor
+variables in our model, it will have over 20 variables predicting GDP,
+which will be excessive and hurt the conciseness of the model. A
+backwards selection technique that looks at the above criteria will
 penalize for additional variables and may allow us to have a more
-concise version of our model that predicts GDP. Furthermore, we will
-compare the above selection to a model selected via backwards BIC, which
-should result in a more parsimonious model that may prove more useful
-for policymakers. We intend to primarily use AIC, but if we find that
-the model is overly complex we will use BIC instead.
+concise version of our model that predicts GDP. Since BIC has the
+strongest parsimonious effect, however, we will use that as our criteria
+in order to ensure the most concise model. Policy makers are, at the
+national level, already overwhelmed with variables to consider and an
+aggressive reduction in our model may be more useful.
 
 ## Section 4. References
 
