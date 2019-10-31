@@ -163,8 +163,9 @@ The distribution of population is unimodal and right-skewed. The mode of the dis
 ```{r logpop}
 economic_data <- economic_data %>%
   mutate(logpop=log(Population))
+
 ggplot(data=economic_data, aes(x=logpop)) +
-  geom_histogram() +
+  geom_histogram(fill = "cornflowerblue") +
   labs(title="Distribution of logpop", x="Log(Population)")
 ```
 
@@ -284,7 +285,7 @@ skim()
 
 `PublicDebt` represents the debt of the country as a percentage of the country's GDP. The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
-### Multi-Variate Analysis of Response vs Predictor Variables
+#### Multi-Variate Analysis of Response vs Predictor Variables
 
 Finally, we can visualize paired scatter plots of the relationship between GDP and each of our predictor variables. This is shown below. Most of the plots provide no visual information as there are outliers that skew the visualization.
 
@@ -309,6 +310,7 @@ Based on the scatterplots above, we observe that most predictor variables do not
 pairs(logGDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
+
 Based on the scatterplots of the response variables against the quantitative predictor variables, we see that there is now a much stronger a linear relationship between the two. Particularly, we note that the logGDP against population scatterplot shows a curved distribution which resembles a logarithimic function. This is why we transformed population into the logpop variable, which has a linear relationship with GDP
 
 Moreover, we also noticed some multicollinearity issues between predictor variables. In specific, the relationship between GovSpending and TaxBurden appears very strongly if not almost linear. Other variables suspect of multicollinearity problems include tariff rate and unemployment as well as tariff rate and unemployment.
@@ -338,7 +340,9 @@ As part of our analysis, we will implement a backwards selection that utilizes m
 ## Section 4. References
 
 https://www.heritage.org/index/ranking
+
 https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html
+
 https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008
 
 
