@@ -62,6 +62,11 @@ economic_data%>%
 skim(economic_data)
 ```
 
+
+### Methods & Modelling
+
+### Final Model
+
 ```{r mean center variables}
 economic_data <- economic_data %>%
   mutate(TaxBurdenCent = TaxBurden - mean(TaxBurden))
@@ -70,9 +75,6 @@ economic_data <- economic_data %>%
 economic_data <- economic_data %>%
   mutate(PopulationCent = Population - mean(Population))
 ```
-### Methods & Modelling
-
-### Final Model
 
 #### Create the model
 
