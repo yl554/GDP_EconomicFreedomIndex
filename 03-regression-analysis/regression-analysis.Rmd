@@ -65,6 +65,11 @@ economic_data%>%
 
 ### Final Model
 
+#### Create the model
+
+#### Model Diagnostics
+(influential points, leverage points)
+
 ### Discusson of Assumptions
 
 ### Interpretation and Other Interesting Findings
