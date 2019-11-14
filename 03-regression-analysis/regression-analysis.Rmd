@@ -1,8 +1,8 @@
 ---
-title: "PROJECT TITLE"
+title: "What makes a country economically great?"
 subtitle: "Regression Analysis"
-author: "NAME HERE"
-date: "TODAY'S DATE"
+author: "Rtists"
+date: "11/14/19"
 output: github_document
 ---
 
@@ -33,6 +33,11 @@ Your regression analysis results go here. At a minimum, the regression analysis 
 ### Methods & Modelling
 
 ### Final Model
+
+#### Create the model
+
+#### Model Diagnostics
+(influential points, leverage points)
 
 ### Discusson of Assumptions
 

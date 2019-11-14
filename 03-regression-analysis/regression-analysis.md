@@ -1,7 +1,7 @@
-PROJECT TITLE
+What makes a country economically great?
 ================
-NAME HERE
-TODAY’S DATE
+Rtists
+11/14/19
 
 Your regression analysis results go here. At a minimum, the regression
 analysis should include the following:
@@ -30,6 +30,12 @@ analysis should include the following:
 ### Methods & Modelling
 
 ### Final Model
+
+#### Create the model
+
+#### Model Diagnostics
+
+(influential points, leverage points)
 
 ### Discusson of Assumptions
 
