@@ -45,6 +45,17 @@ analysis should include the following:
 
 ### Exploratory Data Analysis
 
+    ## # A tibble: 6 x 2
+    ## # Groups:   cat_inflation [6]
+    ##   cat_inflation        n
+    ##   <chr>            <int>
+    ## 1 Dangerously High    40
+    ## 2 Deflation            5
+    ## 3 Healthy             65
+    ## 4 High                43
+    ## 5 Low                 28
+    ## 6 <NA>                 4
+
 ### Methods & Modelling
 
 ### Final Model

@@ -46,6 +46,21 @@ Your regression analysis results go here. At a minimum, the regression analysis 
 
 ### Exploratory Data Analysis
 
+```{r inflation-categorize}
+economic_data <- economic_data %>%
+  mutate(cat_inflation = case_when(
+Inflation >= 6 ~ "Dangerously High",
+Inflation <6 & Inflation >3 ~ "High",
+Inflation <= 3 & Inflation >=1 ~ "Healthy",
+Inflation <1 & Inflation>0 ~ "Low",
+Inflation <= 0 ~ "Deflation"
+  ))
+economic_data%>%
+  group_by(cat_inflation) %>%
+  count()
+```
+
+
 ### Methods & Modelling
 
 ### Final Model
