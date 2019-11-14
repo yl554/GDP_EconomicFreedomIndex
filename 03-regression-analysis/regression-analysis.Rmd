@@ -1,13 +1,29 @@
 ---
-title: "PROJECT TITLE"
+title: "What Makes a Strong GDP"
 subtitle: "Regression Analysis"
-author: "NAME HERE"
-date: "TODAY'S DATE"
+author: "Rtists"
+date: "11/14/2019"
 output: github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries}
+library(tidyverse)
+library(readxl)
+library(skimr)
+```
+
+
+```{r data, warning=FALSE}
+economic_data <- read_excel("/cloud/project/02-data/economic_data.xlsx",
+col_types = c("text", "text", "text",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric"))
 ```
 
 
