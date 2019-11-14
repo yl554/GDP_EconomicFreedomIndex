@@ -258,9 +258,18 @@ Inflation <= 0 ~ "Deflation"
 economic_data%>%
   group_by(cat_inflation) %>%
   count()
+
+skim(economic_data)
 ```
 
-
+```{r mean center variables}
+economic_data <- economic_data %>%
+  mutate(TaxBurdenCent = TaxBurden - mean(TaxBurden))
+economic_data <- economic_data %>%
+  mutate(GovSpendingCent = GovSpending - mean(GovSpending))
+economic_data <- economic_data %>%
+  mutate(PopulationCent = Population - mean(Population))
+```
 ### Methods & Modelling
 
 ### Final Model
