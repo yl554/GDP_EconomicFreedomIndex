@@ -262,6 +262,10 @@ economic_data%>%
 skim(economic_data)
 ```
 
+
+
+
+
 ```{r mean center variables}
 economic_data <- economic_data %>%
   mutate(TaxBurdenCent = TaxBurden - mean(TaxBurden))
