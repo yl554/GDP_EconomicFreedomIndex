@@ -3,14 +3,14 @@ What Makes a Strong GDP
 Rtists
 11/14/2019
 
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ─────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -45,16 +45,281 @@ analysis should include the following:
 
 ### Exploratory Data Analysis
 
-    ## # A tibble: 6 x 2
-    ## # Groups:   cat_inflation [6]
+We will begin our exploratory data analysis by cleaning the data. We
+notice a total of 12 countries which have a “NA” value for one or more
+of the predictor variables that we will investigate. We will omit these
+entries from our analysis, but we expect this to add a slight bias to
+our results; the below 12 countries are all developing and thus our
+model may fit developed countries better than developing countries.
+
+    ## # A tibble: 12 x 1
+    ##    Country      
+    ##    <chr>        
+    ##  1 Dominica     
+    ##  2 Iraq         
+    ##  3 Kiribati     
+    ##  4 Korea, North 
+    ##  5 Kosovo       
+    ##  6 Libya        
+    ##  7 Liechtenstein
+    ##  8 Micronesia   
+    ##  9 Seychelles   
+    ## 10 Somalia      
+    ## 11 Syria        
+    ## 12 Yemen
+
+Now that the data has been cleaned, we can begin exploring our predictor
+variables. We will now look at each of the 12 predictor variables that
+we will use to predict GDP, starting with `TaxBurden`.
+
+![](regression-analysis_files/figure-gfm/Tax%20Burden-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
+    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
+    ##      hist
+    ##  ▂▅▇▆▅▅▂▂
+
+`TaxBurden` represents the amount of tax paid by the citizens of a
+country as a proportion of the GDP of that country. The distribution of
+tax burden is unimodal and only slightly right skewed. The mode is
+around 14-15%. In general, the tax burden across countries appears
+normally distributed. The mean tax burden is 22.19 and the standard
+deviation of the distribution is
+10.17.
+
+![](regression-analysis_files/figure-gfm/Government%20Spending-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
+    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
+    ##      hist
+    ##  ▂▇▇▇▇▃▁▁
+
+`GovSpending` represents the amount spent by the government as a
+percentage of the GDP of the country. The distribution of government
+spending is generally symmmetric and unimodal. There are several
+outliers which have significantly higher government spending: with
+government spending either equal to or more than 100% of the country’s
+GDP. The mode of the distribution is around 25%. Since there is minimal
+skewing, we report the mean and standard deviation. The mean government
+spending is 33.87 and the distribution has a standard deviation of
+15.52.
+
+![](regression-analysis_files/figure-gfm/Population-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+`Population` represents the number of individuals living in a country.
+The distribution of population is unimodal and right-skewed. Because
+there are two influential points in “population”, we will plot another
+graph of population without these two points
+below.
+
+![](regression-analysis_files/figure-gfm/Population%20without%20Outlier-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of population is unimodal and right-skewed. The mode of
+the distribution is around 1 million. Since the median and IQR are more
+robust to skewing, we report them instead as a measures of center and
+spread. The median is 9.15 and the IQR is 26.85. Additionally, when
+conducting our analysis, we may need to apply a log-transform to make
+the distribution of the variable more normal; based on a pairs plot,
+population has a logarithmic relationship with logGDP and thus we will
+apply a logarithmic transform to population
+    below.
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](regression-analysis_files/figure-gfm/logpop-1.png)<!-- -->
+
+Based on the above plot, the logarithmic transformation has been
+successful in normalizing the population variable as well as creating a
+more linear relationship with GDP.
+
+![](regression-analysis_files/figure-gfm/Unemployment-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
+    ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
+
+`Unemployment` represents the percantage of the workforce of a country
+that is currently not working. The distribution of unemployment is
+unimodal and right-skewed. The mode of the distribution is around 4-5%.
+Since the median and IQR are more robust to skewing, we report them
+instead as a measures of center and spread. The median is 5.7 and the
+IQR is
+    5.6.
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](regression-analysis_files/figure-gfm/Inflation-1.png)<!-- -->![](regression-analysis_files/figure-gfm/Inflation-2.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
+    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+`Inflation` represents the change in prices of goods and services in a
+year in the country. The first distribution of inflation rates includes
+all outliers. Because of the size and resolution of the diagram, the
+distribution of most economies are not visible. The second diagram shows
+the distribution of inflation rates without the outlier with more than
+1000% inflation. The distribution of inflation rate is generally
+unimodal and right skewed. The mode of the distribution is around 2%.
+Given significant skewing, we report the median and IQR as measures of
+center and spread. The median inflation rate is 2.7% and the IQR is 4%.
+Because of this skew, we may need to log-transform this variable as well
+to get its distribution to be more
+normal.
+
+![](regression-analysis_files/figure-gfm/Region-1.png)<!-- -->![](regression-analysis_files/figure-gfm/Region-2.png)<!-- -->
+
+`Region` represents the geographical continent/area that the country is
+situated in. The bar graph and piechart of `Region` shows that there is
+a relatively equal representation of countries from different regions of
+the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe
+each represent around 25% of all the countries in the data. The smallest
+representation is from the Middle East and North Africa at 8.1%. We are
+not too concerned with the distribution because there are 195 countries
+in the world and our data has 173 countries. The difference in
+distribution across region is likely to be largely reflective of the
+actual geographical distribution of
+nation-states.
+
+![](regression-analysis_files/figure-gfm/Government%20Interference-1.png)<!-- -->
+
+`GovInterference` represents the amount of interference that the
+government has in the economy as determined by the World Economic Index.
+The distribution of government interference shows that most countries
+either have extensive or moderate government inteference. The mode of
+the distribution is moderate government interference. Economies with
+limited and repressive intervention are significanly lesser, each having
+around 10-15 countries. We do not report the center or spread here
+because government interference is a categorical variable.
+
+![](regression-analysis_files/figure-gfm/Tariff%20Rate-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
+    ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
+
+`TariffRate` represents the average percentage tax on imports that the
+country has outstanding as of 2019. The distribution of tariff rate is
+generally right skewed and unimodal. There are several outlier economies
+with 50% tariff rate such as Central African Republic and North Korea.
+The mode of the distribution is around 2%. The median tariff rate is 4.3
+and the interquartile range of the distribution is 6.7. Because of this
+right-skew, log-transforming this variable might be
+necessary.
+
+![](regression-analysis_files/figure-gfm/Income%20Tax%20Rate-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
+    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
+    ##      hist
+    ##  ▂▅▂▇▇▅▂▁
+
+`IncomeTaxRate` represents the average tax rate applied to individuals
+on their incomes. The distribution of income tax rate is unimodal and
+generally symmetric. While its general shape resembles a normal
+distribution, there are several values of income tax rate which have
+particularly high frequency such as 10%, 25% and 34-35%. The mode of the
+distribution occurs at 35%. Since there is relatively minimal skewing,
+we report the mean and standard deviation as measures of center and
+spread. The mean income tax rate is 28.23 and the standard deviation of
+the distribution is
+13.4.
+
+![](regression-analysis_files/figure-gfm/Corporate%20Tax%20Rate-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
+    ##      hist
+    ##  ▁▂▂▇▆▂▁▁
+
+`CorporateTaxRate` represents the average tax rate applied to
+corporations on their revenues. The distribution of corporate tax rate
+is unimodal and only slightly right skewed. The mode of the distribution
+is around 28-30%. Since there is minimal skewing, we report the mean and
+the standard deviation as measures of center and spread. The mean
+corporate tax rate is 23.89% and the standard deviation is 8.88%.
+
+![](regression-analysis_files/figure-gfm/Public%20Debt-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
+    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
+    ##      hist
+    ##  ▃▇▃▂▁▁▁▁
+
+`PublicDebt` represents the debt of the country as a percentage of the
+country’s GDP. The distribution of public debt is unimodal and right
+skewed. There are several outliers with public debt more than 175%. The
+mode of the distribution is around 30%. The median public debt is 49.4%
+and the interquartile range is 35%.
+
+    ## # A tibble: 5 x 2
+    ## # Groups:   cat_inflation [5]
     ##   cat_inflation        n
     ##   <chr>            <int>
-    ## 1 Dangerously High    40
+    ## 1 Dangerously High    39
     ## 2 Deflation            5
-    ## 3 Healthy             65
-    ## 4 High                43
-    ## 5 Low                 28
-    ## 6 <NA>                 4
+    ## 3 Healthy             62
+    ## 4 High                42
+    ## 5 Low                 25
 
 ### Methods & Modelling
 
