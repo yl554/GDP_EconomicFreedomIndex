@@ -48,9 +48,11 @@ Since we already have data on all the countries and are thus don't need to try t
 
 ### Response Variable
 
+In our investigation, the response value is GDP; that is, we are trying to determine the effect of various predictors on the GDP of countries. GDP represents the final value of all finished goods and services produced in a country in 2019, and in this case, in US dollars. However, according to the EDA conducted below, since the distribution of GDP's is incredibly right-skewed (countries such as the US and China have enormous GDP's matched by no other countries), we will be building the model using the log of GDP as our response.
+
 ### Exploratory Data Analysis
 
-We will begin our exploratory data analysis by cleaning the data. We notice a total of 12 countries which have a "NA" value for one or more of the predictor variables that we will investigate. We will omit these entries from our analysis, but we expect this to add a slight bias to our results; the below 12 countries are all developing and thus our model may fit developed countries better than developing countries. 
+We will begin our exploratory data analysis by cleaning the data. We notice a total of 12 countries which have a "NA" value for one or more of the predictor variables that we will investigate. We will omit these entries from our analysis, but we expect this to add a slight bias to our results; the below 12 countries are all developing and thus our model may fit developed countries better than developing countries. However, the 12 countries below also have unusual governmental and economic structures as well as poor data quality associated with them; including them in the model may also significantly influence the coefficients associated with predictors. Thus, we have decided to leave them out of the model.
 
 ```{r NA-removal}
 economic_data %>%
