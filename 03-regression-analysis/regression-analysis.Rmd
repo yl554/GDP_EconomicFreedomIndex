@@ -1,5 +1,5 @@
 ---
-title: "What Makes a Strong GDP"
+title: "What Makes a Strong GDP?"
 subtitle: "Regression Analysis"
 author: "Rtists"
 date: "11/14/2019"
@@ -42,7 +42,9 @@ Your regression analysis results go here. At a minimum, the regression analysis 
 
 ### Question and Objective
 
+In this investigation, our goal is to try to understand what aspects of a country's economy are most associated with the GDP of the country. GDP is one of the most foundational measures of economic growth and the size of an economy, and as a result the majority of governments are extremely interested in understanding what contributes to having a large GDP. This study tries to help governments answer that question by investigating the research question: "What indicators of a country's economy have the greatest effect on the country's GDP?"
 
+Since we already have data on all the countries and are thus don't need to try to "predict" the GDP of a country that may not be in our dataset, our modeling objective isn't prediction but rather inference, since we are trying to understand which predictor variable has the greatest effect on the response. Additionally, the modeling objective is inference as we are using our data set to build a model that reliably chooses the correct identifiers of GDP from a set of more variables than we may potentially need.
 
 ### Response Variable
 
