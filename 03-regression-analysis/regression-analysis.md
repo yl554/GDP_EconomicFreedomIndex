@@ -498,6 +498,17 @@ and the interquartile range is 35%.
 
 ### Methods & Modelling
 
+``` r
+economic_data <- economic_data %>%
+  mutate(cat_inflation = relevel(cat_inflation, ref = "Healthy", ordered = FALSE))
+```
+
+``` r
+aic_full_model <- lm(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth, data = economic_data)
+
+aic_model <- step(aic_full_model, direction = "backward")
+```
+
     ## Start:  AIC=-47.56
     ## logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + 
     ##     PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + 
@@ -548,6 +559,11 @@ and the interquartile range is 35%.
     ## - TariffRate        1     23.14 137.26 -20.039
     ## - logpop            1    510.45 624.56 242.090
 
+``` r
+tidy(aic_model, conf.int="TRUE") %>%
+  kable(format="markdown", conf.level = 0.95)
+```
+
 | term                           |    estimate | std.error |   statistic |   p.value |    conf.low |   conf.high |
 | :----------------------------- | ----------: | --------: | ----------: | --------: | ----------: | ----------: |
 | (Intercept)                    |   4.6907537 | 0.2756796 |  17.0152344 | 0.0000000 |   4.1463648 |   5.2351427 |
@@ -562,6 +578,13 @@ and the interquartile range is 35%.
 | TaxBurdenCent                  |   0.0405295 | 0.0110418 |   3.6705696 | 0.0003282 |   0.0187252 |   0.0623338 |
 | GDPGrowth                      | \-0.1242708 | 0.0268870 | \-4.6219609 | 0.0000077 | \-0.1773651 | \-0.0711766 |
 
+``` r
+regfit_backward <- regsubsets(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth, data = economic_data, method="backward")
+
+sel_summary <- summary(regfit_backward)
+coef(regfit_backward, which.min(sel_summary$bic))
+```
+
     ##                   (Intercept)                    TariffRate 
     ##                    4.33280295                   -0.09611387 
     ##                        logpop cat_inflationDangerously High 
@@ -570,6 +593,11 @@ and the interquartile range is 35%.
     ##                   -0.48672687                   -0.03596846 
     ##                 TaxBurdenCent                     GDPGrowth 
     ##                    0.02364809                   -0.09788876
+
+``` r
+sel_summary <- summary(regfit_backward)
+coef(regfit_backward, which.max(sel_summary$adjr2))
+```
 
     ##                   (Intercept)                    TariffRate 
     ##                    4.46682869                   -0.09495813 
@@ -618,12 +646,25 @@ regression.
 Unemployment is only shown in the AIC equation while GovSpendingCent is
 included in both the AIC and adjR2 equations. We conduct a nested F test
 to finally decide if these two predictor variables are significant to
-the existing model.
+the existing
+model.
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + Unemployment, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
 
 | Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | ------: | -: | --------: | ----: | ------: |
 |    164 | 117.472 | NA |        NA |    NA |      NA |
 |    163 | 116.098 |  1 |     1.374 | 1.929 |   0.167 |
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + GovSpendingCent, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
 
 | Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | ------: | -: | --------: | ----: | ------: |
@@ -641,27 +682,58 @@ surprising since countries with high GDP may have high or low
 unemployment depending on their respective trajectories in the business
 cycle. The role of government spending is also highly contested in
 economic literature. That it is not a significant determinant of GDP
-reflect this ambuiguity in academic literature.
+reflect this ambuiguity in academic
+literature.
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*GDPGrowth, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
 
 | Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | ------: | -: | --------: | ----: | ------: |
 |    164 | 117.472 | NA |        NA |    NA |      NA |
 |    161 | 116.476 |  3 |     0.996 | 0.459 |   0.711 |
 
-| Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
-| -----: | ------: | -: | --------: | ----: | ------: |
-|    164 | 117.472 | NA |        NA |    NA |      NA |
-|    161 | 113.120 |  3 |     4.352 | 2.065 |   0.107 |
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*CorporateTaxRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
 
 | Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | ------: | -: | --------: | ----: | ------: |
 |    164 | 117.472 | NA |        NA |    NA |      NA |
 |    161 | 113.120 |  3 |     4.352 | 2.065 |   0.107 |
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*CorporateTaxRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+| Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
+| -----: | ------: | -: | --------: | ----: | ------: |
+|    164 | 117.472 | NA |        NA |    NA |      NA |
+|    161 | 113.120 |  3 |     4.352 | 2.065 |   0.107 |
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*logpop, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
 
 | Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | ------: | -: | --------: | ----: | ------: |
 |    164 | 117.472 | NA |        NA |    NA |      NA |
 |    161 | 114.625 |  3 |     2.847 | 1.333 |   0.266 |
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*TariffRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
 
 | Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | ------: | -: | --------: | ----: | ------: |
@@ -669,6 +741,11 @@ reflect this ambuiguity in academic literature.
 |    161 | 113.397 |  3 |     4.075 | 1.929 |   0.127 |
 
 ### Final Model
+
+``` r
+final_model <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data=economic_data)
+kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
+```
 
 <table>
 
@@ -1141,6 +1218,10 @@ cat\_inflationLow
 </tbody>
 
 </table>
+
+``` r
+tidy(vif(final_model))
+```
 
     ## Warning: 'tidy.numeric' is deprecated.
     ## See help("Deprecated")
