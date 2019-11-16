@@ -14,6 +14,12 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(readxl)
 library(skimr)
+library(tidyr)
+library(magrittr)
+library(broom)
+library(leaps)
+library(knitr) 
+library(rms)
 ```
 
 
@@ -63,7 +69,61 @@ economic_data %>%
 economic_data <- na.omit(economic_data)
 ```
 
-Now that the data has been cleaned, we can begin exploring our predictor variables.
+### Response Variable
+
+Now that the data has been cleaned, we can begin exploring our response variable.
+
+```{r gdp-vis}
+ggplot(data = economic_data, mapping = aes(x = GDP)) +
+  geom_histogram(binwidth = 1000, fill = "cornflowerblue") +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+
+economic_data %>%
+select(GDP) %>%
+skim()
+```
+
+The distribution of GDP shows significant right skew, which is reasonable and expected as the world has countries such as the US and China who, due to their population and industrial advantages, have significantly greater GDP's than the average country. We will now show a graph of GDP with some of these influential points removed.
+
+```{r GDP without Outlier}
+economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
+
+ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
+  geom_histogram(fill = "cornflowerblue") +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+
+economic_data %>%
+select(GDP) %>%
+skim()
+```
+
+The distribution of GDP is unimodal and right-skewed. Since the media and interquartile range are less influenced by outliers, we report them as measures of center and spread. The median of the distribution is 88.9 billion and the interquartile range is 411.3. THe values are in billions of dollars.
+
+This calls for a log-transform of the response variable, whose distribution is visualized below:
+
+```{r log-gdp-vis}
+ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
+  geom_histogram(binwidth = 1, fill = "cornflowerblue") +
+  labs(x = "log(GDP)",
+       y = "Frequency",
+       title = "Distribution of log-GDPs")
+
+economic_data <- economic_data %>%
+  mutate(logGDP = log(GDP))
+
+economic_data %>%
+select(logGDP) %>%
+skim()
+```
+
+This distribution of logGDP is normal and unimodal. We will likely use this as our response variable. Since there is minimal skewing and the distribution is generally symmetric, we report the mean and standard deviation as measures of center and spread. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. 
+
+### Predictor Variables
+
 We will now look at each of the 12 predictor variables that we will use to predict GDP, starting with `TaxBurden`.
 
 ```{r Tax Burden}
@@ -256,18 +316,20 @@ economic_data <- economic_data %>%
 Inflation >= 6 ~ "Dangerously High",
 Inflation <6 & Inflation >3 ~ "High",
 Inflation <= 3 & Inflation >=1 ~ "Healthy",
-Inflation <1 & Inflation>0 ~ "Low",
-Inflation <= 0 ~ "Deflation"
-  ))
+Inflation <1 ~ "Low"))
 economic_data%>%
   group_by(cat_inflation) %>%
   count()
 
+economic_data <- economic_data %>%
+  mutate(cat_inflation = as.factor(cat_inflation))
+
+economic_data %>%
+ggplot(mapping = aes(x = cat_inflation, y = logGDP)) +
+  geom_boxplot(position="dodge")
+
 skim(economic_data)
 ```
-
-
-
 
 
 ```{r mean center variables}
@@ -278,7 +340,54 @@ economic_data <- economic_data %>%
 economic_data <- economic_data %>%
   mutate(PopulationCent = Population - mean(Population))
 ```
+
 ### Methods & Modelling
+
+```{r setting healthy as baseline}
+economic_data <- economic_data %>%
+  mutate(cat_inflation = relevel(cat_inflation, ref = "Healthy", ordered = FALSE))
+```
+
+```{r Modeling AIC}
+aic_full_model <- lm(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth, data = economic_data)
+
+aic_model <- step(aic_full_model, direction = "backward")
+
+tidy(aic_model, conf.int="TRUE") %>%
+  kable(format="markdown", conf.level = 0.95)
+```
+
+```{r BIC Model}
+regfit_backward <- regsubsets(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth, data = economic_data, method="backward")
+
+sel_summary <- summary(regfit_backward)
+coef(regfit_backward, which.min(sel_summary$bic))
+```
+
+```{r adjr2 Model}
+sel_summary <- summary(regfit_backward)
+coef(regfit_backward, which.max(sel_summary$adjr2))
+```
+
+AIC: logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + Unemployment + GovSpendingCent + cat_inflationDangerouslyHigh + cat_inflationHigh + cat_inflationLow       
+    
+BIC: logGDP ~  TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflationDangerouslyHigh + cat_inflationHigh               
+
+adjR2: logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + Unemployment + cat_inflationDangerously High + cat_inflationHigh  
+
+From the final equations generated using different selection criteria, we see that all three selection criteria included TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth in the final model. cat_inflation is included in all three equations, though for BIC and adjR2, the level of low inflation is excluded. This is not surprising considering that the p-value of the cat_inflationLow coefficient is 0.9783542, implying that this coefficient is statistically insignificant. We will choose to include cat_inflation in the final model for the following reasons. One, a categorical variable with 4 levels require us to use 3 dummy variables. Removing one because it is insignificant will affect the coefficients of the other levels because the missing level has to be forcibly added to either of the three category. We will also not change the categories of inflation rates because the present classification references economic literature which generally suggests four levels of inflation rates: low, healthy, high, and dangerously high (hyperinflation). Two, we also note that the AIC coefficient for cat_inflationLow to be extremely small. This means that the regression model only made very minimal changes to fit the data categorized as Low inflation, thus we are not too concerned that the inclusion of this level will significantly impact the accuracy of the regression. Unemployment is only shown in the AIC equation while GovSpendingCent is included in both the AIC and adjR2 equations. We conduct a nested F test to finally decide if these two predictor variables are significant to the existing model.
+
+```{r Nested F for Unemployment and GovSpendingCent}
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + Unemployment + GovSpendingCent, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+According to prior economic knowledge, we know that unemployment and government spending tend to be 
+
+```{r VIF}
+tidy(vif(aic_model))
+```
 
 ### Final Model
 

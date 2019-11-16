@@ -3,14 +3,14 @@ What Makes a Strong GDP?
 Rtists
 11/14/2019
 
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ───────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-    ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
+    ## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -20,6 +20,52 @@ Rtists
     ## The following object is masked from 'package:stats':
     ## 
     ##     filter
+
+    ## 
+    ## Attaching package: 'magrittr'
+
+    ## The following object is masked from 'package:purrr':
+    ## 
+    ##     set_names
+
+    ## The following object is masked from 'package:tidyr':
+    ## 
+    ##     extract
+
+    ## 
+    ## Attaching package: 'knitr'
+
+    ## The following object is masked from 'package:skimr':
+    ## 
+    ##     kable
+
+    ## Loading required package: Hmisc
+
+    ## Loading required package: lattice
+
+    ## Loading required package: survival
+
+    ## Loading required package: Formula
+
+    ## 
+    ## Attaching package: 'Hmisc'
+
+    ## The following objects are masked from 'package:dplyr':
+    ## 
+    ##     src, summarize
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     format.pval, units
+
+    ## Loading required package: SparseM
+
+    ## 
+    ## Attaching package: 'SparseM'
+
+    ## The following object is masked from 'package:base':
+    ## 
+    ##     backsolve
 
 Your regression analysis results go here. At a minimum, the regression
 analysis should include the following:
@@ -100,9 +146,73 @@ them out of the model.
     ## 11 Syria        
     ## 12 Yemen
 
-Now that the data has been cleaned, we can begin exploring our predictor
-variables. We will now look at each of the 12 predictor variables that
-we will use to predict GDP, starting with `TaxBurden`.
+### Response Variable
+
+Now that the data has been cleaned, we can begin exploring our response
+variable.
+
+![](regression-analysis_files/figure-gfm/gdp-vis-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
+    ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of GDP shows significant right skew, which is
+reasonable and expected as the world has countries such as the US and
+China who, due to their population and industrial advantages, have
+significantly greater GDP’s than the average country. We will now show a
+graph of GDP with some of these influential points
+    removed.
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](regression-analysis_files/figure-gfm/GDP%20without%20Outlier-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
+    ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of GDP is unimodal and right-skewed. Since the media
+and interquartile range are less influenced by outliers, we report them
+as measures of center and spread. The median of the distribution is 88.9
+billion and the interquartile range is 411.3. THe values are in billions
+of dollars.
+
+This calls for a log-transform of the response variable, whose
+distribution is visualized below:
+
+![](regression-analysis_files/figure-gfm/log-gdp-vis-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100     hist
+    ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05 ▁▃▅▇▆▅▂▁
+
+This distribution of logGDP is normal and unimodal. We will likely use
+this as our response variable. Since there is minimal skewing and the
+distribution is generally symmetric, we report the mean and standard
+deviation as measures of center and spread. The mean logGDP is 4.61 and
+the standard deviation of its distribution is 2.08.
+
+### Predictor Variables
+
+We will now look at each of the 12 predictor variables that we will use
+to predict GDP, starting with `TaxBurden`.
 
 ![](regression-analysis_files/figure-gfm/Tax%20Burden-1.png)<!-- -->
 
@@ -110,11 +220,9 @@ we will use to predict GDP, starting with `TaxBurden`.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
-    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
-    ##      hist
-    ##  ▂▅▇▆▅▅▂▂
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100     hist
+    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47 ▂▅▇▆▅▅▂▂
 
 `TaxBurden` represents the amount of tax paid by the citizens of a
 country as a proportion of the GDP of that country. The distribution of
@@ -130,11 +238,9 @@ deviation of the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
-    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
-    ##      hist
-    ##  ▂▇▇▇▇▃▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100     hist
+    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2 ▂▇▇▇▇▃▁▁
 
 `GovSpending` represents the amount spent by the government as a
 percentage of the GDP of the country. The distribution of government
@@ -152,11 +258,9 @@ spending is 33.87 and the distribution has a standard deviation of
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
-    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
-    ##      hist
-    ##  ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100     hist
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1 ▇▁▁▁▁▁▁▁
 
 `Population` represents the number of individuals living in a country.
 The distribution of population is unimodal and right-skewed. Because
@@ -170,11 +274,9 @@ below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
-    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
-    ##      hist
-    ##  ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100     hist
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1 ▇▁▁▁▁▁▁▁
 
 The distribution of population is unimodal and right-skewed. The mode of
 the distribution is around 1 million. Since the median and IQR are more
@@ -200,7 +302,7 @@ more linear relationship with GDP.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -220,11 +322,9 @@ IQR is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
-    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
-    ##      hist
-    ##  ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100     hist
+    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5 ▇▁▁▁▁▁▁▁
 
 `Inflation` represents the change in prices of goods and services in a
 year in the country. The first distribution of inflation rates includes
@@ -270,7 +370,7 @@ because government interference is a categorical variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -289,11 +389,9 @@ necessary.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
-    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
-    ##      hist
-    ##  ▂▅▂▇▇▅▂▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100     hist
+    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60 ▂▅▂▇▇▅▂▁
 
 `IncomeTaxRate` represents the average tax rate applied to individuals
 on their incomes. The distribution of income tax rate is unimodal and
@@ -312,11 +410,9 @@ the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
-    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
-    ##      hist
-    ##  ▁▂▂▇▆▂▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100     hist
+    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50 ▁▂▂▇▆▂▁▁
 
 `CorporateTaxRate` represents the average tax rate applied to
 corporations on their revenues. The distribution of corporate tax rate
@@ -331,11 +427,9 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
-    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
-    ##      hist
-    ##  ▃▇▃▂▁▁▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100     hist
+    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4 ▃▇▃▂▁▁▁▁
 
 `PublicDebt` represents the debt of the country as a percentage of the
 country’s GDP. The distribution of public debt is unimodal and right
@@ -343,42 +437,49 @@ skewed. There are several outliers with public debt more than 175%. The
 mode of the distribution is around 30%. The median public debt is 49.4%
 and the interquartile range is 35%.
 
-    ## # A tibble: 5 x 2
-    ## # Groups:   cat_inflation [5]
+    ## # A tibble: 4 x 2
+    ## # Groups:   cat_inflation [4]
     ##   cat_inflation        n
     ##   <chr>            <int>
     ## 1 Dangerously High    39
-    ## 2 Deflation            5
-    ## 3 Healthy             62
-    ## 4 High                42
-    ## 5 Low                 25
+    ## 2 Healthy             62
+    ## 3 High                42
+    ## 4 Low                 30
+
+![](regression-analysis_files/figure-gfm/inflation-categorize-1.png)<!-- -->
 
     ## Skim summary statistics
     ##  n obs: 173 
-    ##  n variables: 17 
+    ##  n variables: 18 
     ## 
-    ## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────
     ##         variable missing complete   n min max empty n_unique
-    ##    cat_inflation       0      173 173   3  16     0        5
     ##          Country       0      173 173   4  32     0      173
     ##  GovInterference       0      173 173   7  10     0        4
     ##           Region       0      173 173   6  28     0        5
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##          variable missing complete   n     mean       sd    p0     p25
-    ##  CorporateTaxRate       0      173 173    23.95     8.89   0     20   
-    ##               GDP       0      173 173   729.71  2486.04   0.6   28.3 
-    ##         GDPGrowth       0      173 173     3.27     2.75 -14      2   
-    ##         GDPperCap       0      173 173 21333.3  22707.37 677   4729   
-    ##       GovSpending       0      173 173    32.2     10.67  10.6   23.6 
-    ##     IncomeTaxRate       0      173 173    28.78    13.32   0     20   
-    ##         Inflation       0      173 173    10.87    82.56  -0.9    1.3 
-    ##            logpop       0      173 173     2.16     1.8   -2.3    1.06
-    ##        Population       0      173 173    42.16   149.89   0.1    2.9 
-    ##        PublicDebt       0      173 173    56.46    33.8    0     35.2 
-    ##        TariffRate       0      173 173     5.61     4.4    0      2   
-    ##         TaxBurden       0      173 173    22.19    10.25   1.6   14   
-    ##      Unemployment       0      173 173     7.27     5.67   0.1    3.7 
+    ## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n n_unique                         top_counts
+    ##  cat_inflation       0      173 173        4 Hea: 62, Hig: 42, Dan: 39, Low: 30
+    ##  ordered
+    ##    FALSE
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n     mean       sd     p0     p25
+    ##  CorporateTaxRate       0      173 173    23.95     8.89   0      20   
+    ##               GDP       0      173 173   729.71  2486.04   0.6    28.3 
+    ##         GDPGrowth       0      173 173     3.27     2.75 -14       2   
+    ##         GDPperCap       0      173 173 21333.3  22707.37 677    4729   
+    ##       GovSpending       0      173 173    32.2     10.67  10.6    23.6 
+    ##     IncomeTaxRate       0      173 173    28.78    13.32   0      20   
+    ##         Inflation       0      173 173    10.87    82.56  -0.9     1.3 
+    ##            logGDP       0      173 173     4.61     2.08  -0.51    3.34
+    ##            logpop       0      173 173     2.16     1.8   -2.3     1.06
+    ##        Population       0      173 173    42.16   149.89   0.1     2.9 
+    ##        PublicDebt       0      173 173    56.46    33.8    0      35.2 
+    ##        TariffRate       0      173 173     5.61     4.4    0       2   
+    ##         TaxBurden       0      173 173    22.19    10.25   1.6    14   
+    ##      Unemployment       0      173 173     7.27     5.67   0.1     3.7 
     ##       p50      p75      p100     hist
     ##     25       30        50    ▁▂▂▇▆▂▁▁
     ##     88.9    439.6   23159.1  ▇▁▁▁▁▁▁▁
@@ -387,6 +488,7 @@ and the interquartile range is 35%.
     ##     31.6     39.8      64.2  ▂▇▇▇▇▃▁▁
     ##     30       35        60    ▂▅▂▇▇▅▂▁
     ##      2.8      5.5    1087.5  ▇▁▁▁▁▁▁▁
+    ##      4.49     6.09     10.05 ▁▃▅▇▆▅▂▁
     ##      2.25     3.45      7.24 ▁▃▃▇▆▃▁▁
     ##      9.5     31.4    1390.1  ▇▁▁▁▁▁▁▁
     ##     49.4     69.9     236.4  ▃▇▃▂▁▁▁▁
@@ -395,6 +497,151 @@ and the interquartile range is 35%.
     ##      5.5      9.3      27.3  ▆▇▅▂▁▁▁▁
 
 ### Methods & Modelling
+
+    ## Start:  AIC=-47.56
+    ## logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + 
+    ##     PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + 
+    ##     TaxBurdenCent + GDPGrowth
+    ## 
+    ##                    Df Sum of Sq    RSS     AIC
+    ## - PublicDebt        1      0.42 113.50 -48.923
+    ## - IncomeTaxRate     1      0.74 113.82 -48.431
+    ## <none>                          113.08 -47.562
+    ## - GovSpendingCent   1      2.27 115.35 -46.125
+    ## - Unemployment      1      2.54 115.62 -45.712
+    ## - CorporateTaxRate  1      8.38 121.46 -37.197
+    ## - cat_inflation     3     11.96 125.04 -36.166
+    ## - TaxBurdenCent     1      9.67 122.75 -35.361
+    ## - GDPGrowth         1     15.35 128.43 -27.537
+    ## - TariffRate        1     22.68 135.76 -17.940
+    ## - logpop            1    457.55 570.63 230.465
+    ## 
+    ## Step:  AIC=-48.92
+    ## logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + 
+    ##     GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + 
+    ##     GDPGrowth
+    ## 
+    ##                    Df Sum of Sq    RSS     AIC
+    ## - IncomeTaxRate     1      0.62 114.11 -49.984
+    ## <none>                          113.50 -48.923
+    ## - GovSpendingCent   1      2.14 115.64 -47.684
+    ## - Unemployment      1      2.27 115.77 -47.491
+    ## - CorporateTaxRate  1      8.54 122.04 -38.368
+    ## - cat_inflation     3     12.06 125.55 -37.455
+    ## - TaxBurdenCent     1      9.81 123.31 -36.576
+    ## - GDPGrowth         1     15.32 128.82 -29.014
+    ## - TariffRate        1     22.29 135.78 -19.904
+    ## - logpop            1    461.19 574.69 229.693
+    ## 
+    ## Step:  AIC=-49.98
+    ## logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + 
+    ##     GovSpendingCent + CorporateTaxRate + TaxBurdenCent + GDPGrowth
+    ## 
+    ##                    Df Sum of Sq    RSS     AIC
+    ## <none>                          114.11 -49.984
+    ## - GovSpendingCent   1      1.98 116.10 -49.002
+    ## - Unemployment      1      2.10 116.21 -48.837
+    ## - cat_inflation     3     11.44 125.56 -39.453
+    ## - TaxBurdenCent     1      9.49 123.60 -38.163
+    ## - GDPGrowth         1     15.05 129.16 -30.555
+    ## - CorporateTaxRate  1     16.53 130.64 -28.584
+    ## - TariffRate        1     23.14 137.26 -20.039
+    ## - logpop            1    510.45 624.56 242.090
+
+| term                           |    estimate | std.error |   statistic |   p.value |    conf.low |   conf.high |
+| :----------------------------- | ----------: | --------: | ----------: | --------: | ----------: | ----------: |
+| (Intercept)                    |   4.6907537 | 0.2756796 |  17.0152344 | 0.0000000 |   4.1463648 |   5.2351427 |
+| TariffRate                     | \-0.0963879 | 0.0168162 | \-5.7318361 | 0.0000000 | \-0.1295952 | \-0.0631806 |
+| logpop                         |   1.0495934 | 0.0389904 |  26.9193045 | 0.0000000 |   0.9725985 |   1.1265883 |
+| Unemployment                   | \-0.0223660 | 0.0129689 | \-1.7245935 | 0.0865081 | \-0.0479759 |   0.0032438 |
+| cat\_inflationDangerously High | \-0.6621879 | 0.1924214 | \-3.4413429 | 0.0007364 | \-1.0421654 | \-0.2822104 |
+| cat\_inflationHigh             | \-0.4574688 | 0.1802102 | \-2.5385286 | 0.0120748 | \-0.8133327 | \-0.1016048 |
+| cat\_inflationLow              |   0.0052852 | 0.1944943 |   0.0271743 | 0.9783542 | \-0.3787857 |   0.3893562 |
+| GovSpendingCent                | \-0.0176033 | 0.0104889 | \-1.6782754 | 0.0952214 | \-0.0383160 |   0.0031093 |
+| CorporateTaxRate               | \-0.0405577 | 0.0083728 | \-4.8439745 | 0.0000030 | \-0.0570916 | \-0.0240238 |
+| TaxBurdenCent                  |   0.0405295 | 0.0110418 |   3.6705696 | 0.0003282 |   0.0187252 |   0.0623338 |
+| GDPGrowth                      | \-0.1242708 | 0.0268870 | \-4.6219609 | 0.0000077 | \-0.1773651 | \-0.0711766 |
+
+    ##                   (Intercept)                    TariffRate 
+    ##                    4.33280295                   -0.09611387 
+    ##                        logpop cat_inflationDangerously High 
+    ##                    1.05841583                   -0.72166023 
+    ##             cat_inflationHigh              CorporateTaxRate 
+    ##                   -0.48672687                   -0.03596846 
+    ##                 TaxBurdenCent                     GDPGrowth 
+    ##                    0.02364809                   -0.09788876
+
+    ##                   (Intercept)                    TariffRate 
+    ##                    4.46682869                   -0.09495813 
+    ##                        logpop                  Unemployment 
+    ##                    1.05108391                   -0.01767904 
+    ## cat_inflationDangerously High             cat_inflationHigh 
+    ##                   -0.66991672                   -0.45045459 
+    ##              CorporateTaxRate                 TaxBurdenCent 
+    ##                   -0.03568516                    0.02722611 
+    ##                     GDPGrowth 
+    ##                   -0.10505194
+
+AIC: logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent +
+GDPGrowth + Unemployment + GovSpendingCent +
+cat\_inflationDangerouslyHigh + cat\_inflationHigh + cat\_inflationLow
+
+BIC: logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent +
+GDPGrowth + cat\_inflationDangerouslyHigh + cat\_inflationHigh
+
+adjR2: logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent +
+GDPGrowth + Unemployment + cat\_inflationDangerously High +
+cat\_inflationHigh
+
+From the final equations generated using different selection criteria,
+we see that all three selection criteria included TariffRate + logpop +
+CorporateTaxRate + TaxBurdenCent + GDPGrowth in the final model.
+cat\_inflation is included in all three equations, though for BIC and
+adjR2, the level of low inflation is excluded. This is not surprising
+considering that the p-value of the cat\_inflationLow coefficient is
+0.9783542, implying that this coefficient is statistically
+insignificant. We will choose to include cat\_inflation in the final
+model for the following reasons. One, a categorical variable with 4
+levels require us to use 3 dummy variables. Removing one because it is
+insignificant will affect the coefficients of the other levels because
+the missing level has to be forcibly added to either of the three
+category. We will also not change the categories of inflation rates
+because the present classification references economic literature which
+generally suggests four levels of inflation rates: low, healthy, high,
+and dangerously high (hyperinflation). Two, we also note that the AIC
+coefficient for cat\_inflationLow to be extremely small. This means that
+the regression model only made very minimal changes to fit the data
+categorized as Low inflation, thus we are not too concerned that the
+inclusion of this level will significantly impact the accuracy of the
+regression. Unemployment is only shown in the AIC equation while
+GovSpendingCent is included in both the AIC and adjR2 equations. We
+conduct a nested F test to finally decide if these two predictor
+variables are significant to the existing model.
+
+| Res.Df |     RSS | Df | Sum of Sq |     F | Pr(\>F) |
+| -----: | ------: | -: | --------: | ----: | ------: |
+|    164 | 117.472 | NA |        NA |    NA |      NA |
+|    162 | 114.114 |  2 |     3.358 | 2.383 |   0.095 |
+
+According to prior economic knowledge, we know that unemployment and
+government spending tend to be
+
+    ## Warning: 'tidy.numeric' is deprecated.
+    ## See help("Deprecated")
+
+    ## # A tibble: 10 x 2
+    ##    names                             x
+    ##    <chr>                         <dbl>
+    ##  1 TariffRate                     1.33
+    ##  2 logpop                         1.20
+    ##  3 Unemployment                   1.32
+    ##  4 cat_inflationDangerously High  1.59
+    ##  5 cat_inflationHigh              1.47
+    ##  6 cat_inflationLow               1.33
+    ##  7 GovSpendingCent                3.06
+    ##  8 CorporateTaxRate               1.35
+    ##  9 TaxBurdenCent                  3.13
+    ## 10 GDPGrowth                      1.34
 
 ### Final Model
 
