@@ -375,22 +375,60 @@ BIC: logGDP ~  TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowt
 
 adjR2: logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + Unemployment + cat_inflationDangerously High + cat_inflationHigh  
 
-From the final equations generated using different selection criteria, we see that all three selection criteria included TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth in the final model. cat_inflation is included in all three equations, though for BIC and adjR2, the level of low inflation is excluded. This is not surprising considering that the p-value of the cat_inflationLow coefficient is 0.9783542, implying that this coefficient is statistically insignificant. We will choose to include cat_inflation in the final model for the following reasons. One, a categorical variable with 4 levels require us to use 3 dummy variables. Removing one because it is insignificant will affect the coefficients of the other levels because the missing level has to be forcibly added to either of the three category. We will also not change the categories of inflation rates because the present classification references economic literature which generally suggests four levels of inflation rates: low, healthy, high, and dangerously high (hyperinflation). Two, we also note that the AIC coefficient for cat_inflationLow to be extremely small. This means that the regression model only made very minimal changes to fit the data categorized as Low inflation, thus we are not too concerned that the inclusion of this level will significantly impact the accuracy of the regression. Unemployment is only shown in the AIC equation while GovSpendingCent is included in both the AIC and adjR2 equations. We conduct a nested F test to finally decide if these two predictor variables are significant to the existing model.
+From the final equations generated using different selection criteria, we see that all three selection criteria included TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth in the final model. cat_inflation is included in all three equations, though for BIC and adjR2, the level of low inflation is excluded. This is not surprising considering that the p-value of the cat_inflationLow coefficient is 0.9783542, implying that this coefficient is statistically insignificant. We will choose to include cat_inflation in the final model for the following reasons. One, a categorical variable with 4 levels require us to use 3 dummy variables. Removing one because it is insignificant will affect the coefficients of the other levels because the missing level has to be forcibly added to either of the three category. We will also not change the categories of inflation rates because the present classification references economic literature which generally suggests four levels of inflation rates: low, healthy, high, and dangerously high (hyperinflation). Two, we also note that the AIC coefficient for cat_inflationLow to be extremely small. This means that the regression model only made very minimal changes to fit the data categorized as Low inflation, thus we are not too concerned that the inclusion of this level will significantly impact the accuracy of the regression. 
 
-```{r Nested F for Unemployment and GovSpendingCent}
+Unemployment is only shown in the AIC equation while GovSpendingCent is included in both the AIC and adjR2 equations. We conduct a nested F test to finally decide if these two predictor variables are significant to the existing model.
+
+```{r Nested F for Unemployment}
 reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + Unemployment + GovSpendingCent, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + Unemployment, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+```{r Nested F for GovSpendingCent}
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + GovSpendingCent, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
-According to prior economic knowledge, we know that unemployment and government spending tend to be 
+As observed in the individual nested F tests of GovSpendingCent and Unemployment, both variables have relatively high p-values. This means that both predictor variables are not statistically significant predictors. We also do not accord them high practical significance for the following reasons. While unemployment does affect and is affected by gdp growth rate, it theoretically may not have considerable impact on GDP (GDP is a stock concept, gdp growth is a flow concept). This is not surprising since countries with high GDP may have high or low unemployment depending on their respective trajectories in the business cycle. The role of government spending is also highly contested in economic literature. That it is not a significant determinant of GDP reflect this ambuiguity in academic literature.
 
-```{r VIF}
-tidy(vif(aic_model))
+```{r Nested F for interaction GDPGrowth}
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*GDPGrowth, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+```{r Nested F for interaction TaxBurdenCent}
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*CorporateTaxRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+```{r Nested F for interaction CorporateTaxRate}
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*CorporateTaxRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+```{r Nested F for interaction logpop}
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*logpop, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+```{r Nested F for interaction TariffRate}
+reduced <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation + cat_inflation*TariffRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 ### Final Model
 
+```{r Final Model}
+final_model <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data=economic_data)
+kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
+```
+```{r VIF}
+tidy(vif(final_model))
+```
 #### Create the model
 
 #### Model Diagnostics
