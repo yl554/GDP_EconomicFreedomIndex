@@ -427,10 +427,8 @@ final_model <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCen
 kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
 ```
 
-#### Create the model
 
 #### Model Diagnostics
-(influential points, leverage points)
 After we have the model built up, the next task is to examine the model assumptions: linearity, constant variance, normality, and independence. We can see from the scatterplot matrix of response variable vs. every predictor variable that there is indeed some linear relationship between them after twe take log transformation of suspicious variables like population. So, the linearity assumption is satisfied. Now we plot the residuals to check for constant variance assumption.
 
 ```{r residual vs. predicted}
@@ -548,8 +546,5 @@ tidy(vif(final_model))
 
 There doesn’t seem to be any multicollinearity in this model because the variance inflation factors are all below 10.
 
-### Discusson of Assumptions
-
 ### Interpretation and Other Interesting Findings
 
-### Additional Information
