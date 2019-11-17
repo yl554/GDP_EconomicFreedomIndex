@@ -1237,25 +1237,6 @@ cat\_inflationLow
 
 </table>
 
-``` r
-tidy(vif(final_model))
-```
-
-    ## Warning: 'tidy.numeric' is deprecated.
-    ## See help("Deprecated")
-
-    ## # A tibble: 8 x 2
-    ##   names                             x
-    ##   <chr>                         <dbl>
-    ## 1 TariffRate                     1.33
-    ## 2 logpop                         1.18
-    ## 3 CorporateTaxRate               1.19
-    ## 4 TaxBurdenCent                  1.33
-    ## 5 GDPGrowth                      1.05
-    ## 6 cat_inflationDangerously High  1.53
-    ## 7 cat_inflationHigh              1.44
-    ## 8 cat_inflationLow               1.33
-
 #### Create the model
 
 #### Model Diagnostics
@@ -1306,9 +1287,56 @@ assumption.
 
     ## [1] 8
 
+    ## # A tibble: 8 x 2
+    ##   obs_num     .cooksd
+    ##     <int>       <dbl>
+    ## 1      10 0.0482     
+    ## 2      33 0.00276    
+    ## 3      37 0.0308     
+    ## 4      47 0.000000126
+    ## 5      52 0.0583     
+    ## 6      96 0.173      
+    ## 7     136 0.00298    
+    ## 8     170 0.00841
+
 ![](regression-analysis_files/figure-gfm/cook%20distace-1.png)<!-- -->
 
+There are 8 points with high leverage, but among all those points, none
+of them has cook distance larger than 1. So, they don’t have significant
+influence on model
+coefficients.
+
 ![](regression-analysis_files/figure-gfm/standardized%20residuals-1.png)<!-- -->
+
+    ## [1] 8
+
+There are 8 observations that are considered to have large standardized
+residues with large magnitudes. If ploted the distribution of
+standardized residuals using a N(0,1) distribution, we can expect 8/173
+= 4.62% of the observations have standardized residues with magnitude \>
+2.
+
+``` r
+tidy(vif(final_model))
+```
+
+    ## Warning: 'tidy.numeric' is deprecated.
+    ## See help("Deprecated")
+
+    ## # A tibble: 8 x 2
+    ##   names                             x
+    ##   <chr>                         <dbl>
+    ## 1 TariffRate                     1.33
+    ## 2 logpop                         1.18
+    ## 3 CorporateTaxRate               1.19
+    ## 4 TaxBurdenCent                  1.33
+    ## 5 GDPGrowth                      1.05
+    ## 6 cat_inflationDangerously High  1.53
+    ## 7 cat_inflationHigh              1.44
+    ## 8 cat_inflationLow               1.33
+
+There doesn’t seem to be any multicollinearity in this model because the
+variance inflation factors are all below 10.
 
 ### Discusson of Assumptions
 

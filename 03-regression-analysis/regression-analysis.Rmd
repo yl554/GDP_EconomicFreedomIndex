@@ -426,9 +426,7 @@ kable(anova(reduced, full), format="markdown", digits = 3)
 final_model <- lm(logGDP ~ TariffRate + logpop + CorporateTaxRate + TaxBurdenCent + GDPGrowth + cat_inflation, data=economic_data)
 kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
 ```
-```{r VIF, echo=TRUE}
-tidy(vif(final_model))
-```
+
 #### Create the model
 
 #### Model Diagnostics
@@ -515,6 +513,9 @@ ggplot(data = economic_data_aug, aes(x = obs_num ,y = .hat)) +
   geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
 
 nrow(economic_data_aug %>% filter(.hat > leverage_threshold))
+
+economic_data_aug %>% filter(.hat > leverage_threshold) %>%
+  select(obs_num, .cooksd)
 ```
 
 ```{r cook distace}
@@ -525,6 +526,8 @@ ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) +
   geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
 ```
 
+There are 8 points with high leverage, but among all those points, none of them has cook distance larger than 1. So, they don’t have significant influence on model coefficients.
+
 ```{r standardized residuals}
 ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
   geom_point(alpha = 0.7) + 
@@ -533,10 +536,17 @@ ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
   geom_hline(yintercept = 2,color = "red",linetype = "dotted") +
   labs(x ="Predicted Value",y ="Standardized Residuals",title = "Standardized Residuals vs. Predicted") +
   geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)
+
+nrow(economic_data_aug %>% filter(abs(.std.resid) > 2))
 ```
 
-```{r }
+There are 8 observations that are considered to have large standardized residues with large magnitudes. If ploted the distribution of standardized residuals using a N(0,1) distribution, we can expect 8/173 = 4.62% of the observations have standardized residues with magnitude > 2.
+
+```{r VIF, echo=TRUE}
+tidy(vif(final_model))
 ```
+
+There doesn’t seem to be any multicollinearity in this model because the variance inflation factors are all below 10.
 
 ### Discusson of Assumptions
 
