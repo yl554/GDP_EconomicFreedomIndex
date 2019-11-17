@@ -75,7 +75,7 @@ Now that the data has been cleaned, we can begin exploring our response variable
 
 ```{r gdp-vis}
 ggplot(data = economic_data, mapping = aes(x = GDP)) +
-  geom_histogram(binwidth = 1000, fill = "cornflowerblue") +
+  geom_histogram(binwidth = 1000, fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
        title = "Distribution of GDPs")
@@ -91,7 +91,7 @@ The distribution of GDP shows significant right skew, which is reasonable and ex
 economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
 
 ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
-  geom_histogram(fill = "cornflowerblue") +
+  geom_histogram(fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
        title = "Distribution of GDPs")
@@ -107,7 +107,7 @@ This calls for a log-transform of the response variable, whose distribution is v
 
 ```{r log-gdp-vis}
 ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
-  geom_histogram(binwidth = 1, fill = "cornflowerblue") +
+  geom_histogram(binwidth = 1, fill = "forestgreen") +
   labs(x = "log(GDP)",
        y = "Frequency",
        title = "Distribution of log-GDPs")
@@ -128,7 +128,7 @@ We will now look at each of the 12 predictor variables that we will use to predi
 
 ```{r Tax Burden}
 ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
-  geom_histogram(binwidth = 2, fill = "cornflowerblue") + 
+  geom_histogram(binwidth = 2, fill = "forestgreen") + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Tax Burden")
@@ -142,7 +142,7 @@ skim()
 
 ```{r Government Spending}
 ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
-  geom_histogram(binwidth = 3, fill = "cornflowerblue") + 
+  geom_histogram(binwidth = 3, fill = "forestgreen") + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Government Spending")
@@ -156,7 +156,7 @@ skim()
 
 ```{r Population}
 ggplot(data = economic_data, mapping = aes(x = Population)) +
-  geom_histogram(binwidth = 40, fill = "cornflowerblue") + 
+  geom_histogram(binwidth = 40, fill = "forestgreen") + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
@@ -172,7 +172,7 @@ skim()
 economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
 
 ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
-  geom_histogram(binwidth = 10, fill = "cornflowerblue") + 
+  geom_histogram(binwidth = 10, fill = "forestgreen") + 
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")
@@ -189,7 +189,7 @@ economic_data <- economic_data %>%
   mutate(logpop=log(Population))
 
 ggplot(data=economic_data, aes(x=logpop)) +
-  geom_histogram(fill = "cornflowerblue") +
+  geom_histogram(fill = "forestgreen") +
   labs(title="Distribution of logpop", x="Log(Population)")
 ```
 
@@ -197,7 +197,7 @@ Based on the above plot, the logarithmic transformation has been successful in n
 
 ```{r Unemployment}
 ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
-  geom_histogram(binwidth = 1, fill = "cornflowerblue") + 
+  geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Unemployment (%)",
        y = "Frequency",
        title = "Distribution of Unemployment")
@@ -211,14 +211,14 @@ skim()
 
 ```{r Inflation}
 ggplot(data = economic_data, mapping = aes(x = Inflation)) +
-  geom_histogram(fill = "cornflowerblue") + 
+  geom_histogram(fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation")
 
 economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
 ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
-  geom_histogram(binwidth = 1, fill = "cornflowerblue") + 
+  geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation without Outlier")
@@ -238,7 +238,7 @@ regional <- economic_data %>%
   mutate(prop = n*100/nrow(economic_data))
 
 ggplot(data = economic_data, mapping = aes(x = Region)) +
-  geom_bar(fill = "cornflowerblue") + 
+  geom_bar(fill = "forestgreen") + 
   labs(x = "Region",
        y = "Frequency",
        title = "Distribution of Region")
@@ -253,7 +253,7 @@ ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
 
 ```{r Government Interference}
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
-  geom_bar(fill = "cornflowerblue") +
+  geom_bar(fill = "forestgreen") +
   labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
 ```
 
@@ -261,7 +261,7 @@ ggplot(mapping = aes(x = GovInterference), data = economic_data) +
 
 ```{r Tariff Rate}
 ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
-  geom_histogram(binwidth = 1, fill = "cornflowerblue") +
+  geom_histogram(binwidth = 1, fill = "forestgreen") +
   labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 
 economic_data %>%
@@ -273,7 +273,7 @@ economic_data %>%
 
 ```{r Income Tax Rate}
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
-  geom_histogram(binwidth = 5, fill = "cornflowerblue") +
+  geom_histogram(binwidth = 5, fill = "forestgreen") +
   labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
 
 economic_data %>%
@@ -285,7 +285,7 @@ economic_data %>%
 
 ```{r Corporate Tax Rate}
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
-geom_histogram(binwidth = 4, fill = "cornflowerblue") +
+geom_histogram(binwidth = 4, fill = "forestgreen") +
 labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
 
 economic_data %>%
@@ -297,7 +297,7 @@ skim()
 
 ```{r Public Debt}
 ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
-  geom_histogram(binwidth = 8, fill = "cornflowerblue") + 
+  geom_histogram(binwidth = 8, fill = "forestgreen") + 
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
        title = "Distribution of Public Debt")
@@ -326,7 +326,7 @@ economic_data <- economic_data %>%
 
 economic_data %>%
 ggplot(mapping = aes(x = cat_inflation, y = logGDP)) +
-  geom_boxplot(position="dodge")
+  geom_boxplot(position="dodge",fill="forestgreen")
 
 skim(economic_data)
 ```
