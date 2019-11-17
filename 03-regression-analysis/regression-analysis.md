@@ -232,9 +232,9 @@ to predict GDP, starting with `TaxBurden`.
 country as a proportion of the GDP of that country. The distribution of
 tax burden is unimodal and only slightly right skewed. The mode is
 around 14-15%. In general, the tax burden across countries appears
-normally distributed. The mean tax burden is 22.19 and the standard
+normally distributed. The mean tax burden is 22.19% and the standard
 deviation of the distribution is
-10.17.
+10.17%.
 
 ![](regression-analysis_files/figure-gfm/Government%20Spending-1.png)<!-- -->
 
@@ -250,13 +250,10 @@ deviation of the distribution is
 
 `GovSpending` represents the amount spent by the government as a
 percentage of the GDP of the country. The distribution of government
-spending is generally symmmetric and unimodal. There are several
-outliers which have significantly higher government spending: with
-government spending either equal to or more than 100% of the country’s
-GDP. The mode of the distribution is around 25%. Since there is minimal
-skewing, we report the mean and standard deviation. The mean government
-spending is 33.87 and the distribution has a standard deviation of
-15.52.
+spending is generally symmmetric and unimodal. The mode of the
+distribution is around 25%. Since there is minimal skewing, we report
+the mean and standard deviation. The mean government spending is 33.87%
+of GDP and the distribution has a standard deviation of 15.52%.
 
 ![](regression-analysis_files/figure-gfm/Population-1.png)<!-- -->
 
@@ -303,7 +300,7 @@ apply a logarithmic transform to population
 ![](regression-analysis_files/figure-gfm/logpop-1.png)<!-- -->
 
 Based on the above plot, the logarithmic transformation has been
-successful in normalizing the population variable as well as creating a
+successful in normalizing the population variable, which should allow a
 more linear relationship with GDP.
 
 ![](regression-analysis_files/figure-gfm/Unemployment-1.png)<!-- -->
@@ -338,6 +335,17 @@ IQR is
     ##      hist
     ##  ▇▁▁▁▁▁▁▁
 
+    ## # A tibble: 4 x 2
+    ## # Groups:   cat_inflation [4]
+    ##   cat_inflation        n
+    ##   <chr>            <int>
+    ## 1 Dangerously High    39
+    ## 2 Healthy             62
+    ## 3 High                42
+    ## 4 Low                 30
+
+![](regression-analysis_files/figure-gfm/inflation-categorize-1.png)<!-- -->
+
 `Inflation` represents the change in prices of goods and services in a
 year in the country. The first distribution of inflation rates includes
 all outliers. Because of the size and resolution of the diagram, the
@@ -347,9 +355,11 @@ the distribution of inflation rates without the outlier with more than
 unimodal and right skewed. The mode of the distribution is around 2%.
 Given significant skewing, we report the median and IQR as measures of
 center and spread. The median inflation rate is 2.7% and the IQR is 4%.
-Because of this skew, we may need to log-transform this variable as well
-to get its distribution to be more
-normal.
+Because inflation can vary widely between countries, we have recoded it
+into a categorical variable that better captures whether a country’s
+inflation is healthy or unhealthy. Above is a plot to show the frequency
+of each level of
+inflation.
 
 ![](regression-analysis_files/figure-gfm/Region-1.png)<!-- -->![](regression-analysis_files/figure-gfm/Region-2.png)<!-- -->
 
@@ -392,8 +402,9 @@ generally right skewed and unimodal. There are several outlier economies
 with 50% tariff rate such as Central African Republic and North Korea.
 The mode of the distribution is around 2%. The median tariff rate is 4.3
 and the interquartile range of the distribution is 6.7. Because of this
-right-skew, log-transforming this variable might be
-necessary.
+right-skew, log-transforming this variable might be necessary; we will
+examine it further in a pairs plot later in the
+analysis.
 
 ![](regression-analysis_files/figure-gfm/Income%20Tax%20Rate-1.png)<!-- -->
 
@@ -455,64 +466,8 @@ skewed. There are several outliers with public debt more than 175%. The
 mode of the distribution is around 30%. The median public debt is 49.4%
 and the interquartile range is 35%.
 
-    ## # A tibble: 4 x 2
-    ## # Groups:   cat_inflation [4]
-    ##   cat_inflation        n
-    ##   <chr>            <int>
-    ## 1 Dangerously High    39
-    ## 2 Healthy             62
-    ## 3 High                42
-    ## 4 Low                 30
-
-![](regression-analysis_files/figure-gfm/inflation-categorize-1.png)<!-- -->
-
-    ## Skim summary statistics
-    ##  n obs: 173 
-    ##  n variables: 18 
-    ## 
-    ## ── Variable type:character ──────────────────────────────────────────────────────────────────────────────────────
-    ##         variable missing complete   n min max empty n_unique
-    ##          Country       0      173 173   4  32     0      173
-    ##  GovInterference       0      173 173   7  10     0        4
-    ##           Region       0      173 173   6  28     0        5
-    ## 
-    ## ── Variable type:factor ─────────────────────────────────────────────────────────────────────────────────────────
-    ##       variable missing complete   n n_unique
-    ##  cat_inflation       0      173 173        4
-    ##                          top_counts ordered
-    ##  Hea: 62, Hig: 42, Dan: 39, Low: 30   FALSE
-    ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
-    ##          variable missing complete   n     mean       sd     p0     p25
-    ##  CorporateTaxRate       0      173 173    23.95     8.89   0      20   
-    ##               GDP       0      173 173   729.71  2486.04   0.6    28.3 
-    ##         GDPGrowth       0      173 173     3.27     2.75 -14       2   
-    ##         GDPperCap       0      173 173 21333.3  22707.37 677    4729   
-    ##       GovSpending       0      173 173    32.2     10.67  10.6    23.6 
-    ##     IncomeTaxRate       0      173 173    28.78    13.32   0      20   
-    ##         Inflation       0      173 173    10.87    82.56  -0.9     1.3 
-    ##            logGDP       0      173 173     4.61     2.08  -0.51    3.34
-    ##            logpop       0      173 173     2.16     1.8   -2.3     1.06
-    ##        Population       0      173 173    42.16   149.89   0.1     2.9 
-    ##        PublicDebt       0      173 173    56.46    33.8    0      35.2 
-    ##        TariffRate       0      173 173     5.61     4.4    0       2   
-    ##         TaxBurden       0      173 173    22.19    10.25   1.6    14   
-    ##      Unemployment       0      173 173     7.27     5.67   0.1     3.7 
-    ##       p50      p75      p100     hist
-    ##     25       30        50    ▁▂▂▇▆▂▁▁
-    ##     88.9    439.6   23159.1  ▇▁▁▁▁▁▁▁
-    ##      3.2      4.8      10.9  ▁▁▁▁▂▇▃▁
-    ##  12920    31139    124529    ▇▃▂▁▁▁▁▁
-    ##     31.6     39.8      64.2  ▂▇▇▇▇▃▁▁
-    ##     30       35        60    ▂▅▂▇▇▅▂▁
-    ##      2.8      5.5    1087.5  ▇▁▁▁▁▁▁▁
-    ##      4.49     6.09     10.05 ▁▃▅▇▆▅▂▁
-    ##      2.25     3.45      7.24 ▁▃▃▇▆▃▁▁
-    ##      9.5     31.4    1390.1  ▇▁▁▁▁▁▁▁
-    ##     49.4     69.9     236.4  ▃▇▃▂▁▁▁▁
-    ##      4.2      8.7      18.6  ▇▅▃▃▃▁▁▁
-    ##     20.7     30.2      47    ▂▅▇▆▅▅▂▂
-    ##      5.5      9.3      27.3  ▆▇▅▂▁▁▁▁
+We will now mean-center a few of the variables investigated thus far to
+ensure meaningful intercepts during the regression.
 
 ### Methods & Modelling
 

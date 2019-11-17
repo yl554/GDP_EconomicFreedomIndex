@@ -138,7 +138,7 @@ select(TaxBurden) %>%
 skim()
 ```
 
-`TaxBurden` represents the amount of tax paid by the citizens of a country as a proportion of the GDP of that country. The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appears normally distributed. The mean tax burden is 22.19 and the standard deviation of the distribution is 10.17. 
+`TaxBurden` represents the amount of tax paid by the citizens of a country as a proportion of the GDP of that country. The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appears normally distributed. The mean tax burden is 22.19% and the standard deviation of the distribution is 10.17%. 
 
 ```{r Government Spending}
 ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
@@ -152,7 +152,7 @@ select(GovSpending) %>%
 skim()
 ```
 
-`GovSpending` represents the amount spent by the government as a percentage of the GDP of the country. The distribution of government spending is generally symmmetric and unimodal. There are several outliers which have significantly higher government spending: with government spending either equal to or more than 100% of the country's GDP. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87 and the distribution has a standard deviation of 15.52.
+`GovSpending` represents the amount spent by the government as a percentage of the GDP of the country. The distribution of government spending is generally symmmetric and unimodal. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87% of GDP and the distribution has a standard deviation of 15.52%.
 
 ```{r Population}
 ggplot(data = economic_data, mapping = aes(x = Population)) +
@@ -193,7 +193,7 @@ ggplot(data=economic_data, aes(x=logpop)) +
   labs(title="Distribution of logpop", x="Log(Population)")
 ```
 
-Based on the above plot, the logarithmic transformation has been successful in normalizing the population variable as well as creating a more linear relationship with GDP. 
+Based on the above plot, the logarithmic transformation has been successful in normalizing the population variable, which should allow a more linear relationship with GDP.
 
 ```{r Unemployment}
 ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
@@ -226,9 +226,27 @@ ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
 economic_data %>%
 select(Inflation) %>%
 skim()
+
+```{r inflation-categorize}
+economic_data <- economic_data %>%
+  mutate(cat_inflation = case_when(
+Inflation >= 6 ~ "Dangerously High",
+Inflation <6 & Inflation >3 ~ "High",
+Inflation <= 3 & Inflation >=1 ~ "Healthy",
+Inflation <1 ~ "Low"))
+economic_data%>%
+  group_by(cat_inflation) %>%
+  count()
+
+economic_data <- economic_data %>%
+  mutate(cat_inflation = as.factor(cat_inflation))
+
+economic_data %>%
+ggplot(mapping = aes(x = cat_inflation, y = logGDP)) +
+  geom_boxplot(position="dodge",fill="forestgreen")
 ```
 
-`Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because of this skew, we may need to log-transform this variable as well to get its distribution to be more normal.
+`Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because inflation can vary widely between countries, we have recoded it into a categorical variable that better captures whether a country's inflation is healthy or unhealthy. Above is a plot to show the frequency of each level of inflation.
 
 
 ```{r Region}
@@ -269,7 +287,7 @@ economic_data %>%
   skim()
 ```
 
-`TariffRate` represents the average percentage tax on imports that the country has outstanding as of 2019. The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. Because of this right-skew, log-transforming this variable might be necessary.
+`TariffRate` represents the average percentage tax on imports that the country has outstanding as of 2019. The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. Because of this right-skew, log-transforming this variable might be necessary; we will examine it further in a pairs plot later in the analysis.
 
 ```{r Income Tax Rate}
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
@@ -309,28 +327,7 @@ skim()
 
 `PublicDebt` represents the debt of the country as a percentage of the country's GDP. The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
-
-```{r inflation-categorize}
-economic_data <- economic_data %>%
-  mutate(cat_inflation = case_when(
-Inflation >= 6 ~ "Dangerously High",
-Inflation <6 & Inflation >3 ~ "High",
-Inflation <= 3 & Inflation >=1 ~ "Healthy",
-Inflation <1 ~ "Low"))
-economic_data%>%
-  group_by(cat_inflation) %>%
-  count()
-
-economic_data <- economic_data %>%
-  mutate(cat_inflation = as.factor(cat_inflation))
-
-economic_data %>%
-ggplot(mapping = aes(x = cat_inflation, y = logGDP)) +
-  geom_boxplot(position="dodge",fill="forestgreen")
-
-skim(economic_data)
-```
-
+We will now mean-center a few of the variables investigated thus far to ensure meaningful intercepts during the regression. 
 
 ```{r mean center variables}
 economic_data <- economic_data %>%
