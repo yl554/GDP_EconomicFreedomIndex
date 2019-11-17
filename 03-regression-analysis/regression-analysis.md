@@ -466,6 +466,57 @@ skewed. There are several outliers with public debt more than 175%. The
 mode of the distribution is around 30%. The median public debt is 49.4%
 and the interquartile range is 35%.
 
+### Multivariate Exploration
+
+Finally, we can visualize paired scatter plots of the relationship
+between GDP and each of our predictor variables. This is shown below.
+Many of the plots are visually difficult and don’t offer good
+information as there are outliers that skew the
+visualization.
+
+![](regression-analysis_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-1.png)<!-- -->![](regression-analysis_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-2.png)<!-- -->
+
+To better help us visualize the relationship between the predictor and
+response variables for most data points, we plotted a scatterplot matrix
+with most of the outliers
+removed.
+
+![](regression-analysis_files/figure-gfm/Scatterplot%20GDP%20without%20outliers-1.png)<!-- -->![](regression-analysis_files/figure-gfm/Scatterplot%20GDP%20without%20outliers-2.png)<!-- -->
+
+Based on the scatterplots above, we observe that most predictor
+variables do not have a clear linear relationship with the response
+variable GDP. Thus, we log transform GDP to see if there is a stronger
+linear relationship. As seen previously, logGDP has a normal
+distribution while GDP is extremely right
+skewed.
+
+![](regression-analysis_files/figure-gfm/Scatterplot%20logGDP-1.png)<!-- -->![](regression-analysis_files/figure-gfm/Scatterplot%20logGDP-2.png)<!-- -->
+
+Based on the scatterplots of the response variables against the
+quantitative predictor variables, we see that there is now a much
+stronger a linear relationship between the two. Particularly, we note
+that the logGDP against population scatterplot shows a curved
+distribution which resembles a logarithimic function. This is why we
+transformed population into the logpop variable, which has a linear
+relationship with GDP. Furthermore, the pairs plot validates all of the
+transformations we have applied in the univariate analysis, so they will
+remain in place for our regression.
+
+Moreover, we also noticed some multicollinearity issues between
+predictor variables. In specific, the relationship between GovSpending
+and TaxBurden appears very strongly if not almost linear. Other
+variables suspect of multicollinearity problems include tariff rate and
+unemployment as well as tariff rate and
+unemployment.
+
+![](regression-analysis_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-1.png)<!-- -->![](regression-analysis_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-2.png)<!-- -->
+
+For the relationship between the response and categorical variables, the
+various boxplots suggest that there are generally normally distributed
+with minimal skewing. This means that a linear regression between log
+GDP and the categorical variables of region and government interference
+are appropriate.
+
 We will now mean-center a few of the variables investigated thus far to
 ensure meaningful intercepts during the regression.
 
