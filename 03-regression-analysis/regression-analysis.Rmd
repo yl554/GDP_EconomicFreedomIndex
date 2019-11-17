@@ -433,6 +433,110 @@ tidy(vif(final_model))
 
 #### Model Diagnostics
 (influential points, leverage points)
+After we have the model built up, the next task is to examine the model assumptions: linearity, constant variance, normality, and independence. We can see from the scatterplot matrix of response variable vs. every predictor variable that there is indeed some linear relationship between them after twe take log transformation of suspicious variables like population. So, the linearity assumption is satisfied. Now we plot the residuals to check for constant variance assumption.
+
+```{r residual vs. predicted}
+economic_data <- economic_data %>% 
+  mutate(predicted = predict.lm(final_model), residuals = resid(final_model))
+
+ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(title="Residuals vs. Predicted Values")
+```
+
+This is the scatterplot of residuals vs. predicted GDP values. There doen't seem to be a distinguishable shape. The residuals appear to randomly scattered in the plot.
+
+Then we plot the residuals vs. each predictor variable to further check for constant variance assumption.
+
+```{r residuals vs. predictor variables}
+ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "TariffRate", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. TariffRate")
+
+ggplot(data=economic_data,aes(x=logpop, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "log of Population", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. log of Population")
+
+ggplot(data=economic_data,aes(x=CorporateTaxRate, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "CorporateTaxRate", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. CorporateTaxRate")
+
+ggplot(data=economic_data,aes(x=GDPGrowth, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "GDPGrowth", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. GDPGrowth")
+
+ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Inflation", 
+       y="Residuals")
+```
+
+```{r residual normality check}
+ggplot(data = economic_data, aes(x = residuals)) +
+  geom_histogram(binwidth = 0.2)+
+  labs(x = "Residuals",
+       y = "Frequency of Given Residual",
+       title = "Histogram of Residuals")
+
+ggplot(data=economic_data, aes(sample=residuals)) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title="Normal QQ Plot of Residuals")
+```
+
+```{r augment model}
+economic_data_aug <- augment(final_model) %>%
+  mutate(obs_num = row_number())
+
+glimpse(head(economic_data_aug, n=5))
+```
+
+```{r leverage}
+leverage_threshold <- 2*(8+1)/nrow(economic_data)
+
+ggplot(data = economic_data_aug, aes(x = obs_num ,y = .hat)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = leverage_threshold,color = "red")+
+  labs(x = "Observation Number",y = "Leverage",title = "Leverage") +
+  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
+
+nrow(economic_data_aug %>% filter(.hat > leverage_threshold))
+```
+
+```{r cook distace}
+ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept=1,color = "red")+
+  labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
+  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
+```
+
+```{r standardized residuals}
+ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = 0,color = "red") +
+  geom_hline(yintercept = -2,color = "red",linetype = "dotted") +
+  geom_hline(yintercept = 2,color = "red",linetype = "dotted") +
+  labs(x ="Predicted Value",y ="Standardized Residuals",title = "Standardized Residuals vs. Predicted") +
+  geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)
+```
+
+```{r }
+```
 
 ### Discusson of Assumptions
 

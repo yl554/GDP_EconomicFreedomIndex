@@ -3,14 +3,14 @@ What Makes a Strong GDP?
 Rtists
 11/14/2019
 
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ─────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-    ## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
+    ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -157,7 +157,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -178,7 +178,7 @@ graph of GDP with some of these influential points
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -199,9 +199,11 @@ distribution is visualized below:
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100     hist
-    ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05 ▁▃▅▇▆▅▂▁
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
+    ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
+    ##      hist
+    ##  ▁▃▅▇▆▅▂▁
 
 This distribution of logGDP is normal and unimodal. We will likely use
 this as our response variable. Since there is minimal skewing and the
@@ -220,9 +222,11 @@ to predict GDP, starting with `TaxBurden`.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100     hist
-    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47 ▂▅▇▆▅▅▂▂
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
+    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
+    ##      hist
+    ##  ▂▅▇▆▅▅▂▂
 
 `TaxBurden` represents the amount of tax paid by the citizens of a
 country as a proportion of the GDP of that country. The distribution of
@@ -238,9 +242,11 @@ deviation of the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100     hist
-    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2 ▂▇▇▇▇▃▁▁
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
+    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
+    ##      hist
+    ##  ▂▇▇▇▇▃▁▁
 
 `GovSpending` represents the amount spent by the government as a
 percentage of the GDP of the country. The distribution of government
@@ -258,9 +264,11 @@ spending is 33.87 and the distribution has a standard deviation of
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100     hist
-    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1 ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
 
 `Population` represents the number of individuals living in a country.
 The distribution of population is unimodal and right-skewed. Because
@@ -274,9 +282,11 @@ below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100     hist
-    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1 ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
 
 The distribution of population is unimodal and right-skewed. The mode of
 the distribution is around 1 million. Since the median and IQR are more
@@ -302,7 +312,7 @@ more linear relationship with GDP.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -322,9 +332,11 @@ IQR is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100     hist
-    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5 ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
+    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
 
 `Inflation` represents the change in prices of goods and services in a
 year in the country. The first distribution of inflation rates includes
@@ -370,7 +382,7 @@ because government interference is a categorical variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -389,9 +401,11 @@ necessary.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100     hist
-    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60 ▂▅▂▇▇▅▂▁
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
+    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
+    ##      hist
+    ##  ▂▅▂▇▇▅▂▁
 
 `IncomeTaxRate` represents the average tax rate applied to individuals
 on their incomes. The distribution of income tax rate is unimodal and
@@ -410,9 +424,11 @@ the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100     hist
-    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50 ▁▂▂▇▆▂▁▁
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
+    ##      hist
+    ##  ▁▂▂▇▆▂▁▁
 
 `CorporateTaxRate` represents the average tax rate applied to
 corporations on their revenues. The distribution of corporate tax rate
@@ -427,9 +443,11 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100     hist
-    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4 ▃▇▃▂▁▁▁▁
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
+    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
+    ##      hist
+    ##  ▃▇▃▂▁▁▁▁
 
 `PublicDebt` represents the debt of the country as a percentage of the
 country’s GDP. The distribution of public debt is unimodal and right
@@ -452,19 +470,19 @@ and the interquartile range is 35%.
     ##  n obs: 173 
     ##  n variables: 18 
     ## 
-    ## ── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:character ─────────────────────────────────────────────────────────────────────────────
     ##         variable missing complete   n min max empty n_unique
     ##          Country       0      173 173   4  32     0      173
     ##  GovInterference       0      173 173   7  10     0        4
     ##           Region       0      173 173   6  28     0        5
     ## 
-    ## ── Variable type:factor ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##       variable missing complete   n n_unique                         top_counts
-    ##  cat_inflation       0      173 173        4 Hea: 62, Hig: 42, Dan: 39, Low: 30
-    ##  ordered
-    ##    FALSE
+    ## ── Variable type:factor ────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n n_unique
+    ##  cat_inflation       0      173 173        4
+    ##                          top_counts ordered
+    ##  Hea: 62, Hig: 42, Dan: 39, Low: 30   FALSE
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n     mean       sd     p0     p25
     ##  CorporateTaxRate       0      173 173    23.95     8.89   0      20   
     ##               GDP       0      173 173   729.71  2486.04   0.6    28.3 
@@ -1242,7 +1260,55 @@ tidy(vif(final_model))
 
 #### Model Diagnostics
 
-(influential points, leverage points)
+(influential points, leverage points) After we have the model built up,
+the next task is to examine the model assumptions: linearity, constant
+variance, normality, and independence. We can see from the scatterplot
+matrix of response variable vs. every predictor variable that there is
+indeed some linear relationship between them after twe take log
+transformation of suspicious variables like population. So, the
+linearity assumption is satisfied. Now we plot the residuals to check
+for constant variance
+assumption.
+
+![](regression-analysis_files/figure-gfm/residual%20vs.%20predicted-1.png)<!-- -->
+
+This is the scatterplot of residuals vs. predicted GDP values. There
+doen’t seem to be a distinguishable shape. The residuals appear to
+randomly scattered in the plot.
+
+Then we plot the residuals vs. each predictor variable to further check
+for constant variance
+assumption.
+
+![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-2.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-3.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-4.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-5.png)<!-- -->
+
+![](regression-analysis_files/figure-gfm/residual%20normality%20check-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residual%20normality%20check-2.png)<!-- -->
+
+    ## Observations: 5
+    ## Variables: 15
+    ## $ logGDP           <dbl> 4.242765, 3.583519, 6.450312, 5.248602, 6.824591
+    ## $ TariffRate       <dbl> 7.0, 1.1, 8.8, 9.4, 7.5
+    ## $ logpop           <dbl> 3.569533, 1.064711, 3.725693, 3.339322, 3.786460
+    ## $ CorporateTaxRate <dbl> 20, 15, 23, 30, 30
+    ## $ TaxBurdenCent    <dbl> -17.193642, 2.706358, 2.306358, -1.593642, 8.60…
+    ## $ GDPGrowth        <dbl> 2.5, 3.9, 2.0, 0.7, 2.9
+    ## $ cat_inflation    <fct> High, Healthy, High, Dangerously High, Dangerou…
+    ## $ .fitted          <dbl> 5.581088, 4.497808, 5.975040, 5.056785, 5.738134
+    ## $ .se.fit          <dbl> 0.1779312, 0.1316380, 0.1686568, 0.1573660, 0.1…
+    ## $ .resid           <dbl> -1.3383232, -0.9142889, 0.4752723, 0.1918165, 1…
+    ## $ .hat             <dbl> 0.04419922, 0.02419208, 0.03971166, 0.03457262,…
+    ## $ .sigma           <dbl> 0.8421336, 0.8458309, 0.8480816, 0.8487942, 0.8…
+    ## $ .cooksd          <dbl> 0.013442183, 0.003294424, 0.001508925, 0.000211…
+    ## $ .std.resid       <dbl> -1.6174563, -1.0935950, 0.5730558, 0.2306649, 1…
+    ## $ obs_num          <int> 1, 2, 3, 4, 5
+
+![](regression-analysis_files/figure-gfm/leverage-1.png)<!-- -->
+
+    ## [1] 8
+
+![](regression-analysis_files/figure-gfm/cook%20distace-1.png)<!-- -->
+
+![](regression-analysis_files/figure-gfm/standardized%20residuals-1.png)<!-- -->
 
 ### Discusson of Assumptions
 
