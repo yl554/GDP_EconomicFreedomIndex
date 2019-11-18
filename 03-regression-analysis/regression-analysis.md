@@ -3,14 +3,14 @@ What Makes a Strong GDP?
 Rtists
 11/14/2019
 
-    ## ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ─────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -157,7 +157,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -178,7 +178,7 @@ graph of GDP with some of these influential points
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -199,7 +199,7 @@ distribution is visualized below:
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
     ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
     ##      hist
@@ -222,7 +222,7 @@ to predict GDP, starting with `TaxBurden`.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
@@ -242,7 +242,7 @@ deviation of the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
@@ -261,7 +261,7 @@ of GDP and the distribution has a standard deviation of 15.52%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -279,7 +279,7 @@ below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -309,7 +309,7 @@ more linear relationship with GDP.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -329,7 +329,7 @@ IQR is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
@@ -392,7 +392,7 @@ because government interference is a categorical variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -412,7 +412,7 @@ analysis.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
@@ -435,7 +435,7 @@ the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
@@ -454,7 +454,7 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist
@@ -1342,3 +1342,41 @@ There doesn’t seem to be any multicollinearity in this model because the
 variance inflation factors are all below 10.
 
 ### Interpretation and Other Interesting Findings
+
+Our final model can be represented by the following equation: Predicted
+log of GDP = 4.334 - .096(TariffRate) + 1.058(logpop) -
+.036(CorporateTaxRate) + .024(TaxBurdenCent) - .098(GDPGrowth)
+-.723(cat\_inflationDangerouslyHigh) - .488(cat\_inflationHigh) -
+.004(cat\_inflationLow)
+
+Each predictor can thus be interpreted in the following way: As the
+Tariff Rate increases by one percentage point, the expected GDP of the
+country is multiplied by a factor of 0.908464, holding all other
+variables constant. As the tariff rate increases, we can expect the GDP
+of the country to be lower.
+
+As the Corporate Tax Rate increases by one percentage point, the
+expected GDP of the country is multiplied by a factor of 0.9646403,
+holding all other variables constant. As the corporate tax rate
+increases, we can expect the GDP of the country to be lower.
+
+As the Tax Burden increases by one percentage point, the expected GDP of
+the country is multiplied by a factor of 1.0242903, holding all other
+variables constant. As the tax burden increases, we can expect the GDP
+of the country to be higher.
+
+As the rate of GDP growth increases by one percentage point, the
+expected GDP of the country is multiplied by a factor of 0.9066489,
+holding all other variables constant. As the rate of GDP growth
+increases, we can expect the GDP of the country to be lower.
+
+If the country’s inflation rate is listed as “Healthy”, this provides no
+further input to the model as “Healthy” is the baseline for our model.
+However, if the country’s inflation is listed as low, the expected GDP
+of the country is multiplied by a factor of 0.996008, holding all other
+variables constant. If the country’s inflation is listed as high, the
+expected GDP of the country is multiplied by a factor of 0.6138529,
+holding all other variables constant. If the country’s inflation is
+listed as dangerously high, the expected GDP of the country is
+multiplied by a factor of 0.4852942, holding all other variables
+constant.
