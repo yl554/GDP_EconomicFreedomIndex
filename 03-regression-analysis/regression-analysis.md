@@ -1383,3 +1383,23 @@ of 0.6138529, holding all other variables constant. If the country’s
 inflation is listed as dangerously high, the expected median GDP of the
 country is multiplied by a factor of 0.4852942, holding all other
 variables constant.
+
+Beyond the specific interpretation of each of our coefficients, through
+the investigation we came across several interesting findings. The first
+and most notable is that none of our interaction effect terms ended up
+in our final model as they did not have a significant effect on the
+response. We tried five different interaction effects: The effects
+between inflation and GDP growth, inflation and corporate tax rate,
+inflation and the log of the population, and inflation and the tariff
+rate. We hypothesized that the effect of these quantitative predictors
+may depend on the rate of inflation as this represents the stability of
+the currency which drives the country’s economy, but this ended up not
+being the case.
+
+Another interesting finding was that the p-value associated with
+`cat_inflationLow` interaction term was 0.985, which suggests that the
+variable has almost no effect on the response at all, yet the step
+function and backwards selection still chose to include the variable. We
+believe this is because while the other inflation-based dummy variables
+in the model were able to account for a lot of the significance in the
+model, including it still provided explanatory power for the response.
