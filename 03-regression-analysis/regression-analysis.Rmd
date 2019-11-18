@@ -472,7 +472,8 @@ kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
 
 
 #### Model Diagnostics
-After we have the model built up, the next task is to examine the model assumptions: linearity, constant variance, normality, and independence. We can see from the scatterplot matrix of response variable vs. every predictor variable that there is indeed some linear relationship between them after twe take log transformation of suspicious variables like population. So, the linearity assumption is satisfied. Now we plot the residuals to check for constant variance assumption.
+
+Next, we examine the four model assumptions: linearity, constant variance, normality, and independence. From previous scatterplots of response variable vs. each predictor variable, we didn't observe any non-linear relationships after we took a log transformation whenever necessary (for example, population). From the residuals vs. predicted values plot below, we can also conclude that the linearity assumption is satisfied. The following figure shows no obvious shape or pattern, and therefore, the constant variance assumption is also satisfied. 
 
 ```{r residual vs. predicted}
 economic_data <- economic_data %>% 
@@ -483,10 +484,6 @@ ggplot(data=economic_data,aes(x=predicted, y=residuals)) +
   geom_hline(yintercept=0,color="red") +
   labs(title="Residuals vs. Predicted Values")
 ```
-
-This is the scatterplot of residuals vs. predicted GDP values. There doen't seem to be a distinguishable shape. The residuals appear to randomly scattered in the plot.
-
-Then we plot the residuals vs. each predictor variable to further check for constant variance assumption.
 
 ```{r residuals vs. predictor variables}
 ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
@@ -524,6 +521,9 @@ ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) +
        y="Residuals")
 ```
 
+The constant variance assumption is further satisfied because the residuals from each of the residuals vs. predictor variables plot is randomly scattered and doesn't appear any distinguishable shape.
+
+
 ```{r residual normality check}
 ggplot(data = economic_data, aes(x = residuals)) +
   geom_histogram(binwidth = 0.2)+
@@ -536,6 +536,10 @@ ggplot(data=economic_data, aes(sample=residuals)) +
   stat_qq_line() +
   labs(title="Normal QQ Plot of Residuals")
 ```
+
+The normality assumption is satisfied since the distribution of residuals appears to be unimodal and approximately normal. Also, the normal QQ plot of points fit the theoretical line very well.
+
+Lastly, 
 
 ```{r augment model}
 economic_data_aug <- augment(final_model) %>%
@@ -567,7 +571,7 @@ ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) +
   geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
 ```
 
-There are 8 points with high leverage, but among all those points, none of them has cook distance larger than 1. So, they don’t have significant influence on model coefficients.
+There are 8 points with high leverage, but among all these points, none of them has a cook distance that is larger than 1. Therefore, we don't believe that they have significant influence on model coefficients, so it is safe to keep them in our model.
 
 ```{r standardized residuals}
 ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
@@ -581,7 +585,7 @@ ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
 nrow(economic_data_aug %>% filter(abs(.std.resid) > 2))
 ```
 
-There are 8 observations that are considered to have large standardized residues with large magnitudes. If ploted the distribution of standardized residuals using a N(0,1) distribution, we can expect 8/173 = 4.62% of the observations have standardized residues with magnitude > 2.
+There are 8 observations that are considered to have large standardized residuals with large magnitudes. If ploted the distribution of standardized residuals using a N(0,1) distribution, we can expect 8/173 = 4.62% of the observations have standardized residuals with magnitude > 2. We might need to remove these points from our final data in order to train a more accurate model. 
 
 ```{r VIF, echo=TRUE}
 tidy(vif(final_model))

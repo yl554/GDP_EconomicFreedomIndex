@@ -3,14 +3,14 @@ What Makes a Strong GDP?
 Rtists
 11/14/2019
 
-    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ─────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -157,7 +157,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -178,7 +178,7 @@ graph of GDP with some of these influential points
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -199,7 +199,7 @@ distribution is visualized below:
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
     ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
     ##      hist
@@ -222,7 +222,7 @@ to predict GDP, starting with `TaxBurden`.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
@@ -242,7 +242,7 @@ deviation of the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
@@ -261,7 +261,7 @@ of GDP and the distribution has a standard deviation of 15.52%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -279,7 +279,7 @@ below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -309,7 +309,7 @@ more linear relationship with GDP.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -329,7 +329,7 @@ IQR is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
@@ -392,7 +392,7 @@ because government interference is a categorical variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -412,7 +412,7 @@ analysis.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
@@ -435,7 +435,7 @@ the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
@@ -454,7 +454,7 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist
@@ -1245,28 +1245,32 @@ cat\_inflationLow
 
 #### Model Diagnostics
 
-After we have the model built up, the next task is to examine the model
-assumptions: linearity, constant variance, normality, and independence.
-We can see from the scatterplot matrix of response variable vs. every
-predictor variable that there is indeed some linear relationship between
-them after twe take log transformation of suspicious variables like
-population. So, the linearity assumption is satisfied. Now we plot the
-residuals to check for constant variance
-assumption.
+Next, we examine the four model assumptions: linearity, constant
+variance, normality, and independence. From previous scatterplots of
+response variable vs. each predictor variable, we didn’t observe any
+non-linear relationships after we took a log transformation whenever
+necessary (for example, population). From the residuals vs. predicted
+values plot below, we can also conclude that the linearity assumption is
+satisfied. The following figure shows no obvious shape or pattern, and
+therefore, the constant variance assumption is also
+satisfied.
 
 ![](regression-analysis_files/figure-gfm/residual%20vs.%20predicted-1.png)<!-- -->
 
-This is the scatterplot of residuals vs. predicted GDP values. There
-doen’t seem to be a distinguishable shape. The residuals appear to
-randomly scattered in the plot.
-
-Then we plot the residuals vs. each predictor variable to further check
-for constant variance
-assumption.
-
 ![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-2.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-3.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-4.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-5.png)<!-- -->
 
+The constant variance assumption is further satisfied because the
+residuals from each of the residuals vs. predictor variables plot is
+randomly scattered and doesn’t appear any distinguishable
+shape.
+
 ![](regression-analysis_files/figure-gfm/residual%20normality%20check-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residual%20normality%20check-2.png)<!-- -->
+
+The normality assumption is satisfied since the distribution of
+residuals appears to be unimodal and approximately normal. Also, the
+normal QQ plot of points fit the theoretical line very well.
+
+Lastly,
 
     ## Observations: 5
     ## Variables: 15
@@ -1304,20 +1308,22 @@ assumption.
 
 ![](regression-analysis_files/figure-gfm/cook%20distace-1.png)<!-- -->
 
-There are 8 points with high leverage, but among all those points, none
-of them has cook distance larger than 1. So, they don’t have significant
-influence on model
-coefficients.
+There are 8 points with high leverage, but among all these points, none
+of them has a cook distance that is larger than 1. Therefore, we don’t
+believe that they have significant influence on model coefficients, so
+it is safe to keep them in our
+model.
 
 ![](regression-analysis_files/figure-gfm/standardized%20residuals-1.png)<!-- -->
 
     ## [1] 8
 
 There are 8 observations that are considered to have large standardized
-residues with large magnitudes. If ploted the distribution of
+residuals with large magnitudes. If ploted the distribution of
 standardized residuals using a N(0,1) distribution, we can expect 8/173
-= 4.62% of the observations have standardized residues with magnitude \>
-2.
+= 4.62% of the observations have standardized residuals with magnitude
+\> 2. We might need to remove these points from our final data in order
+to train a more accurate model.
 
 ``` r
 tidy(vif(final_model))
