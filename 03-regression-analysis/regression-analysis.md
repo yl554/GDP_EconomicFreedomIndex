@@ -1350,33 +1350,36 @@ log of GDP = 4.334 - .096(TariffRate) + 1.058(logpop) -
 .004(cat\_inflationLow)
 
 Each predictor can thus be interpreted in the following way: As the
-Tariff Rate increases by one percentage point, the expected GDP of the
-country is multiplied by a factor of 0.908464, holding all other
+Tariff Rate increases by one percentage point, the expected median GDP
+of the country is multiplied by a factor of 0.908464, holding all other
 variables constant. As the tariff rate increases, we can expect the GDP
 of the country to be lower.
 
-As the Corporate Tax Rate increases by one percentage point, the
-expected GDP of the country is multiplied by a factor of 0.9646403,
-holding all other variables constant. As the corporate tax rate
-increases, we can expect the GDP of the country to be lower.
+If the population is multiplied by a factor of C, the median GDP is
+expected to be multiplied by a factor of `exp(1.058logC)`.
 
-As the Tax Burden increases by one percentage point, the expected GDP of
-the country is multiplied by a factor of 1.0242903, holding all other
-variables constant. As the tax burden increases, we can expect the GDP
-of the country to be higher.
+As the Corporate Tax Rate increases by one percentage point, the
+expected median GDP of the country is multiplied by a factor of
+0.9646403, holding all other variables constant. As the corporate tax
+rate increases, we can expect the GDP of the country to be lower.
+
+As the Tax Burden increases by one percentage point, the expected median
+GDP of the country is multiplied by a factor of 1.0242903, holding all
+other variables constant. As the tax burden increases, we can expect the
+GDP of the country to be higher.
 
 As the rate of GDP growth increases by one percentage point, the
-expected GDP of the country is multiplied by a factor of 0.9066489,
-holding all other variables constant. As the rate of GDP growth
-increases, we can expect the GDP of the country to be lower.
+expected median GDP of the country is multiplied by a factor of
+0.9066489, holding all other variables constant. As the rate of GDP
+growth increases, we can expect the GDP of the country to be lower.
 
 If the country’s inflation rate is listed as “Healthy”, this provides no
 further input to the model as “Healthy” is the baseline for our model.
-However, if the country’s inflation is listed as low, the expected GDP
-of the country is multiplied by a factor of 0.996008, holding all other
-variables constant. If the country’s inflation is listed as high, the
-expected GDP of the country is multiplied by a factor of 0.6138529,
-holding all other variables constant. If the country’s inflation is
-listed as dangerously high, the expected GDP of the country is
-multiplied by a factor of 0.4852942, holding all other variables
-constant.
+However, if the country’s inflation is listed as low, the expected
+median GDP of the country is multiplied by a factor of 0.996008, holding
+all other variables constant. If the country’s inflation is listed as
+high, the expected median GDP of the country is multiplied by a factor
+of 0.6138529, holding all other variables constant. If the country’s
+inflation is listed as dangerously high, the expected median GDP of the
+country is multiplied by a factor of 0.4852942, holding all other
+variables constant.
