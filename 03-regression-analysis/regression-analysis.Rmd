@@ -756,23 +756,36 @@ There doesn’t seem to be any multicollinearity in this model because the varia
 
 ### Interpretation and Other Interesting Findings
 
-Our final model can be represented by the following equation: Predicted log of GDP = 4.334 - .096(TariffRate) + 1.058(logpop) - .036(CorporateTaxRate) + .024(TaxBurdenCent) - .098(GDPGrowth) -.723(cat_inflationDangerouslyHigh) - .488(cat_inflationHigh) - .004(cat_inflationLow)
+Our final model can be represented by the following equation: 3.117 - .009(TariffRate) + 1.006(logpop) - .057(GDPGrowth) + .02(TaxBurdenCent) - .374(cat_inflationDangerously High) - .402(cat_inflationHigh) + .022(cat_inflationLow) - 1.045(GovInteferenceExtensive) + 1.117(RegionAsia-Pacific) + .537(RegionEurope) + .969(RegionMiddle East and North Africa) -.655(RegionSub-Saharan Africa) + .08(TariffRate:GovInteferenceExtensive) - .18(TariffRate:RegionAsia-Pacific) -.068(TariffRate:RegionEurope) + -.045(TariffRate:RegionMiddle East and North Africa) -.058(TariffRate:RegionSub-Saharan Africa)
 
-Each predictor can thus be interpreted in the following way:
-As the Tariff Rate increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.096)`, holding all other variables constant. As the tariff rate increases, we can expect the GDP of the country to be lower.
+*Each predictor can thus be interpreted in the following way:*
+For countries who don't have "extensive" government interference and are in the Americas, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.009)`.
 
-If the population is multiplied by a factor of C, the median GDP is expected to be multiplied by a factor of `exp(1.058logC)`.
+For countries who are in the Asia Pacific, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.18)`, holding all other variables constant.
+
+For countries who are in Europe, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.068)`, holding all other variables constant.
+
+For countries who are in the Middle East or North Africa, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.045)`, holding all other variables constant.
+
+For countries who are in Sub-Saharan Africa, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.058)`, holding all other variables constant.
+
+For countries who do have extensive government interference, as the TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(.08)`, holding all other variables constant.
+
+If the population is multiplied by a factor of C, the median GDP is expected to be multiplied by a factor of `exp(1.006logC)`.
 
 As the Corporate Tax Rate increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.036)`, holding all other variables constant. As the corporate tax rate increases, we can expect the GDP of the country to be lower.
 
-As the Tax Burden increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(.024)`, holding all other variables constant. As the tax burden increases, we can expect the GDP of the country to be higher.
+As GDPGrowth increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.057)`, holding all other variables constant. As GDP growth increases, we can expect the GDP of the country to be higher.
 
-As the rate of GDP growth increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.098)`, holding all other variables constant. As the rate of GDP growth increases, we can expect the GDP of the country to be lower.
+As the tax burden increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.020)`, holding all other variables constant. As the tax burden increases, we can expect the GDP of the country to be lower.
 
-If the country's inflation rate is listed as "Healthy", this provides no further input to the model as "Healthy" is the baseline for our model. However, if the country's inflation is listed as low, the expected median GDP of the country is multiplied by a factor of `r exp(-.004)`, holding all other variables constant. If the country's inflation is listed as high, the expected median GDP of the country is multiplied by a factor of `r exp(-.488)`, holding all other variables constant. If the country's inflation is listed as dangerously high, the expected median GDP of the country is multiplied by a factor of `r exp(-.723)`, holding all other variables constant. 
+If the country's inflation rate is listed as "Healthy", this provides no further input to the model as "Healthy" is the baseline for our model. However, if the country's inflation is listed as low, the expected median GDP of the country is multiplied by a factor of `r exp(.022)`, holding all other variables constant. If the country's inflation is listed as high, the expected median GDP of the country is multiplied by a factor of `r exp(-.402)`, holding all other variables constant. If the country's inflation is listed as dangerously high, the expected median GDP of the country is multiplied by a factor of `r exp(-.374)`, holding all other variables constant. 
 
-Beyond the specific interpretation of each of our coefficients, through the investigation we came across several interesting findings. The first and most notable is that none of our interaction effect terms ended up in our final model as they did not have a significant effect on the response. We tried five different interaction effects: The effects between inflation and GDP growth, inflation and corporate tax rate, inflation and the log of the population, and inflation and the tariff rate. We hypothesized that the effect of these quantitative predictors may depend on the rate of inflation as this represents the stability of the currency which drives the country's economy, but this ended up not being the case. 
+If the country has extensive government interference, the expected median GDP of the country is multiplied by a factor of `r exp(-1.045)`, holding all other variables constant.
 
-Another interesting finding was that the p-value associated with `cat_inflationLow` interaction term was 0.985, which suggests that the variable has almost no effect on the response at all, yet the step function and backwards selection still chose to include the variable. We believe this is because while the other inflation-based dummy variables in the model were able to account for a lot of the significance in the model, including it still provided explanatory power for the response.
+If the country is in the Americas, this provides no further input to the model as this is the baseline for our model. However, if the country is in the Asia Pacific region, the expected median GDP of the country is multiplied by a factor of `r exp(1.117)`, holding all other variables constant. If the country is in Europe, the expected median GDP of the country is multiplied by a factor of `r exp(.537)`, holding all other variables constant. If the country is in the Middle East or North Africa, the expected median GDP of the country is multiplied by a factor of `r exp(.969)`, holding all other variables constant. If the country is in Sub-Saharan Africa, the expected median GDP of the country is multiplied by a factor of `r exp(-.655)`, holding all other variables constant.
 
+Beyond the specific interpretation of each of our coefficients, through the investigation we came across several interesting findings. The first and most notable is that none of our interaction effect terms involving inflation ended up in our final model as they did not have a significant effect on the response. We tried five different interaction effects with inflation: The effects between inflation and GDP growth, inflation and corporate tax rate, inflation and the log of the population, and inflation and the tariff rate. We hypothesized that the effect of these quantitative predictors may depend on the rate of inflation as this represents the stability of the currency which drives the country's economy, but this ended up not being the case. 
+
+However, our hypothesis that the role of tariffs depended on region did end up being true as suggested by our generated p-values. We hypothesized that this was the case because depending on where the country is geographically positioned, tariffs as a means of protecting the country from foreign competition or disturbances could be very important or harmful. All of these interactions between tariff rate and region ended up in our final model.
 

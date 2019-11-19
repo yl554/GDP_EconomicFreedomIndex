@@ -3,14 +3,14 @@ What Makes a Strong GDP?
 Rtists
 11/14/2019
 
-    ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-    ## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
+    ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ─────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -157,7 +157,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -178,7 +178,7 @@ graph of GDP with some of these influential points
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -199,9 +199,11 @@ distribution is visualized below:
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100     hist
-    ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05 ▁▃▅▇▆▅▂▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
+    ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
+    ##      hist
+    ##  ▁▃▅▇▆▅▂▁
 
 This distribution of logGDP is normal and unimodal. We will likely use
 this as our response variable. Since there is minimal skewing and the
@@ -220,9 +222,11 @@ to predict GDP, starting with `TaxBurden`.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100     hist
-    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47 ▂▅▇▆▅▅▂▂
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
+    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
+    ##      hist
+    ##  ▂▅▇▆▅▅▂▂
 
 `TaxBurden` represents the amount of tax paid by the citizens of a
 country as a proportion of the GDP of that country. The distribution of
@@ -238,9 +242,11 @@ deviation of the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100     hist
-    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2 ▂▇▇▇▇▃▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
+    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
+    ##      hist
+    ##  ▂▇▇▇▇▃▁▁
 
 `GovSpending` represents the amount spent by the government as a
 percentage of the GDP of the country. The distribution of government
@@ -255,9 +261,11 @@ of GDP and the distribution has a standard deviation of 15.52%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100     hist
-    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1 ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
 
 `Population` represents the number of individuals living in a country.
 The distribution of population is unimodal and right-skewed. Because
@@ -271,9 +279,11 @@ below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100     hist
-    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1 ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
 
 The distribution of population is unimodal and right-skewed. The mode of
 the distribution is around 1 million. Since the median and IQR are more
@@ -299,7 +309,7 @@ more linear relationship with GDP.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -319,9 +329,11 @@ IQR is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100     hist
-    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5 ▇▁▁▁▁▁▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
+    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
 
     ## # A tibble: 4 x 2
     ## # Groups:   cat_inflation [4]
@@ -383,7 +395,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -403,9 +415,11 @@ analysis.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100     hist
-    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60 ▂▅▂▇▇▅▂▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
+    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
+    ##      hist
+    ##  ▂▅▂▇▇▅▂▁
 
 `IncomeTaxRate` represents the average tax rate applied to individuals
 on their incomes. The distribution of income tax rate is unimodal and
@@ -424,9 +438,11 @@ the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100     hist
-    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50 ▁▂▂▇▆▂▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
+    ##      hist
+    ##  ▁▂▂▇▆▂▁▁
 
 `CorporateTaxRate` represents the average tax rate applied to
 corporations on their revenues. The distribution of corporate tax rate
@@ -441,9 +457,11 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100     hist
-    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4 ▃▇▃▂▁▁▁▁
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
+    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
+    ##      hist
+    ##  ▃▇▃▂▁▁▁▁
 
 `PublicDebt` represents the debt of the country as a percentage of the
 country’s GDP. The distribution of public debt is unimodal and right
@@ -2118,17 +2136,17 @@ Lastly,
     ## $ TariffRate      <dbl> 7.0, 1.1, 8.8, 9.4, 7.5
     ## $ logpop          <dbl> 3.569533, 1.064711, 3.725693, 3.339322, 3.786460
     ## $ GDPGrowth       <dbl> 2.5, 3.9, 2.0, 0.7, 2.9
-    ## $ TaxBurdenCent   <dbl> -17.193642, 2.706358, 2.306358, -1.593642, 8.606358
-    ## $ cat_inflation   <fct> High, Healthy, High, Dangerously High, Dangerously Hi…
-    ## $ GovInterference <fct> Extensive, Moderate, Extensive, Extensive, Moderate
-    ## $ Region          <chr> "Asia-Pacific", "Europe", "Middle East and North Afri…
+    ## $ TaxBurdenCent   <dbl> -17.193642, 2.706358, 2.306358, -1.593642, 8.606…
+    ## $ cat_inflation   <fct> High, Healthy, High, Dangerously High, Dangerous…
+    ## $ GovInterference <fct> Extensive, Moderate, Extensive, Extensive, Moder…
+    ## $ Region          <chr> "Asia-Pacific", "Europe", "Middle East and North…
     ## $ .fitted         <dbl> 5.139058, 4.471403, 6.551641, 4.457461, 6.492631
-    ## $ .se.fit         <dbl> 0.1886207, 0.1868457, 0.2934447, 0.1522129, 0.2081021
-    ## $ .resid          <dbl> -0.8962932, -0.8878845, -0.1013290, 0.7911412, 0.3319…
-    ## $ .hat            <dbl> 0.07683060, 0.07539135, 0.18595507, 0.05003320, 0.093…
-    ## $ .sigma          <dbl> 0.6785456, 0.6786297, 0.6826367, 0.6795560, 0.6821183
-    ## $ .cooksd         <dbl> 0.0086886948, 0.0083406800, 0.0003456703, 0.004163248…
-    ## $ .std.resid      <dbl> -1.3708410, -1.3569230, -0.1650393, 1.1928271, 0.5123…
+    ## $ .se.fit         <dbl> 0.1886207, 0.1868457, 0.2934447, 0.1522129, 0.20…
+    ## $ .resid          <dbl> -0.8962932, -0.8878845, -0.1013290, 0.7911412, 0…
+    ## $ .hat            <dbl> 0.07683060, 0.07539135, 0.18595507, 0.05003320, …
+    ## $ .sigma          <dbl> 0.6785456, 0.6786297, 0.6826367, 0.6795560, 0.68…
+    ## $ .cooksd         <dbl> 0.0086886948, 0.0083406800, 0.0003456703, 0.0041…
+    ## $ .std.resid      <dbl> -1.3708410, -1.3569230, -0.1650393, 1.1928271, 0…
     ## $ obs_num         <int> 1, 2, 3, 4, 5
 
 ![](regression-analysis_files/figure-gfm/leverage-1.png)<!-- -->
@@ -2202,63 +2220,106 @@ variance inflation factors are all below 10.
 
 ### Interpretation and Other Interesting Findings
 
-Our final model can be represented by the following equation: Predicted
-log of GDP = 4.334 - .096(TariffRate) + 1.058(logpop) -
-.036(CorporateTaxRate) + .024(TaxBurdenCent) - .098(GDPGrowth)
--.723(cat\_inflationDangerouslyHigh) - .488(cat\_inflationHigh) -
-.004(cat\_inflationLow)
+Our final model can be represented by the following equation: 3.117 -
+.009(TariffRate) + 1.006(logpop) - .057(GDPGrowth) + .02(TaxBurdenCent)
+- .374(cat\_inflationDangerously High) - .402(cat\_inflationHigh) +
+.022(cat\_inflationLow) - 1.045(GovInteferenceExtensive) +
+1.117(RegionAsia-Pacific) + .537(RegionEurope) + .969(RegionMiddle East
+and North Africa) -.655(RegionSub-Saharan Africa) +
+.08(TariffRate:GovInteferenceExtensive) -
+.18(TariffRate:RegionAsia-Pacific) -.068(TariffRate:RegionEurope) +
+-.045(TariffRate:RegionMiddle East and North Africa)
+-.058(TariffRate:RegionSub-Saharan Africa)
 
-Each predictor can thus be interpreted in the following way: As the
-Tariff Rate increases by one percentage point, the expected median GDP
-of the country is multiplied by a factor of 0.908464, holding all other
-variables constant. As the tariff rate increases, we can expect the GDP
-of the country to be lower.
+*Each predictor can thus be interpreted in the following way:* For
+countries who don’t have “extensive” government interference and are in
+the Americas, as their TariffRate increases by 1%, the median GDP of the
+country is expected to be multiplied by a factor of 0.9910404.
+
+For countries who are in the Asia Pacific, as their TariffRate increases
+by 1%, the median GDP of the country is expected to be multiplied by a
+factor of 0.8352702, holding all other variables constant.
+
+For countries who are in Europe, as their TariffRate increases by 1%,
+the median GDP of the country is expected to be multiplied by a factor
+of 0.9342605, holding all other variables constant.
+
+For countries who are in the Middle East or North Africa, as their
+TariffRate increases by 1%, the median GDP of the country is expected to
+be multiplied by a factor of 0.9559975, holding all other variables
+constant.
+
+For countries who are in Sub-Saharan Africa, as their TariffRate
+increases by 1%, the median GDP of the country is expected to be
+multiplied by a factor of 0.9436499, holding all other variables
+constant.
+
+For countries who do have extensive government interference, as the
+TariffRate increases by 1%, the median GDP of the country is expected to
+be multiplied by a factor of 1.0832871, holding all other variables
+constant.
 
 If the population is multiplied by a factor of C, the median GDP is
-expected to be multiplied by a factor of `exp(1.058logC)`.
+expected to be multiplied by a factor of `exp(1.006logC)`.
 
 As the Corporate Tax Rate increases by one percentage point, the
 expected median GDP of the country is multiplied by a factor of
 0.9646403, holding all other variables constant. As the corporate tax
 rate increases, we can expect the GDP of the country to be lower.
 
-As the Tax Burden increases by one percentage point, the expected median
-GDP of the country is multiplied by a factor of 1.0242903, holding all
-other variables constant. As the tax burden increases, we can expect the
-GDP of the country to be higher.
+As GDPGrowth increases by one percentage point, the expected median GDP
+of the country is multiplied by a factor of 0.9445941, holding all other
+variables constant. As GDP growth increases, we can expect the GDP of
+the country to be higher.
 
-As the rate of GDP growth increases by one percentage point, the
-expected median GDP of the country is multiplied by a factor of
-0.9066489, holding all other variables constant. As the rate of GDP
-growth increases, we can expect the GDP of the country to be lower.
+As the tax burden increases by one percentage point, the expected median
+GDP of the country is multiplied by a factor of 0.9801987, holding all
+other variables constant. As the tax burden increases, we can expect the
+GDP of the country to be lower.
 
 If the country’s inflation rate is listed as “Healthy”, this provides no
 further input to the model as “Healthy” is the baseline for our model.
 However, if the country’s inflation is listed as low, the expected
-median GDP of the country is multiplied by a factor of 0.996008, holding
-all other variables constant. If the country’s inflation is listed as
-high, the expected median GDP of the country is multiplied by a factor
-of 0.6138529, holding all other variables constant. If the country’s
-inflation is listed as dangerously high, the expected median GDP of the
-country is multiplied by a factor of 0.4852942, holding all other
-variables constant.
+median GDP of the country is multiplied by a factor of 1.0222438,
+holding all other variables constant. If the country’s inflation is
+listed as high, the expected median GDP of the country is multiplied by
+a factor of 0.6689807, holding all other variables constant. If the
+country’s inflation is listed as dangerously high, the expected median
+GDP of the country is multiplied by a factor of 0.6879769, holding all
+other variables constant.
+
+If the country has extensive government interference, the expected
+median GDP of the country is multiplied by a factor of 0.3516918,
+holding all other variables constant.
+
+If the country is in the Americas, this provides no further input to the
+model as this is the baseline for our model. However, if the country is
+in the Asia Pacific region, the expected median GDP of the country is
+multiplied by a factor of 3.0556734, holding all other variables
+constant. If the country is in Europe, the expected median GDP of the
+country is multiplied by a factor of 1.7108666, holding all other
+variables constant. If the country is in the Middle East or North
+Africa, the expected median GDP of the country is multiplied by a factor
+of 2.6353078, holding all other variables constant. If the country is in
+Sub-Saharan Africa, the expected median GDP of the country is multiplied
+by a factor of 0.5194421, holding all other variables constant.
 
 Beyond the specific interpretation of each of our coefficients, through
 the investigation we came across several interesting findings. The first
-and most notable is that none of our interaction effect terms ended up
-in our final model as they did not have a significant effect on the
-response. We tried five different interaction effects: The effects
-between inflation and GDP growth, inflation and corporate tax rate,
-inflation and the log of the population, and inflation and the tariff
-rate. We hypothesized that the effect of these quantitative predictors
-may depend on the rate of inflation as this represents the stability of
-the currency which drives the country’s economy, but this ended up not
-being the case.
+and most notable is that none of our interaction effect terms involving
+inflation ended up in our final model as they did not have a significant
+effect on the response. We tried five different interaction effects with
+inflation: The effects between inflation and GDP growth, inflation and
+corporate tax rate, inflation and the log of the population, and
+inflation and the tariff rate. We hypothesized that the effect of these
+quantitative predictors may depend on the rate of inflation as this
+represents the stability of the currency which drives the country’s
+economy, but this ended up not being the case.
 
-Another interesting finding was that the p-value associated with
-`cat_inflationLow` interaction term was 0.985, which suggests that the
-variable has almost no effect on the response at all, yet the step
-function and backwards selection still chose to include the variable. We
-believe this is because while the other inflation-based dummy variables
-in the model were able to account for a lot of the significance in the
-model, including it still provided explanatory power for the response.
+However, our hypothesis that the role of tariffs depended on region did
+end up being true as suggested by our generated p-values. We
+hypothesized that this was the case because depending on where the
+country is geographically positioned, tariffs as a means of protecting
+the country from foreign competition or disturbances could be very
+important or harmful. All of these interactions between tariff rate and
+region ended up in our final model.
