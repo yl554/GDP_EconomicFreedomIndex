@@ -3,14 +3,14 @@ What Makes a Strong GDP?
 Rtists
 11/14/2019
 
-    ## ── Attaching packages ────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
     ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
     ## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ───────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ─────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -157,7 +157,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -178,7 +178,7 @@ graph of GDP with some of these influential points
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -199,7 +199,7 @@ distribution is visualized below:
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100     hist
     ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05 ▁▃▅▇▆▅▂▁
 
@@ -220,7 +220,7 @@ to predict GDP, starting with `TaxBurden`.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100     hist
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47 ▂▅▇▆▅▅▂▂
 
@@ -238,7 +238,7 @@ deviation of the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100     hist
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2 ▂▇▇▇▇▃▁▁
 
@@ -255,7 +255,7 @@ of GDP and the distribution has a standard deviation of 15.52%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100     hist
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1 ▇▁▁▁▁▁▁▁
 
@@ -271,7 +271,7 @@ below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100     hist
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1 ▇▁▁▁▁▁▁▁
 
@@ -299,7 +299,7 @@ more linear relationship with GDP.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -319,7 +319,7 @@ IQR is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100     hist
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5 ▇▁▁▁▁▁▁▁
 
@@ -383,7 +383,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -403,7 +403,7 @@ analysis.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100     hist
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60 ▂▅▂▇▇▅▂▁
 
@@ -424,7 +424,7 @@ the distribution is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100     hist
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50 ▁▂▂▇▆▂▁▁
 
@@ -441,7 +441,7 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100     hist
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4 ▃▇▃▂▁▁▁▁
 
@@ -880,53 +880,73 @@ process rendered the same model.
 
 #### Model Comparison between all 3 Selection Criteria
 
-Model selecting using AIC: logGDP ~ TariffRate + logpop + GDPGrowth +
+Model selected using AIC: logGDP ~ TariffRate + logpop + GDPGrowth +
 TaxBurdenCent + GovSpendingCent + cat\_inflationDangerouslyHigh +
 cat\_inflationHigh + cat\_inflationLow + RegionAsia-Pacific +
 RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica
 + GovInterferenceLimited + GovInterferenceExtensive +
 GovInterferenceRepressive
 
-Model selecting using BIC: logGDP ~ TariffRate + logpop + GDPGrowth +
+Model selected using BIC: logGDP ~ TariffRate + logpop + GDPGrowth +
 cat\_inflationDangerouslyHigh + cat\_inflationHigh +
 GovInterferenceExtensive + RegionSub-Saharan Africa
 
-Model selecting using adj R^2: logGDP ~ TariffRate + logpop + GDPGrowth
-+ TaxBurdenCent + cat\_inflationDangerously High + cat\_inflationHigh +
+Model selected using adj R^2: logGDP ~ TariffRate + logpop + GDPGrowth +
+TaxBurdenCent + cat\_inflationDangerously High + cat\_inflationHigh +
 GovInterferenceLimited + GovInterferenceModerate + RegionSub-Saharan
 Africa
 
 From the final equations generated using different selection criteria,
 we see that all three selection criteria included TariffRate + logpop +
-CorporateTaxRate + TaxBurdenCent + GDPGrowth in the final model.
-cat\_inflation is included in all three equations, though for BIC and
-adjR2, the level of low inflation is excluded. This is not surprising
-considering that the p-value of the cat\_inflationLow coefficient is
-0.9783542, implying that this coefficient is statistically
-insignificant. We will choose to include cat\_inflation in the final
-model for the following reasons. One, a categorical variable with 4
-levels require us to use 3 dummy variables. Removing one because it is
-insignificant will affect the coefficients of the other levels because
-the missing level has to be forcibly added to either of the three
-category. We will also not change the categories of inflation rates
-because the present classification references economic literature which
-generally suggests four levels of inflation rates: low, healthy, high,
-and dangerously high (hyperinflation). Two, we also note that the AIC
-coefficient for cat\_inflationLow to be extremely small. This means that
-the regression model only made very minimal changes to fit the data
-categorized as Low inflation, thus we are not too concerned that the
-inclusion of this level will significantly impact the accuracy of the
-regression.
+GDPGrowth + GovInterference in the final model. For that reason, we
+decide to include all four of these predictors into our final model.
 
-Unemployment is only shown in the AIC equation while GovSpendingCent is
-included in both the AIC and adjR2 equations. We conduct a nested F test
-to finally decide if these two predictor variables are significant to
-the existing
-model.
+cat\_inflation is included in all three equations, though for BIC and
+adj R^2, the level of low inflation is excluded. This is not surprising
+considering that the p-value of the cat\_inflationLow coefficient in the
+AIC model is 0.8030022, implying that this coefficient is probably very
+statistically insignificant.
+
+While there is one level that could be very statistically insignificant,
+we will choose to include cat\_inflation in the final model for the
+following reasons. One, a categorical variable with 4 levels require us
+to use 3 dummy variables. Removing one because it is insignificant will
+affect the coefficients of the other levels because the missing level
+has to be forcibly added to either of the three category. We will also
+not change the categories of inflation rates because the present
+classification references economic literature which generally suggests
+four levels of inflation rates: low, healthy, high, and dangerously high
+(hyperinflation). Two, we also note that the AIC coefficient for
+cat\_inflationLow to be extremely small. This means that the regression
+model only made very minimal changes to fit the data categorized as Low
+inflation, thus we are not too concerned that the inclusion of this
+level will significantly impact the accuracy of the regression.
+
+The same is observed for the categorical variable Region. The final BIC
+and adj R^2 models selected only RegionSub-SaharanAfrica. In this case,
+it is hard to conclude that the other levels of the categories are
+statistically insignificant as their p values in the final models are
+not extremely high/ close to 1. In fact, the coefficient of
+RegionMiddleEastandNorthAfrica has a very low p value at 0.0025057,
+while those of RegionEurope and RegionAsia-Pacific are above From these
+circumstantial evidence, we are hesitant to recode the Region variable
+to have only two values: Sub-Saharan Africa and Not Subsaharan Africa.
+There seems to be a statistical difference between being in the Middle
+East and North Africa versus Europe or Asia Pacific.
+
+GovSpendingCent is included only in the AIC equation while TaxBurdenCent
+is included in both the AIC and adjR2 equations. We conduct a nested F
+test to finally decide if these two predictor variables are significant
+to the model with predictor variables which we have decided to include
+thus far (TariffRate + logpop + GDPGrowth + cat\_inflation +
+GovInterference + Region) based on the above reasoning.
+
+Nested F test for
+GovSpendingCent:
 
 ``` r
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + GovSpending, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + GovSpendingCent, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
@@ -934,6 +954,16 @@ kable(anova(reduced, full), format="markdown", digits = 3)
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    161 | 84.007 | NA |        NA |    NA |      NA |
 |    160 | 84.005 |  1 |     0.001 | 0.003 |   0.959 |
+
+The p value of the nested F test for GovSpendingCent is extremely high
+and thus we choose not include it in our model. Moreover, we also do not
+accord it high practical significance. The role of government spending
+is also highly contested in economic literature depending on which
+school of thought you subscribe to. That it is not a significant
+determinant of GDP reflect this ambuiguity in academic literature.
+
+Nested F test for
+TaxBurdenCent:
 
 ``` r
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
@@ -946,92 +976,226 @@ kable(anova(reduced, full), format="markdown", digits = 3)
 |    161 | 84.007 | NA |        NA |    NA |      NA |
 |    160 | 81.973 |  1 |     2.034 | 3.969 |   0.048 |
 
-As observed in the individual nested F tests of GovSpendingCent and
-Unemployment, both variables have relatively high p-values. This means
-that both predictor variables are not statistically significant
-predictors. We also do not accord them high practical significance for
-the following reasons. While unemployment does affect and is affected by
-gdp growth rate, it theoretically may not have considerable impact on
-GDP (GDP is a stock concept, gdp growth is a flow concept). This is not
-surprising since countries with high GDP may have high or low
-unemployment depending on their respective trajectories in the business
-cycle. The role of government spending is also highly contested in
-economic literature. That it is not a significant determinant of GDP
-reflect this ambuiguity in academic
-literature.
+The p value of the nested F test for TaxBurdenCent = 0.048 \< 0.05. We
+thus choose to include TaxBurdenCent into our final model.
+
+#### Testing Interaction Variables
+
+To test for interaction between the categorical and predictor varaibles,
+we will conducted nested F tests.
+
+We do so by first testing for interaction between cat\_inflation and the
+4 quantitative variables.
+
+Interaction between cat\_inflation and
+TariffRate:
 
 ``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + cat_inflation*TariffRate + cat_inflation*logpop + cat_inflation*GDPGrowth, data = economic_data)
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*TariffRate, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
-|    161 | 84.007 | NA |        NA |    NA |      NA |
-|    152 | 80.042 |  9 |     3.965 | 0.837 |   0.583 |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    157 | 80.249 |  3 |     1.724 | 1.124 |   0.341 |
+
+Interaction between cat\_inflation and
+logpop:
 
 ``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + GovInterference*TariffRate + GovInterference*logpop + GovInterference*GDPGrowth, data = economic_data)
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*logpop, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
-|    161 | 84.007 | NA |        NA |    NA |      NA |
-|    158 | 81.851 |  3 |     2.156 | 1.387 |   0.249 |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    157 | 81.133 |  3 |      0.84 | 0.542 |   0.654 |
+
+Interaction between cat\_inflation and
+GDPGrowth:
 
 ``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + Region*TariffRate + Region*logpop + Region*GDPGrowth, data = economic_data)
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*GDPGrowth, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
-|    161 | 84.007 | NA |        NA |    NA |      NA |
-|    149 | 70.430 | 12 |    13.577 | 2.394 |   0.007 |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    157 | 80.441 |  3 |     1.533 | 0.997 |   0.396 |
+
+Interaction between cat\_inflation and
+TaxBurdenCent:
 
 ``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + Region*TariffRate, data = economic_data)
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*GDPGrowth, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
-|    161 | 84.007 | NA |        NA |    NA |      NA |
-|    157 | 77.245 |  4 |     6.762 | 3.436 |    0.01 |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    157 | 80.441 |  3 |     1.533 | 0.997 |   0.396 |
+
+As seen from the nested F tests, none of the p values are close to 0.05.
+This implies that none of the interaction between the 4 quantitive
+predictor variables and cat\_inflation is statistically significant.
+
+We thus include no interaction variables for cat\_inflation.
+
+We now test for interaction between GovInterference and the 4
+quantitative variables.
+
+Interaction between GovInterference and
+TariffRate:
 
 ``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + Region*logpop, data = economic_data)
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TariffRate, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
-|    161 | 84.007 | NA |        NA |    NA |      NA |
-|    157 | 82.441 |  4 |     1.566 | 0.745 |   0.562 |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    159 | 80.259 |  1 |     1.714 | 3.396 |   0.067 |
+
+Interaction between GovInterference and
+logpop:
 
 ``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + Region*GDPGrowth, data = economic_data)
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*logpop, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
-|    161 | 84.007 | NA |        NA |    NA |      NA |
-|    157 | 81.357 |  4 |      2.65 | 1.278 |   0.281 |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    159 | 80.833 |  1 |      1.14 | 2.242 |   0.136 |
+
+Interaction between GovInterference and
+GDPGrowth:
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*GDPGrowth, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+| Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
+| -----: | -----: | -: | --------: | ----: | ------: |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    159 | 81.944 |  1 |     0.029 | 0.056 |   0.813 |
+
+Interaction between GovInterference and
+TaxBurdenCent:
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TaxBurdenCent, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+| Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
+| -----: | -----: | -: | --------: | ----: | ------: |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    159 | 81.973 |  1 |     0.001 | 0.001 |   0.975 |
+
+From the nested F tests above, we see that the p values for the
+interaction variables between GovInterference and TaxBurdenCent,
+GDPGrowth, logpop are all way above 0.05. Only the p value of the nested
+F test for the interaction between GovInterference and TariffRate is
+0.067 which is close to 0.05. Since the p value is not far from 0.05 and
+we know that the dataset does not have a large number of observation, it
+is reasonable to assume that the effect of GovInterference on TariffRate
+must have been considerably large for the p value to be so close 0.05
+even with a small dataset.
+
+Thus, we choose to include the interaction term
+GovInterference\*TariffRate into the final model.
+
+We now test for interaction between Region and the 4 quantitative
+variables.
+
+Interaction between Region and
+TariffRate:
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*TariffRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+| Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
+| -----: | -----: | -: | --------: | ----: | ------: |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    156 | 74.820 |  4 |     7.153 | 3.729 |   0.006 |
+
+Interaction between Region and
+logpop:
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*logpop, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+| Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
+| -----: | -----: | -: | --------: | ----: | ------: |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    156 | 80.486 |  4 |     1.487 | 0.721 |   0.579 |
+
+Interaction between Region and
+GDPGrowth:
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*GDPGrowth, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+| Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
+| -----: | -----: | -: | --------: | ----: | ------: |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    156 | 78.894 |  4 |     3.079 | 1.522 |   0.198 |
+
+Interaction between Region and
+TaxBurdenCent:
+
+``` r
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*TaxBurdenCent, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+| Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
+| -----: | -----: | -: | --------: | ----: | ------: |
+|    160 | 81.973 | NA |        NA |    NA |      NA |
+|    156 | 78.954 |  4 |     3.019 | 1.491 |   0.207 |
+
+From the nested F tests above, we see that the p values for the
+interaction variables between Region and TaxBurdenCent, GDPGrowth,
+logpop are all way above 0.05. Only the p value of the nested F test for
+the interaction between Region and TariffRate is 0.006 which is smaller
+than 0.05. This implies that there is significant interaction between
+Region and TariffRate.
+
+Thus, we choose to include the interaction term Region\*TariffRate into
+the final model.
 
 ### Final Model
 
-``` r
-final_model <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + Region*TariffRate, data=economic_data)
-kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
-```
+We now regress with our final selection of predictor and interaction
+variables: TariffRate + logpop + GDPGrowth + TaxBurdenCent +
+cat\_inflation + GovInterference + Region + GovInterference x TariffRate
++ Region x TariffRate.
 
 <table>
 
@@ -1097,19 +1261,19 @@ conf.high
 
 <td style="text-align:right;">
 
-3.237
+3.117
 
 </td>
 
 <td style="text-align:right;">
 
-0.274
+0.268
 
 </td>
 
 <td style="text-align:right;">
 
-11.807
+11.616
 
 </td>
 
@@ -1121,13 +1285,13 @@ conf.high
 
 <td style="text-align:right;">
 
-2.695
+2.587
 
 </td>
 
 <td style="text-align:right;">
 
-3.779
+3.648
 
 </td>
 
@@ -1143,37 +1307,37 @@ TariffRate
 
 <td style="text-align:right;">
 
-\-0.002
+\-0.009
 
 </td>
 
 <td style="text-align:right;">
 
-0.033
+0.032
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.061
+\-0.266
 
 </td>
 
 <td style="text-align:right;">
 
-0.951
+0.790
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.067
+\-0.072
 
 </td>
 
 <td style="text-align:right;">
 
-0.063
+0.055
 
 </td>
 
@@ -1189,19 +1353,19 @@ logpop
 
 <td style="text-align:right;">
 
-0.996
+1.006
 
 </td>
 
 <td style="text-align:right;">
 
-0.033
+0.032
 
 </td>
 
 <td style="text-align:right;">
 
-30.618
+31.600
 
 </td>
 
@@ -1213,13 +1377,13 @@ logpop
 
 <td style="text-align:right;">
 
-0.932
+0.943
 
 </td>
 
 <td style="text-align:right;">
 
-1.060
+1.069
 
 </td>
 
@@ -1235,7 +1399,7 @@ GDPGrowth
 
 <td style="text-align:right;">
 
-\-0.077
+\-0.057
 
 </td>
 
@@ -1247,25 +1411,71 @@ GDPGrowth
 
 <td style="text-align:right;">
 
-\-3.502
+\-2.596
 
 </td>
 
 <td style="text-align:right;">
 
-0.001
+0.010
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.120
+\-0.101
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.033
+\-0.014
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+TaxBurdenCent
+
+</td>
+
+<td style="text-align:right;">
+
+0.020
+
+</td>
+
+<td style="text-align:right;">
+
+0.008
+
+</td>
+
+<td style="text-align:right;">
+
+2.523
+
+</td>
+
+<td style="text-align:right;">
+
+0.013
+
+</td>
+
+<td style="text-align:right;">
+
+0.004
+
+</td>
+
+<td style="text-align:right;">
+
+0.035
 
 </td>
 
@@ -1281,37 +1491,37 @@ cat\_inflationDangerously High
 
 <td style="text-align:right;">
 
-\-0.529
+\-0.374
 
 </td>
 
 <td style="text-align:right;">
 
-0.162
+0.163
 
 </td>
 
 <td style="text-align:right;">
 
-\-3.266
+\-2.287
 
 </td>
 
 <td style="text-align:right;">
 
-0.001
+0.024
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.848
+\-0.697
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.209
+\-0.051
 
 </td>
 
@@ -1327,37 +1537,37 @@ cat\_inflationHigh
 
 <td style="text-align:right;">
 
-\-0.484
+\-0.402
 
 </td>
 
 <td style="text-align:right;">
 
-0.158
+0.156
 
 </td>
 
 <td style="text-align:right;">
 
-\-3.056
+\-2.584
 
 </td>
 
 <td style="text-align:right;">
 
-0.003
+0.011
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.797
+\-0.709
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.171
+\-0.095
 
 </td>
 
@@ -1373,37 +1583,37 @@ cat\_inflationLow
 
 <td style="text-align:right;">
 
-\-0.053
+0.022
 
 </td>
 
 <td style="text-align:right;">
 
-0.166
+0.163
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.321
+0.137
 
 </td>
 
 <td style="text-align:right;">
 
-0.749
+0.891
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.382
+\-0.300
 
 </td>
 
 <td style="text-align:right;">
 
-0.275
+0.344
 
 </td>
 
@@ -1419,19 +1629,19 @@ GovInterferenceExtensive
 
 <td style="text-align:right;">
 
-\-0.566
+\-1.045
 
 </td>
 
 <td style="text-align:right;">
 
-0.134
+0.240
 
 </td>
 
 <td style="text-align:right;">
 
-\-4.226
+\-4.345
 
 </td>
 
@@ -1443,13 +1653,13 @@ GovInterferenceExtensive
 
 <td style="text-align:right;">
 
-\-0.831
+\-1.520
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.302
+\-0.570
 
 </td>
 
@@ -1465,7 +1675,7 @@ RegionAsia-Pacific
 
 <td style="text-align:right;">
 
-0.869
+1.117
 
 </td>
 
@@ -1477,25 +1687,25 @@ RegionAsia-Pacific
 
 <td style="text-align:right;">
 
-2.910
+3.731
 
 </td>
 
 <td style="text-align:right;">
 
-0.004
+0.000
 
 </td>
 
 <td style="text-align:right;">
 
-0.279
+0.526
 
 </td>
 
 <td style="text-align:right;">
 
-1.460
+1.708
 
 </td>
 
@@ -1511,37 +1721,37 @@ RegionEurope
 
 <td style="text-align:right;">
 
-0.762
+0.537
 
 </td>
 
 <td style="text-align:right;">
 
-0.380
+0.378
 
 </td>
 
 <td style="text-align:right;">
 
-2.005
+1.420
 
 </td>
 
 <td style="text-align:right;">
 
-0.047
+0.158
 
 </td>
 
 <td style="text-align:right;">
 
-0.011
+\-0.210
 
 </td>
 
 <td style="text-align:right;">
 
-1.512
+1.283
 
 </td>
 
@@ -1557,37 +1767,37 @@ RegionMiddle East and North Africa
 
 <td style="text-align:right;">
 
-0.499
+0.969
 
 </td>
 
 <td style="text-align:right;">
 
-0.423
+0.433
 
 </td>
 
 <td style="text-align:right;">
 
-1.181
+2.237
 
 </td>
 
 <td style="text-align:right;">
 
-0.239
+0.027
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.336
+0.113
 
 </td>
 
 <td style="text-align:right;">
 
-1.334
+1.824
 
 </td>
 
@@ -1603,37 +1813,83 @@ RegionSub-Saharan Africa
 
 <td style="text-align:right;">
 
-\-0.830
+\-0.655
 
 </td>
 
 <td style="text-align:right;">
 
-0.343
+0.348
 
 </td>
 
 <td style="text-align:right;">
 
-\-2.420
+\-1.883
 
 </td>
 
 <td style="text-align:right;">
 
-0.017
+0.062
 
 </td>
 
 <td style="text-align:right;">
 
-\-1.507
+\-1.343
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.152
+0.032
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+TariffRate:GovInterferenceExtensive
+
+</td>
+
+<td style="text-align:right;">
+
+0.080
+
+</td>
+
+<td style="text-align:right;">
+
+0.031
+
+</td>
+
+<td style="text-align:right;">
+
+2.564
+
+</td>
+
+<td style="text-align:right;">
+
+0.011
+
+</td>
+
+<td style="text-align:right;">
+
+0.018
+
+</td>
+
+<td style="text-align:right;">
+
+0.142
 
 </td>
 
@@ -1649,37 +1905,37 @@ TariffRate:RegionAsia-Pacific
 
 <td style="text-align:right;">
 
-\-0.138
+\-0.180
 
 </td>
 
 <td style="text-align:right;">
 
-0.045
+0.046
 
 </td>
 
 <td style="text-align:right;">
 
-\-3.080
+\-3.904
 
 </td>
 
 <td style="text-align:right;">
 
-0.002
+0.000
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.227
+\-0.271
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.050
+\-0.089
 
 </td>
 
@@ -1695,37 +1951,37 @@ TariffRate:RegionEurope
 
 <td style="text-align:right;">
 
-\-0.078
+\-0.068
 
 </td>
 
 <td style="text-align:right;">
 
-0.126
+0.122
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.620
+\-0.554
 
 </td>
 
 <td style="text-align:right;">
 
-0.536
+0.580
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.327
+\-0.310
 
 </td>
 
 <td style="text-align:right;">
 
-0.171
+0.174
 
 </td>
 
@@ -1741,37 +1997,37 @@ TariffRate:RegionMiddle East and North Africa
 
 <td style="text-align:right;">
 
-0.024
+\-0.045
 
 </td>
 
 <td style="text-align:right;">
 
-0.065
+0.067
 
 </td>
 
 <td style="text-align:right;">
 
-0.371
+\-0.676
 
 </td>
 
 <td style="text-align:right;">
 
-0.711
+0.500
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.105
+\-0.178
 
 </td>
 
 <td style="text-align:right;">
 
-0.153
+0.087
 
 </td>
 
@@ -1787,37 +2043,37 @@ TariffRate:RegionSub-Saharan Africa
 
 <td style="text-align:right;">
 
-\-0.028
+\-0.058
 
 </td>
 
 <td style="text-align:right;">
 
-0.041
+0.044
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.685
+\-1.322
 
 </td>
 
 <td style="text-align:right;">
 
-0.494
+0.188
 
 </td>
 
 <td style="text-align:right;">
 
-\-0.110
+\-0.146
 
 </td>
 
 <td style="text-align:right;">
 
-0.053
+0.029
 
 </td>
 
@@ -1857,41 +2113,42 @@ normal QQ plot of points fit the theoretical line very well.
 Lastly,
 
     ## Observations: 5
-    ## Variables: 15
+    ## Variables: 16
     ## $ logGDP          <dbl> 4.242765, 3.583519, 6.450312, 5.248602, 6.824591
     ## $ TariffRate      <dbl> 7.0, 1.1, 8.8, 9.4, 7.5
     ## $ logpop          <dbl> 3.569533, 1.064711, 3.725693, 3.339322, 3.786460
     ## $ GDPGrowth       <dbl> 2.5, 3.9, 2.0, 0.7, 2.9
+    ## $ TaxBurdenCent   <dbl> -17.193642, 2.706358, 2.306358, -1.593642, 8.606358
     ## $ cat_inflation   <fct> High, Healthy, High, Dangerously High, Dangerously Hi…
     ## $ GovInterference <fct> Extensive, Moderate, Extensive, Extensive, Moderate
     ## $ Region          <chr> "Asia-Pacific", "Europe", "Middle East and North Afri…
-    ## $ .fitted         <dbl> 5.438701, 4.671748, 6.438578, 4.299313, 6.242184
-    ## $ .se.fit         <dbl> 0.1666559, 0.1743992, 0.2896738, 0.1486235, 0.1929677
-    ## $ .resid          <dbl> -1.19593680, -1.08822919, 0.01173444, 0.94928855, 0.5…
-    ## $ .hat            <dbl> 0.05645116, 0.06181877, 0.17054931, 0.04489586, 0.075…
-    ## $ .sigma          <dbl> 0.6967357, 0.6979012, 0.7036736, 0.6993636, 0.7020009
-    ## $ .cooksd         <dbl> 1.152052e-02, 1.056572e-02, 4.336159e-06, 5.633950e-0…
-    ## $ .std.resid      <dbl> -1.75526157, -1.60174290, 0.01836889, 1.38480520, 0.8…
+    ## $ .fitted         <dbl> 5.139058, 4.471403, 6.551641, 4.457461, 6.492631
+    ## $ .se.fit         <dbl> 0.1886207, 0.1868457, 0.2934447, 0.1522129, 0.2081021
+    ## $ .resid          <dbl> -0.8962932, -0.8878845, -0.1013290, 0.7911412, 0.3319…
+    ## $ .hat            <dbl> 0.07683060, 0.07539135, 0.18595507, 0.05003320, 0.093…
+    ## $ .sigma          <dbl> 0.6785456, 0.6786297, 0.6826367, 0.6795560, 0.6821183
+    ## $ .cooksd         <dbl> 0.0086886948, 0.0083406800, 0.0003456703, 0.004163248…
+    ## $ .std.resid      <dbl> -1.3708410, -1.3569230, -0.1650393, 1.1928271, 0.5123…
     ## $ obs_num         <int> 1, 2, 3, 4, 5
 
 ![](regression-analysis_files/figure-gfm/leverage-1.png)<!-- -->
 
-    ## [1] 47
+    ## [1] 59
 
-    ## # A tibble: 47 x 2
-    ##    obs_num    .cooksd
-    ##      <int>      <dbl>
-    ##  1       3 0.00000434
-    ##  2      10 0.00870   
-    ##  3      11 0.00161   
-    ##  4      12 0.00356   
-    ##  5      13 0.00135   
-    ##  6      21 0.0293    
-    ##  7      23 0.00426   
-    ##  8      28 0.0121    
-    ##  9      33 0.0104    
-    ## 10      34 0.000143  
-    ## # … with 37 more rows
+    ## # A tibble: 59 x 2
+    ##    obs_num  .cooksd
+    ##      <int>    <dbl>
+    ##  1       3 0.000346
+    ##  2      10 0.0498  
+    ##  3      11 0.00381 
+    ##  4      12 0.00377 
+    ##  5      13 0.000301
+    ##  6      14 0.0122  
+    ##  7      21 0.0218  
+    ##  8      23 0.00132 
+    ##  9      28 0.00498 
+    ## 10      29 0.000855
+    ## # … with 49 more rows
 
 ![](regression-analysis_files/figure-gfm/cook%20distace-1.png)<!-- -->
 
@@ -1919,24 +2176,26 @@ tidy(vif(final_model))
     ## Warning: 'tidy.numeric' is deprecated.
     ## See help("Deprecated")
 
-    ## # A tibble: 15 x 2
+    ## # A tibble: 17 x 2
     ##    names                                             x
     ##    <chr>                                         <dbl>
-    ##  1 TariffRate                                     7.41
-    ##  2 logpop                                         1.19
-    ##  3 GDPGrowth                                      1.27
-    ##  4 cat_inflationDangerously High                  1.61
-    ##  5 cat_inflationHigh                              1.62
-    ##  6 cat_inflationLow                               1.39
-    ##  7 GovInterferenceExtensive                       1.50
-    ##  8 RegionAsia-Pacific                             5.58
-    ##  9 RegionEurope                                   9.48
-    ## 10 RegionMiddle East and North Africa             4.67
-    ## 11 RegionSub-Saharan Africa                       7.95
-    ## 12 TariffRate:RegionAsia-Pacific                  5.38
-    ## 13 TariffRate:RegionEurope                        6.15
-    ## 14 TariffRate:RegionMiddle East and North Africa  4.50
-    ## 15 TariffRate:RegionSub-Saharan Africa           13.0
+    ##  1 TariffRate                                     7.44
+    ##  2 logpop                                         1.21
+    ##  3 GDPGrowth                                      1.37
+    ##  4 TaxBurdenCent                                  2.39
+    ##  5 cat_inflationDangerously High                  1.74
+    ##  6 cat_inflationHigh                              1.66
+    ##  7 cat_inflationLow                               1.42
+    ##  8 GovInterferenceExtensive                       5.12
+    ##  9 RegionAsia-Pacific                             5.95
+    ## 10 RegionEurope                                   9.97
+    ## 11 RegionMiddle East and North Africa             5.21
+    ## 12 RegionSub-Saharan Africa                       8.71
+    ## 13 TariffRate:GovInterferenceExtensive            7.89
+    ## 14 TariffRate:RegionAsia-Pacific                  6.05
+    ## 15 TariffRate:RegionEurope                        6.16
+    ## 16 TariffRate:RegionMiddle East and North Africa  5.04
+    ## 17 TariffRate:RegionSub-Saharan Africa           15.8
 
 There doesn’t seem to be any multicollinearity in this model because the
 variance inflation factors are all below 10.
