@@ -644,7 +644,15 @@ ggplot(data=economic_data,aes(x=predicted, y=residuals)) +
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(title="Residuals vs. Predicted Values")
+
+ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)) + 
+  geom_point() +
+  labs(x = "predicted",
+       y = "Residuals",
+       color = "Region")
 ```
+
+
 
 ```{r residuals vs. predictor variables}
 ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
@@ -687,9 +695,21 @@ ggplot(data=economic_data,aes(x=Region, y=residuals)) +
   labs(x = "Region", 
        y = "Residuals",
        title = "Scatterplot of Residuals vs. Region")
+
+ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=Region)) + 
+  geom_point() +
+  labs(x = "TariffRate",
+       y = "Residuals",
+       color = "Region")
+
+ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=GovInterference)) + 
+  geom_point() +
+  labs(x = "TariffRate",
+       y = "Residuals",
+       color = "GovInterference")
 ```
 
-The constant variance assumption is further satisfied because the residuals from each of the residuals vs. quantitative predictor variables plot is randomly scattered and doesn't appear any distinguishable shape. For those categorical predictor variables, the boxplot of residuals are appproximately centered around 0, sysmetric, and the interquantile range is roughly the same for each category. So, we can say that constant variance assumption is met.
+The constant variance assumption is further satisfied because the residuals from each of the residuals vs. quantitative predictor variables plot is randomly scattered and doesn't appear any distinguishable shape. For those categorical predictor variables, the boxplot of residuals are appproximately centered around 0, sysmetric, and the interquantile range is roughly the same for each category. Furthermore, for interaction terms, we made color coded residual plots according to different categories. And for each category (each color), the residual points all look randomly scattered. So, we can say that constant variance assumption is met.
 
 
 ```{r residual normality check}
@@ -759,7 +779,7 @@ There are 8 observations that are considered to have large standardized residual
 tidy(vif(final_model))
 ```
 
-There doesn’t seem to be any multicollinearity in this model because the variance inflation factors are all below 10.
+There is only variable that exceeds the threshold of 10: TariffRate:RegionSub-Saharan Africa. However, we don't see another one that is close to 15.758. Since according to other model diagonitics, our model looks good, and it is reasonable to have a high multicollinearity for this variable because if we know a country is from sub-saharan Africa, then tariff of all countries in this region can be predicted. So, we keep this variable in our model.
 
 ### Interpretation and Other Interesting Findings
 

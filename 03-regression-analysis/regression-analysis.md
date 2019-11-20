@@ -2113,17 +2113,20 @@ satisfied. The following figure shows no obvious shape or pattern, and
 therefore, the constant variance assumption is also
 satisfied.
 
-![](regression-analysis_files/figure-gfm/residual%20vs.%20predicted-1.png)<!-- -->
+![](regression-analysis_files/figure-gfm/residual%20vs.%20predicted-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residual%20vs.%20predicted-2.png)<!-- -->
 
-![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-2.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-3.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-4.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-5.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-6.png)<!-- -->
+![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-2.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-3.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-4.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-5.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-6.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-7.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-8.png)<!-- -->
 
 The constant variance assumption is further satisfied because the
 residuals from each of the residuals vs. quantitative predictor
 variables plot is randomly scattered and doesn’t appear any
 distinguishable shape. For those categorical predictor variables, the
 boxplot of residuals are appproximately centered around 0, sysmetric,
-and the interquantile range is roughly the same for each category. So,
-we can say that constant variance assumption is
+and the interquantile range is roughly the same for each category.
+Furthermore, for interaction terms, we made color coded residual plots
+according to different categories. And for each category (each color),
+the residual points all look randomly scattered. So, we can say that
+constant variance assumption is
 met.
 
 ![](regression-analysis_files/figure-gfm/residual%20normality%20check-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residual%20normality%20check-2.png)<!-- -->
@@ -2221,8 +2224,13 @@ tidy(vif(final_model))
     ## 16 TariffRate:RegionMiddle East and North Africa  5.04
     ## 17 TariffRate:RegionSub-Saharan Africa           15.8
 
-There doesn’t seem to be any multicollinearity in this model because the
-variance inflation factors are all below 10.
+There is only variable that exceeds the threshold of 10:
+TariffRate:RegionSub-Saharan Africa. However, we don’t see another one
+that is close to 15.758. Since according to other model diagonitics, our
+model looks good, and it is reasonable to have a high multicollinearity
+for this variable because if we know a country is from sub-saharan
+Africa, then tariff of all countries in this region can be predicted.
+So, we keep this variable in our model.
 
 ### Interpretation and Other Interesting Findings
 
