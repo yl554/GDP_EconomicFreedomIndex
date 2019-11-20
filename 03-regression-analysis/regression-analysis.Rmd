@@ -661,28 +661,35 @@ ggplot(data=economic_data,aes(x=logpop, y=residuals)) +
        y = "Residuals",
        title = "Scatterplot of Residuals vs. log of Population")
 
-ggplot(data=economic_data,aes(x=CorporateTaxRate, y=residuals)) + 
+ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "CorporateTaxRate", 
        y = "Residuals",
        title = "Scatterplot of Residuals vs. CorporateTaxRate")
 
-ggplot(data=economic_data,aes(x=GDPGrowth, y=residuals)) + 
-  geom_point() + 
+ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) + 
+  geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "GDPGrowth", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. GDPGrowth")
+       title = "Scatterplot of Residuals vs. GovInterference")
 
 ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Inflation", 
        y="Residuals")
+
+ggplot(data=economic_data,aes(x=Region, y=residuals)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Region", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. Region")
 ```
 
-The constant variance assumption is further satisfied because the residuals from each of the residuals vs. predictor variables plot is randomly scattered and doesn't appear any distinguishable shape.
+The constant variance assumption is further satisfied because the residuals from each of the residuals vs. quantitative predictor variables plot is randomly scattered and doesn't appear any distinguishable shape. For those categorical predictor variables, the boxplot of residuals are appproximately centered around 0, sysmetric, and the interquantile range is roughly the same for each category. So, we can say that constant variance assumption is met.
 
 
 ```{r residual normality check}
@@ -700,7 +707,7 @@ ggplot(data=economic_data, aes(sample=residuals)) +
 
 The normality assumption is satisfied since the distribution of residuals appears to be unimodal and approximately normal. Also, the normal QQ plot of points fit the theoretical line very well.
 
-Lastly, 
+Lastly, we augmented the model and took a look into leverage, cook's distance, and standardized residual to check for outliers and assess their influence on our model.
 
 ```{r augment model}
 economic_data_aug <- augment(final_model) %>%
