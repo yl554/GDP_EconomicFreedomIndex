@@ -639,7 +639,6 @@ kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
 Next, we examine the four model assumptions: linearity, constant variance, normality, and independence. 
 
 
-
 ##### Independence Check
 
 Because our data is about countries, we expect countries in the same region to have similar GDP and status, which might harm the independence assumption of our model. So, we made color-coded plot of residuals vs. region to see if region really affects the independence.
@@ -655,7 +654,9 @@ ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)
        color = "Region")
 ```
 
-By looking at the color-coded residual plot, residual points of each category seems randomly scattered and don't have distinguishable shape. So this finding indicates no cluster effect and thus negates the possible violation of independence assumption .
+By looking at the color-coded residual plot, residual points of each category seems randomly scattered and don't have distinguishable shape. So this finding indicates no cluster effect and thus negates the possible violation of independence assumption.
+
+Moreover, we do not expect that the recording of GDP in one country to be affected by the recording of GDP in another. In that sense, the observations are deduced to be independent. 
 
 ##### Constant Variance Check
 
@@ -798,7 +799,20 @@ Even though there are 8 points with high leverage and high standardized residues
 tidy(vif(final_model))
 ```
 
-There is only variable that exceeds the threshold of 10: TariffRate:RegionSub-Saharan Africa. However, we don't see another one that is close to 15.758. Since according to other model diagonitics, our model looks good, and it is reasonable to have a high multicollinearity for this variable because if we know a country is from sub-saharan Africa, then tariff of all countries in this region can be predicted. So, we keep this variable in our model.
+There is only variable that exceeds the threshold of 10: TariffRate:RegionSub-Saharan Africa. However, we don't see another one that is close to 15.758. Usually we would be concerned if two variables in the model have close VIF values exceeding 10. This means the two variables are highly correlated with each other. Since that is not the case here, we are less concernned about the model validity. 
+
+According to other model diagonistics, our model looks good, and it is not unreasonable to have a high multicollinearity for this particular interaction variable. Its high multicollinearity means that knowing that a country is from subsaharan Africa, one can easily predict the coefficient of the TariffRate predictor variable. This is not entirely surprising considering that the region has a considerably higher tariff rates compared to all other regions.
+
+```{r Tariff rate by region}
+economic_data %>%
+ggplot(mapping = aes(x = Region, y = TariffRate)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of TariffRate versus Region")
+```
+
+Moreover the VIF values for the interaction between TariffRate and other levels of Region are not high. This means that they are useful in the model and we will not want to remove all the other meaningful interactions. 
+
+For the above reasons, we choose to keep the interaction variables between TariffRate and all the levels of Region.
 
 ### Interpretation and Other Interesting Findings
 
