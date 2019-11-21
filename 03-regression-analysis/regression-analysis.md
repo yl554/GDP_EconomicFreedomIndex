@@ -428,9 +428,9 @@ distribution, there are several values of income tax rate which have
 particularly high frequency such as 10%, 25% and 34-35%. The mode of the
 distribution occurs at 35%. Since there is relatively minimal skewing,
 we report the mean and standard deviation as measures of center and
-spread. The mean income tax rate is 28.23 and the standard deviation of
+spread. The mean income tax rate is 28.23% and the standard deviation of
 the distribution is
-13.4.
+13.4%.
 
 ![](regression-analysis_files/figure-gfm/Corporate%20Tax%20Rate-1.png)<!-- -->
 
@@ -928,8 +928,8 @@ decide to include all four of these predictors into our final model.
 cat\_inflation is included in all three equations, though for BIC and
 adj R^2, the level of low inflation is excluded. This is not surprising
 considering that the p-value of the cat\_inflationLow coefficient in the
-AIC model is 0.8030022, implying that this coefficient is probably very
-statistically insignificant.
+AIC model is 0.8030022, implying that this coefficient is very likely to
+be insignificant.
 
 While there is one level that could be very statistically insignificant,
 we will choose to include cat\_inflation in the final model for the
@@ -2240,12 +2240,14 @@ So, we keep this variable in our model.
 
 ### Interpretation and Other Interesting Findings
 
-Our final model can be represented by the following equation: 3.117 -
-.009(TariffRate) + 1.006(logpop) - .057(GDPGrowth) + .02(TaxBurdenCent)
-- .374(cat\_inflationDangerously High) - .402(cat\_inflationHigh) +
-.022(cat\_inflationLow) - 1.045(GovInteferenceExtensive) +
-1.117(RegionAsia-Pacific) + .537(RegionEurope) + .969(RegionMiddle East
-and North Africa) -.655(RegionSub-Saharan Africa) +
+Our final model can be represented by the following equation:
+
+log(GDP) = 3.117 - .009(TariffRate) + 1.006(logpop) - .057(GDPGrowth) +
+.02(TaxBurdenCent) - .374(cat\_inflationDangerously High) -
+.402(cat\_inflationHigh) + .022(cat\_inflationLow) -
+1.045(GovInteferenceExtensive) + 1.117(RegionAsia-Pacific) +
+.537(RegionEurope) + .969(RegionMiddle East and North Africa)
+-.655(RegionSub-Saharan Africa) +
 .08(TariffRate:GovInteferenceExtensive) -
 .18(TariffRate:RegionAsia-Pacific) -.068(TariffRate:RegionEurope) +
 -.045(TariffRate:RegionMiddle East and North Africa)
@@ -2279,18 +2281,12 @@ TariffRate increases by 1%, the median GDP of the country is expected to
 be multiplied by a factor of 1.0832871, holding all other variables
 constant.
 
-If the population is multiplied by a factor of C, the median GDP is
-expected to be multiplied by a factor of `exp(1.006logC)`.
-
-As the Corporate Tax Rate increases by one percentage point, the
-expected median GDP of the country is multiplied by a factor of
-0.9646403, holding all other variables constant. As the corporate tax
-rate increases, we can expect the GDP of the country to be lower.
+If the population increases by 1 million, GDP is expected to increase by
+$2.7346405
 
 As GDPGrowth increases by one percentage point, the expected median GDP
 of the country is multiplied by a factor of 0.9445941, holding all other
-variables constant. As GDP growth increases, we can expect the GDP of
-the country to be higher.
+variables constant. As GDP growth increases, we see a decrease in GDP.
 
 As the tax burden increases by one percentage point, the expected median
 GDP of the country is multiplied by a factor of 0.9801987, holding all
@@ -2329,12 +2325,26 @@ the investigation we came across several interesting findings. The first
 and most notable is that none of our interaction effect terms involving
 inflation ended up in our final model as they did not have a significant
 effect on the response. We tried five different interaction effects with
-inflation: The effects between inflation and GDP growth, inflation and
-corporate tax rate, inflation and the log of the population, and
-inflation and the tariff rate. We hypothesized that the effect of these
-quantitative predictors may depend on the rate of inflation as this
-represents the stability of the currency which drives the country’s
-economy, but this ended up not being the case.
+inflation: The effects between inflation and GDP growth, inflation,
+inflation and the log of the population, and inflation and the tariff
+rate. We hypothesized that the effect of these quantitative predictors
+may depend on the rate of inflation as this represents the stability of
+the currency which drives the country’s economy, but this ended up not
+being the case.
+
+Another set of interesting facts involves the coefficients in our model;
+dangerously\_high\_inflation has a higher coefficient than
+high\_inflation - counterintuitively, this suggests that countries with
+very high inflation should experience higher GDP than those with merely
+high inflation. We suspect that the reason for this odd result is that
+the countries with dangerously high inflation do not always reliably
+report economic data for political reasons, and may have lower GDPs than
+the data would indicate.
+
+Furthermore, we noticed a negative coefficient for GDP growth - while
+it’s initially surprising, countries with very high GDP growht tend to
+be developing countries who have lots of room for growth. Thus, while
+growth is high, they have less overall development than other countries.
 
 However, our hypothesis that the role of tariffs depended on region did
 end up being true as suggested by our generated p-values. We
