@@ -2110,16 +2110,32 @@ TariffRate:RegionSub-Saharan Africa
 #### Model Diagnostics
 
 Next, we examine the four model assumptions: linearity, constant
-variance, normality, and independence. From previous scatterplots of
-response variable vs. each predictor variable, we didn’t observe any
-non-linear relationships after we took a log transformation whenever
-necessary (for example, population). From the residuals vs. predicted
-values plot below, we can also conclude that the linearity assumption is
-satisfied. The following figure shows no obvious shape or pattern, and
-therefore, the constant variance assumption is also
-satisfied.
+variance, normality, and independence.
 
-![](regression-analysis_files/figure-gfm/residual%20vs.%20predicted-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residual%20vs.%20predicted-2.png)<!-- -->
+##### Independence Check
+
+Because our data is about countries, we expect countries in the same
+region to have similar GDP and status, which might harm the independence
+assumption of our model. So, we made color-coded plot of residuals
+vs. region to see if region really affects the independence.
+
+![](regression-analysis_files/figure-gfm/independence-1.png)<!-- -->
+
+By looking at the color-coded residual plot, residual points of each
+category seems randomly scattered and don’t have distinguishable shape.
+So this finding indicates no cluster effect and thus negates the
+possible violation of independence assumption
+.
+
+##### Constant Variance Check
+
+![](regression-analysis_files/figure-gfm/residual%20vs.%20predicted-1.png)<!-- -->
+
+From the residuals vs. predicted values plot above, we can also conclude
+that the linearity assumption is satisfied. The figure shows no obvious
+shape or pattern, and therefore, the constant variance assumption is
+also
+satisfied.
 
 ![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-2.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-3.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-4.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-5.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-6.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-7.png)<!-- -->![](regression-analysis_files/figure-gfm/residuals%20vs.%20predictor%20variables-8.png)<!-- -->
 
@@ -2135,11 +2151,15 @@ the residual points all look randomly scattered. So, we can say that
 constant variance assumption is
 met.
 
+##### Normality Check
+
 ![](regression-analysis_files/figure-gfm/residual%20normality%20check-1.png)<!-- -->![](regression-analysis_files/figure-gfm/residual%20normality%20check-2.png)<!-- -->
 
 The normality assumption is satisfied since the distribution of
 residuals appears to be unimodal and approximately normal. Also, the
 normal QQ plot of points fit the theoretical line very well.
+
+##### Leverage, Standardized Residual, Cook’s Distance
 
 Lastly, we augmented the model and took a look into leverage, cook’s
 distance, and standardized residual to check for outliers and assess
@@ -2166,7 +2186,22 @@ their influence on our model.
 
 ![](regression-analysis_files/figure-gfm/leverage-1.png)<!-- -->
 
-    ## [1] 59
+    ## # A tibble: 59 x 16
+    ##    logGDP TariffRate logpop GDPGrowth TaxBurdenCent cat_inflation
+    ##     <dbl>      <dbl>  <dbl>     <dbl>         <dbl> <fct>        
+    ##  1   6.45        8.8  3.73        2            2.31 High         
+    ##  2   2.45       18.6 -0.916       1.3         -5.89 Healthy      
+    ##  3   4.25        3.1  0.405       3.2        -16.6  Healthy      
+    ##  4   6.53       10.7  5.09        7.1        -13.4  High         
+    ##  5   1.65       14.2 -1.20        0.9         11.5  High         
+    ##  6   5.19        1.8  2.25        2.4          1.61 Dangerously …
+    ##  7   3.66        0.6  0.788       2.2          2.71 High         
+    ##  8   3.51        0.5 -0.916       0.5          2.01 Low          
+    ##  9   4.16        9.8  2.77        6.9         -7.19 Healthy      
+    ## 10   4.49       15.8  3.19        3.2         -6.59 Low          
+    ## # … with 49 more rows, and 10 more variables: GovInterference <fct>,
+    ## #   Region <chr>, .fitted <dbl>, .se.fit <dbl>, .resid <dbl>, .hat <dbl>,
+    ## #   .sigma <dbl>, .cooksd <dbl>, .std.resid <dbl>, obs_num <int>
 
     ## # A tibble: 59 x 2
     ##    obs_num  .cooksd
@@ -2183,13 +2218,14 @@ their influence on our model.
     ## 10      29 0.000855
     ## # … with 49 more rows
 
-![](regression-analysis_files/figure-gfm/cook%20distace-1.png)<!-- -->
-
-There are 8 points with high leverage, but among all these points, none
-of them has a cook distance that is larger than 1. Therefore, we don’t
-believe that they have significant influence on model coefficients, so
-it is safe to keep them in our
-model.
+There are 8 points with high leverage. After printing them out, we can
+see the reason why they have high leverage compared with other points:
+some observations have significantly high population (thus logpop is
+high), other observations have lower TaxBurdenCent than normal
+datapoints, while the rest have lower corporate taxrate than most
+points. In conclusion, significant high or low values in predictor
+variables lead to high leverage of those
+datapoints.
 
 ![](regression-analysis_files/figure-gfm/standardized%20residuals-1.png)<!-- -->
 
@@ -2201,6 +2237,13 @@ standardized residuals using a N(0,1) distribution, we can expect 8/173
 = 4.62% of the observations have standardized residuals with magnitude
 \> 2. We might need to remove these points from our final data in order
 to train a more accurate model.
+
+![](regression-analysis_files/figure-gfm/cook%20distace-1.png)<!-- -->
+
+Even though there are 8 points with high leverage and high standardized
+residues, none of them has a cook distance that is larger than 1.
+Therefore, we don’t believe that they have significant influence on
+model coefficients, so it is safe to keep them in our model.
 
 ``` r
 tidy(vif(final_model))

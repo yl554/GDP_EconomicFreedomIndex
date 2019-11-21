@@ -636,16 +636,17 @@ kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
 
 #### Model Diagnostics
 
-Next, we examine the four model assumptions: linearity, constant variance, normality, and independence. From previous scatterplots of response variable vs. each predictor variable, we didn't observe any non-linear relationships after we took a log transformation whenever necessary (for example, population). From the residuals vs. predicted values plot below, we can also conclude that the linearity assumption is satisfied. The following figure shows no obvious shape or pattern, and therefore, the constant variance assumption is also satisfied. 
+Next, we examine the four model assumptions: linearity, constant variance, normality, and independence. 
 
-```{r residual vs. predicted}
+
+
+##### Independence Check
+
+Because our data is about countries, we expect countries in the same region to have similar GDP and status, which might harm the independence assumption of our model. So, we made color-coded plot of residuals vs. region to see if region really affects the independence.
+
+```{r independence}
 economic_data <- economic_data %>% 
   mutate(predicted = predict.lm(final_model), residuals = resid(final_model))
-
-ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
-  geom_point() + 
-  geom_hline(yintercept=0,color="red") +
-  labs(title="Residuals vs. Predicted Values")
 
 ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)) + 
   geom_point() +
@@ -654,7 +655,18 @@ ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)
        color = "Region")
 ```
 
+By looking at the color-coded residual plot, residual points of each category seems randomly scattered and don't have distinguishable shape. So this finding indicates no cluster effect and thus negates the possible violation of independence assumption .
 
+##### Constant Variance Check
+
+```{r residual vs. predicted}
+ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(title="Residuals vs. Predicted Values")
+```
+
+From the residuals vs. predicted values plot above, we can also conclude that the linearity assumption is satisfied. The figure shows no obvious shape or pattern, and therefore, the constant variance assumption is also satisfied. 
 
 ```{r residuals vs. predictor variables}
 ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
@@ -713,6 +725,7 @@ ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=GovInt
 
 The constant variance assumption is further satisfied because the residuals from each of the residuals vs. quantitative predictor variables plot is randomly scattered and doesn't appear any distinguishable shape. For those categorical predictor variables, the boxplot of residuals are appproximately centered around 0, sysmetric, and the interquantile range is roughly the same for each category. Furthermore, for interaction terms, we made color coded residual plots according to different categories. And for each category (each color), the residual points all look randomly scattered. So, we can say that constant variance assumption is met.
 
+##### Normality Check
 
 ```{r residual normality check}
 ggplot(data = economic_data, aes(x = residuals)) +
@@ -728,6 +741,8 @@ ggplot(data=economic_data, aes(sample=residuals)) +
 ```
 
 The normality assumption is satisfied since the distribution of residuals appears to be unimodal and approximately normal. Also, the normal QQ plot of points fit the theoretical line very well.
+
+##### Leverage, Standardized Residual, Cook's Distance
 
 Lastly, we augmented the model and took a look into leverage, cook's distance, and standardized residual to check for outliers and assess their influence on our model.
 
@@ -747,21 +762,13 @@ ggplot(data = economic_data_aug, aes(x = obs_num ,y = .hat)) +
   labs(x = "Observation Number",y = "Leverage",title = "Leverage") +
   geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
 
-nrow(economic_data_aug %>% filter(.hat > leverage_threshold))
+economic_data_aug %>% filter(.hat > leverage_threshold)
 
 economic_data_aug %>% filter(.hat > leverage_threshold) %>%
   select(obs_num, .cooksd)
 ```
 
-```{r cook distace}
-ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) + 
-  geom_point(alpha = 0.7) + 
-  geom_hline(yintercept=1,color = "red")+
-  labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
-  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
-```
-
-There are 8 points with high leverage, but among all these points, none of them has a cook distance that is larger than 1. Therefore, we don't believe that they have significant influence on model coefficients, so it is safe to keep them in our model.
+There are 8 points with high leverage. After printing them out, we can see the reason why they have high leverage compared with other points: some observations have significantly high population (thus logpop is high), other observations have lower TaxBurdenCent than normal datapoints, while the rest have lower corporate taxrate than most points. In conclusion, significant high or low values in predictor variables lead to high leverage of those datapoints. 
 
 ```{r standardized residuals}
 ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
@@ -776,6 +783,16 @@ nrow(economic_data_aug %>% filter(abs(.std.resid) > 2))
 ```
 
 There are 8 observations that are considered to have large standardized residuals with large magnitudes. If ploted the distribution of standardized residuals using a N(0,1) distribution, we can expect 8/173 = 4.62% of the observations have standardized residuals with magnitude > 2. We might need to remove these points from our final data in order to train a more accurate model. 
+
+```{r cook distace}
+ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept=1,color = "red")+
+  labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
+  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
+```
+
+Even though there are 8 points with high leverage and high standardized residues, none of them has a cook distance that is larger than 1. Therefore, we don't believe that they have significant influence on model coefficients, so it is safe to keep them in our model.
 
 ```{r VIF, echo=TRUE}
 tidy(vif(final_model))
