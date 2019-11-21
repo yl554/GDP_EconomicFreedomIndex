@@ -366,6 +366,8 @@ Based on the scatterplots of the response variables against the quantitative pre
 
 Moreover, we also noticed some multicollinearity issues between predictor variables. In specific, the relationship between GovSpending and TaxBurden appears very strongly if not almost linear. Other variables suspect of multicollinearity problems include tariff rate and unemployment as well as tariff rate and unemployment.
 
+Within this analysis, we have split the pairs plot for visual convenience, but we did analyze multicollinearity via a full pairs plot with all of our variables in one visualization; unfortunately, due to the large number of variables, this isn't visually convenient and we have split the plots within the markdown.
+
 ```{r Boxplots for response vs categorical}
 economic_data %>%
 ggplot(mapping = aes(x = Region, y = logGDP)) +
