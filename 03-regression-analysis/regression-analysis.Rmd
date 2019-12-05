@@ -636,6 +636,13 @@ kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
 
 #### Model Diagnostics
 
+```{r adj.r2}
+glance(final_model)
+```
+
+
+The final R^2 value for the model is .842, implying that approximately 84.2% of the variation in GDP can be well-explained by a linear relationship with our transformed predictors.
+
 Next, we examine the four model assumptions: linearity, constant variance, normality, and independence. 
 
 
