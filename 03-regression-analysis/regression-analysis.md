@@ -2109,6 +2109,16 @@ TariffRate:RegionSub-Saharan Africa
 
 #### Model Diagnostics
 
+    ## # A tibble: 1 x 11
+    ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+    ##       <dbl>         <dbl> <dbl>     <dbl>    <dbl> <int>  <dbl> <dbl> <dbl>
+    ## 1     0.904         0.893 0.680      85.5 1.28e-69    18  -169.  377.  437.
+    ## # … with 2 more variables: deviance <dbl>, df.residual <int>
+
+The final R^2 value for the model is .842, implying that approximately
+84.2% of the variation in GDP can be well-explained by a linear
+relationship with our transformed predictors.
+
 Next, we examine the four model assumptions: linearity, constant
 variance, normality, and independence.
 
