@@ -11,9 +11,14 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r libraries, warnings = FALSE, echo = FALSE, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(readxl)
 library(skimr)
+library(tidyr)
+library(magrittr)
+library(broom)
+library(leaps)
+library(knitr) 
+library(rms)
 ```
 
 ```{r data, warnings = FALSE, echo = FALSE, include = FALSE}
@@ -28,9 +33,566 @@ col_types = c("text", "text", "text",
 
 ## Section 1: Introduction (includes introduction and exploratory data analysis)
 
+GDP is a measure of the total market value of all goods and services produced within a country over a period of time. Consequently, a high GDP implies that a country has significant economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. 
+
+The use of multiple linear regression in the study of GDP and GDP growth is not novel. The approach has been widely employed by economists. For instance, Anghelache et. al has employed multiple linear regression model in analyzing the influence of final consumption and gross investment on Romania's GDP over time. Urrutia et. al, on the other hand, modeled Philippines's real GDP using multiple linear regression techniques. (Refer to citation of articles in the Citation section)
+
+In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables. If we can get a better understanding of how these economic indicators correlate to GDP, it could provide policy makers and economists with a path towards sound governmental decisions. 
+
+### Exploratory Data Analysis
+
+We will begin our exploratory data analysis by cleaning the data. We notice a total of 12 countries which have a "NA" value for one or more of the predictor variables that we will investigate. We will omit these entries from our analysis, but we expect this to add a slight bias to our results; the below 12 countries are all developing and thus our model may fit developed countries better than developing countries. However, the 12 countries below also have unusual governmental and economic structures as well as poor data quality associated with them; including them in the model may also significantly influence the coefficients associated with predictors. Thus, we have decided to leave them out of the model.
+
+```{r NA-removal}
+economic_data %>%
+  filter(complete.cases(economic_data)==FALSE) %>%
+  select(Country)
+```
+```{r omit-NA}
+economic_data <- na.omit(economic_data)
+```
+
+### Response Variable
+
+Now that the data has been cleaned, we can begin exploring our response variable.
+
+```{r gdp-vis}
+ggplot(data = economic_data, mapping = aes(x = GDP)) +
+  geom_histogram(binwidth = 1000, fill = "forestgreen") +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+
+economic_data %>%
+select(GDP) %>%
+skim()
+```
+
+The distribution of GDP shows significant right skew, which is reasonable and expected as the world has countries such as the US and China who, due to their population and industrial advantages, have significantly greater GDP's than the average country. We will now show a graph of GDP with some of these influential points removed.
+
+```{r GDP without Outlier}
+economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
+
+ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
+  geom_histogram(fill = "forestgreen") +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+
+economic_data %>%
+select(GDP) %>%
+skim()
+```
+
+The distribution of GDP is unimodal and right-skewed. Since the media and interquartile range are less influenced by outliers, we report them as measures of center and spread. The median of the distribution is 88.9 billion and the interquartile range is 411.3. THe values are in billions of dollars.
+
+This calls for a log-transform of the response variable, whose distribution is visualized below:
+
+```{r log-gdp-vis}
+ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
+  geom_histogram(binwidth = 1, fill = "forestgreen") +
+  labs(x = "log(GDP)",
+       y = "Frequency",
+       title = "Distribution of log-GDPs")
+
+economic_data <- economic_data %>%
+  mutate(logGDP = log(GDP))
+
+economic_data %>%
+select(logGDP) %>%
+skim()
+```
+
+This distribution of logGDP is normal and unimodal. We will likely use this as our response variable. Since there is minimal skewing and the distribution is generally symmetric, we report the mean and standard deviation as measures of center and spread. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. 
+
+### Predictor Variables
+
+We will now look at each of the 12 predictor variables that we will use to predict GDP, starting with `TaxBurden`.
+
+```{r Tax Burden}
+ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
+  geom_histogram(binwidth = 2, fill = "forestgreen") + 
+  labs(x = "Tax Burden (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Tax Burden")
+
+economic_data %>%
+select(TaxBurden) %>%
+skim()
+```
+
+`TaxBurden` represents the amount of tax paid by the citizens of a country as a proportion of the GDP of that country. The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appears normally distributed. The mean tax burden is 22.19% and the standard deviation of the distribution is 10.17%. 
+
+```{r Government Spending}
+ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
+  geom_histogram(binwidth = 3, fill = "forestgreen") + 
+  labs(x = "Government Spending (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Government Spending")
+
+economic_data %>%
+select(GovSpending) %>%
+skim()
+```
+
+`GovSpending` represents the amount spent by the government as a percentage of the GDP of the country. The distribution of government spending is generally symmmetric and unimodal. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87% of GDP and the distribution has a standard deviation of 15.52%.
+
+```{r Population}
+ggplot(data = economic_data, mapping = aes(x = Population)) +
+  geom_histogram(binwidth = 40, fill = "forestgreen") + 
+  labs(x = "Population (Million)",
+       y = "Frequency",
+       title = "Distribution of Population")
+
+economic_data %>%
+select(Population) %>%
+skim()
+```
+
+`Population` represents the number of individuals living in a country. The distribution of population is unimodal and right-skewed. Because there are two influential points in "population", we will plot another graph of population without these two points below.
+
+```{r Population without Outlier}
+economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
+
+ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
+  geom_histogram(binwidth = 10, fill = "forestgreen") + 
+  labs(x = "Population (Million)",
+       y = "Frequency",
+       title = "Distribution of Population")
+
+economic_data %>%
+select(Population) %>%
+skim()
+```
+
+The distribution of population is unimodal and right-skewed. The mode of the distribution is around 1 million. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 9.15 and the IQR is 26.85. Additionally, when conducting our analysis, we may need to apply a log-transform to make the distribution of the variable more normal; based on a pairs plot, population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below.
+
+```{r logpop}
+economic_data <- economic_data %>%
+  mutate(logpop=log(Population))
+
+ggplot(data=economic_data, aes(x=logpop)) +
+  geom_histogram(fill = "forestgreen") +
+  labs(title="Distribution of logpop", x="Log(Population)")
+```
+
+Based on the above plot, the logarithmic transformation has been successful in normalizing the population variable, which should allow a more linear relationship with GDP.
+
+```{r Unemployment}
+ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
+  geom_histogram(binwidth = 1, fill = "forestgreen") + 
+  labs(x = "Unemployment (%)",
+       y = "Frequency",
+       title = "Distribution of Unemployment")
+
+economic_data %>%
+select(Unemployment) %>%
+skim()
+```
+
+`Unemployment` represents the percantage of the workforce of a country that is currently not working. The distribution of unemployment is unimodal and right-skewed. The mode of the distribution is around 4-5%. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 5.7 and the IQR is 5.6.
+
+```{r Inflation}
+ggplot(data = economic_data, mapping = aes(x = Inflation)) +
+  geom_histogram(fill = "forestgreen") + 
+  labs(x = "Inflation (%)",
+       y = "Frequency",
+       title = "Distribution of Inflation")
+
+economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
+ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
+  geom_histogram(binwidth = 1, fill = "forestgreen") + 
+  labs(x = "Inflation (%)",
+       y = "Frequency",
+       title = "Distribution of Inflation without Outlier")
+
+economic_data %>%
+select(Inflation) %>%
+skim()
+
+economic_data <- economic_data %>%
+  mutate(cat_inflation = case_when(
+    Inflation >= 6 ~ "Dangerously High",
+    Inflation <6 & Inflation >3 ~ "High",
+    Inflation <= 3 & Inflation >=1 ~ "Healthy",
+    Inflation <1 ~ "Low"))
+
+economic_data%>%
+  group_by(cat_inflation) %>%
+  count()
+
+economic_data <- economic_data %>%
+  mutate(cat_inflation = as.factor(cat_inflation))
+
+economic_data %>%
+ggplot(mapping = aes(x = cat_inflation, y = logGDP)) +
+  geom_boxplot(position="dodge",fill="forestgreen")
+```
+
+`Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because inflation can vary widely between countries, we have recoded it into a categorical variable that better captures whether a country's inflation is healthy or unhealthy. Above is a plot to show the frequency of each level of inflation.
+
+
+```{r Region}
+regional <- economic_data %>%
+  group_by(Region) %>%
+  tally() %>%
+  mutate(prop = n*100/nrow(economic_data))
+
+ggplot(data = economic_data, mapping = aes(x = Region)) +
+  geom_bar(fill = "forestgreen") + 
+  labs(x = "Region",
+       y = "Frequency",
+       title = "Distribution of Region")
+
+ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
+    geom_bar(stat = "identity", color = "white") +
+    coord_polar("y", start = 0) +
+    theme_void()
+```
+
+`Region` represents the geographical continent/area that the country is situated in. The bar graph and piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
+
+```{r Government Interference}
+ggplot(mapping = aes(x = GovInterference), data = economic_data) +
+  geom_bar(fill = "forestgreen") +
+  labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+```
+
+`GovInterference` represents the amount of interference that the government has in the economy as determined by the World Economic Index. The distribution of government interference shows that most countries either have extensive or moderate government inteference. The mode of the distribution is moderate government interference. Economies with limited and repressive intervention are significanly lesser, each having around 10-15 countries. We do not report the center or spread here because government interference is a categorical variable.
+
+```{r mutate Government Interference}
+economic_data <- economic_data %>%
+  mutate(GovInterference = recode_factor(GovInterference, "Limited" =  "Moderate", "Repressive" = "Extensive"))
+
+ggplot(mapping = aes(x = GovInterference), data = economic_data) +
+  geom_bar(fill = "forestgreen") +
+  labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+```
+
+```{r Tariff Rate}
+ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
+  geom_histogram(binwidth = 1, fill = "forestgreen") +
+  labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+
+economic_data %>%
+  select(TariffRate) %>%
+  skim()
+```
+
+`TariffRate` represents the average percentage tax on imports that the country has outstanding as of 2019. The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. Because of this right-skew, log-transforming this variable might be necessary; we will examine it further in a pairs plot later in the analysis.
+
+```{r Income Tax Rate}
+ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
+  geom_histogram(binwidth = 5, fill = "forestgreen") +
+  labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+
+economic_data %>%
+  select(IncomeTaxRate) %>%
+  skim()
+```
+
+`IncomeTaxRate` represents the average tax rate applied to individuals on their incomes. The distribution of income tax rate is unimodal and generally symmetric. While its general shape resembles a normal distribution, there are several values of income tax rate which have particularly high frequency such as 10%, 25% and 34-35%. The mode of the distribution occurs at 35%. Since there is relatively minimal skewing, we report the mean and standard deviation as measures of center and spread. The mean income tax rate is 28.23% and the standard deviation of the distribution is 13.4%. 
+
+```{r Corporate Tax Rate}
+ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
+geom_histogram(binwidth = 4, fill = "forestgreen") +
+labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
+
+economic_data %>%
+select(CorporateTaxRate) %>%
+skim()
+```
+
+`CorporateTaxRate` represents the average tax rate applied to corporations on their revenues. The distribution of corporate tax rate is unimodal and only slightly right skewed. The mode of the distribution is around 28-30%. Since there is minimal skewing, we report the mean and the standard deviation as measures of center and spread. The mean corporate tax rate is 23.89% and the standard deviation is 8.88%.
+
+```{r Public Debt}
+ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
+  geom_histogram(binwidth = 8, fill = "forestgreen") + 
+  labs(x = "Public Debt (% of GDP)",
+       y = "Frequency",
+       title = "Distribution of Public Debt")
+
+economic_data %>%
+select(PublicDebt) %>%
+skim()
+```
+
+`PublicDebt` represents the debt of the country as a percentage of the country's GDP. The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
+
+### Multivariate Exploration
+
+Finally, we can visualize paired scatter plots of the relationship between GDP and each of our predictor variables. This is shown below. Many of the plots are visually difficult and don't offer good information as there are outliers that skew the visualization.
+
+```{r scatterplot matrix GDP growth}
+pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
+```
+
+To better help us visualize the relationship between the predictor and response variables for most data points, we plotted a scatterplot matrix with most of the outliers removed.
+
+```{r Scatterplot GDP without outliers}
+temp <- economic_data %>%
+  filter(GDP<3000 & Inflation < 100)
+
+pairs(GDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+Based on the scatterplots above, we observe that most predictor variables do not have a clear linear relationship with the response variable GDP. Thus, we log transform GDP to see if there is a stronger linear relationship. As seen previously, logGDP has a normal distribution while GDP is extremely right skewed.
+
+```{r Scatterplot logGDP}
+pairs(logGDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
+pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
+```
+
+Based on the scatterplots of the response variables against the quantitative predictor variables, we see that there is now a much stronger a linear relationship between the two. Particularly, we note that the logGDP against population scatterplot shows a curved distribution which resembles a logarithimic function. This is why we transformed population into the logpop variable, which has a linear relationship with GDP. Furthermore, the pairs plot validates all of the transformations we have applied in the univariate analysis, so they will remain in place for our regression.
+
+Moreover, we also noticed some multicollinearity issues between predictor variables. In specific, the relationship between GovSpending and TaxBurden appears very strongly if not almost linear. Other variables suspect of multicollinearity problems include tariff rate and unemployment as well as tariff rate and unemployment.
+
+Within this analysis, we have split the pairs plot for visual convenience, but we did analyze multicollinearity via a full pairs plot with all of our variables in one visualization; unfortunately, due to the large number of variables, this isn't visually convenient and we have split the plots within the markdown.
+
+```{r Boxplots for response vs categorical}
+economic_data %>%
+ggplot(mapping = aes(x = Region, y = logGDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of log GDP versus Region")
+
+economic_data %>%
+ggplot(mapping = aes(x = GovInterference, y = logGDP)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of log GDP versus Government Interference")
+```
+
+For the relationship between the response and categorical variables, the various boxplots suggest that there are generally normally distributed with minimal skewing. This means that a linear regression between log GDP and the categorical variables of region and government interference are appropriate.
+
+We will now mean-center a few of the variables investigated thus far to ensure meaningful intercepts during the regression. 
+
+```{r mean center variables}
+economic_data <- economic_data %>%
+  mutate(TaxBurdenCent = TaxBurden - mean(TaxBurden))
+economic_data <- economic_data %>%
+  mutate(GovSpendingCent = GovSpending - mean(GovSpending))
+```
+
+
+
 
 ## Section 2: Regression Analysis (includes the final model and discussion of assumptions)
 
+```{r setting healthy as baseline, echo=TRUE}
+economic_data <- economic_data %>%
+  mutate(cat_inflation = relevel(cat_inflation, ref = "Healthy", ordered = FALSE))
+```
+
+```{r setting moderate as baseline, echo=TRUE}
+economic_data <- economic_data %>%
+  mutate(GovInterference = as.factor(GovInterference))
+
+economic_data <- economic_data %>%
+  mutate(GovInterference = relevel(GovInterference, ref = "Moderate", ordered = FALSE))
+```
+
+Our approach is this: running model selection using all three selection criteria - AIC, BIC, and adjusted R^2 - and comparing all three models to decide on the final model.
+
+Model selected using AIC: logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + GovSpendingCent + cat_inflationDangerouslyHigh + cat_inflationHigh + cat_inflationLow + RegionAsia-Pacific + RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica + GovInterferenceLimited + GovInterferenceExtensive + GovInterferenceRepressive
+    
+Model selected using BIC: logGDP ~  TariffRate + logpop + GDPGrowth + cat_inflationDangerouslyHigh + cat_inflationHigh + GovInterferenceExtensive + RegionSub-Saharan Africa             
+
+Model selected using adj R^2: logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent +  cat_inflationDangerously High + cat_inflationHigh + GovInterferenceLimited + GovInterferenceModerate + RegionSub-Saharan Africa 
+
+Since all three selection criteria included TariffRate + logpop + GDPGrowth + GovInterference, we will include these four predictors into our final model.
+
+cat_inflation and Region will be included in the final model, although some of their levels are not selected. Briefly, their explanatory value outweighs the noise they add to the model. 
+
+GovSpendingCent is included only in the AIC equation while TaxBurdenCent is included in both the AIC and adjR2 equations. Conducting nested F test, we choose to include TaxBudenCent and not GovSpendingCent in the final model.
+
+We also conducted Nested F test for interaction variables. We found significant interaction between GovInterference and TariffRate as well as Region and TariffRate.
+
+(Refer to Additional Work for detailed discussion on Model Section process)
+
+### Final Model
+
+Final selection of predictor and interaction variables: 
+TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference x TariffRate + Region x TariffRate
+
+```{r Final Model}
+final_model <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TariffRate + Region*TariffRate, data=economic_data)
+kable(tidy(final_model,conf.int=TRUE),format="html",digits=3)
+```
+
+GDP = 3.117 - 0.009(TariffRate) + 1.006(logpop) - 0.057(GDPGrowth) + 0.020(TaxBurdenCent) -0.374(cat_inflationDangerously High) - 0.402(cat_inflationHigh) + 0.022(cat_inflationLow) - 1.045(GovInterferenceExtensive) + 1.117(RegionAsia-Pacific) + 0.537(RegionEurope) + 	
+0.969(RegionMiddle East and North Africa) - 0.655(RegionSub-Saharan Africa) + 0.080(TariffRate x GovInterferenceExtensive) - 0.180(TariffRate x RegionAsia-Pacific) - 0.068(TariffRate x RegionEurope) - 0.045(TariffRate x RegionMiddle East and North Africa) - 0.058(TariffRate:RegionSub-Saharan Africa)
+
+#### Model Diagnostics
+
+```{r adj.r2}
+glance(final_model)
+```
+
+The final R^2 value for the model is .842, implying that approximately 84.2% of the variation in GDP can be well-explained by a linear relationship with our transformed predictors.
+
+We examined the four model assumptions: linearity, constant variance, normality, and independence. None of the model assumptions
+
+Furthermore, we examined leverage, cook's distance, and standardized residual to check for outliers and assess their influence on our model.
+
+VIF is also calculated to ensure no multi-collinearity between predictor variables.
+
+(Refer to Additional Work for detailed discussion on Model Assumptions)
+
+#### Independence #### 
+
+```{r independence}
+economic_data <- economic_data %>% 
+  mutate(predicted = predict.lm(final_model), residuals = resid(final_model))
+
+ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)) + 
+  geom_point() +
+  labs(x = "predicted",
+       y = "Residuals",
+       color = "Region")
+```
+One may suspect non-independence to be violated due to spatial correlation. We included Region as a predictor variable to negate this. Moreover, the residuals did not show significant cluster effect based on Region.
+
+We also do not expect that the recording of GDP in one country to affect the recording of GDP in another. Thus, the observations are deduced to be independent. 
+
+#### Constant Variance & Linearity
+
+```{r residual vs. predicted}
+ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(title="Residuals vs. Predicted Values")
+```
+
+```{r residuals vs. predictor variables}
+ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "TariffRate", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. TariffRate")
+
+ggplot(data=economic_data,aes(x=logpop, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "log of Population", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. log of Population")
+
+ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "CorporateTaxRate", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. CorporateTaxRate")
+
+ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "GDPGrowth", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. GovInterference")
+
+ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Inflation", 
+       y="Residuals")
+
+ggplot(data=economic_data,aes(x=Region, y=residuals)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Region", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. Region")
+
+ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=Region)) + 
+  geom_point() +
+  labs(x = "TariffRate",
+       y = "Residuals",
+       color = "Region")
+
+ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=GovInterference)) + 
+  geom_point() +
+  labs(x = "TariffRate",
+       y = "Residuals",
+       color = "GovInterference")
+```
+
+From the residual plots above, we conclude the constant variance and linearity assumptions are satisified. Residuals are all randomly scattered with no observable pattern, for both quantitative and categorical predictors. 
+
+#### Normality Check
+
+```{r residual normality check}
+ggplot(data = economic_data, aes(x = residuals)) +
+  geom_histogram(binwidth = 0.2)+
+  labs(x = "Residuals",
+       y = "Frequency of Given Residual",
+       title = "Histogram of Residuals")
+
+ggplot(data=economic_data, aes(sample=residuals)) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title="Normal QQ Plot of Residuals")
+```
+
+The normality assumption is satisfied since the distribution of residuals appears to be unimodal and approximately normal. Also, the normal QQ plot of points fit the theoretical line very well.
+
+#### Leverage, Standardized Residual, Cook's Distance 
+
+```{r augment model, echo=FALSE}
+economic_data_aug <- augment(final_model) %>%
+  mutate(obs_num = row_number())
+
+glimpse(head(economic_data_aug, n=5))
+```
+
+```{r leverage, echo=FALSE}
+leverage_threshold <- 2*(8+1)/nrow(economic_data)
+
+ggplot(data = economic_data_aug, aes(x = obs_num ,y = .hat)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = leverage_threshold,color = "red")+
+  labs(x = "Observation Number",y = "Leverage",title = "Leverage") +
+  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
+
+economic_data_aug %>% filter(.hat > leverage_threshold)
+
+economic_data_aug %>% filter(.hat > leverage_threshold) %>%
+  select(obs_num, .cooksd)
+```
+
+There are 8 points with high leverage. This becauseome observations have significantly high population, others have lower TaxBurdenCent, while the rest have lower corporate taxrate than most points. Significantly high or low values in predictor variables lead to high leverage of those datapoints. 
+
+```{r standardized residuals}
+ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = 0,color = "red") +
+  geom_hline(yintercept = -2,color = "red",linetype = "dotted") +
+  geom_hline(yintercept = 2,color = "red",linetype = "dotted") +
+  labs(x ="Predicted Value",y ="Standardized Residuals",title = "Standardized Residuals vs. Predicted") +
+  geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)
+
+nrow(economic_data_aug %>% filter(abs(.std.resid) > 2))
+```
+
+There are 8 observations that are considered to have large standardized residuals with large magnitudes. If ploted the distribution of standardized residuals using a N(0,1) distribution, we can expect 8/173 = 4.62% of the observations have standardized residuals with magnitude > 2. 
+
+```{r cook distace}
+ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept=1,color = "red")+
+  labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
+  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
+```
+
+Even though there are 8 points with high leverage and high standardized residues, none of them has a cook distance that is larger than 1. Therefore, we conclude they do not have significant influence on model coefficients and include them.
+
+```{r VIF, echo=FALSE}
+tidy(vif(final_model))
+```
+
+There is only variable that exceeds the threshold of 10: TariffRate:RegionSub-Saharan Africa. We choose to keep the interaction variables between TariffRate and all the levels of Region for the following reasons. One, no other value is close to 15.758. Two, its high multicollinearity is not entirely surprising considering that the region has a considerably higher tariff rates compared to all other regions. Three, VIF values for the interaction between TariffRate and other levels of Region are not high and we want to retain their explanatory value. (Refer to Additional Work for detailed discussion)
 
 ### Coefficient Interpretations
 We have interpreted each of the coefficients in our model below:
@@ -106,3 +668,410 @@ Finally, our model has shown us that the most important predictors of GDP involv
 
 ## Section 5: Additional Work
 
+### Detailed Discussion on Model Selection Proess
+
+Our approach to model selection is as such: we will be running model selection using all three selection criteria - AIC, BIC, and adjusted R^2 - and thereafter compare the three models to decide on the final model.
+
+We have three categorical variables here: cat_inflation, Region, and GovInterference. We begin by first setting "Healthy" as the baseline for cat_inflation and "Moderate" as the baseline for GovInterference. These are chosen as the baseline conditions of a healthy inflation rate and moderate government interference are often seen as the norm. Excessive government intervention and unhealthy inflation - whether is it too low, high, or dangerously high - are, in contrast, deviant conditions. 
+
+```{r AW setting healthy as baseline, echo=TRUE}
+economic_data <- economic_data %>%
+  mutate(cat_inflation = relevel(cat_inflation, ref = "Healthy", ordered = FALSE))
+```
+
+```{r AW setting moderate as baseline, echo=TRUE}
+economic_data <- economic_data %>%
+  mutate(GovInterference = as.factor(GovInterference))
+
+economic_data <- economic_data %>%
+  mutate(GovInterference = relevel(GovInterference, ref = "Moderate", ordered = FALSE))
+```
+
+
+#### Selection using AIC
+
+Below, we conduct model selection using AIC. We first use backward selection then forward selection and check if the final model selected is different.
+
+```{r AW Modeling AIC backward, echo=TRUE}
+aic_full_model <- lm(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + Region + GovInterference, data = economic_data)
+
+aic_backward_model <- step(aic_full_model, direction = "backward")
+```
+
+```{r AW Modeling AIC forward, echo=TRUE}
+aic_null_model <- lm(logGDP ~ 1, data = economic_data)
+
+aic_forward_model <- step(aic_null_model, scope = formula(aic_full_model), direction = "forward")
+```
+
+AIC backward selection: logGDP ~ TariffRate + logpop + cat_inflation + GovSpendingCent + CorporateTaxRate + TaxBurdenCent + GDPGrowth + Region + GovInterference
+    
+AIC forward selection: logGDP ~ TariffRate + logpop + cat_inflation + GovSpendingCent + CorporateTaxRate + TaxBurdenCent + GDPGrowth + Region + GovInterference
+
+As we have seen from the model selection process above, both forward and backward selection rendered the same final model. We will however not be choosing this model immediately. Instead, we will compare it with the other models generated using other selection criteria such as BIC and adj R^2.
+    
+```{r AW AIC model final}
+tidy(aic_backward_model, conf.int="TRUE") %>%
+  kable(format="markdown", conf.level = 0.95)
+```
+  
+#### Selection using BIC
+
+We now conduct model selection using BIC. Same as before, we do both forward and backward selection for comparison.
+
+```{r AW BIC Model backward, echo=TRUE}
+regfit_backward <- regsubsets(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + GovInterference + Region, data = economic_data, method="backward")
+
+sel_summary <- summary(regfit_backward)
+coef(regfit_backward, which.min(sel_summary$bic))
+```
+
+```{r AW BIC Model forward, echo=TRUE}
+regfit_forward <- regsubsets(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + GovInterference + Region, data = economic_data, method="forward")
+
+sel_summary <- summary(regfit_forward)
+coef(regfit_forward, which.min(sel_summary$bic))
+```
+
+From the above, we see that both the forward and backward selection process rendered the same model.
+
+
+#### Selection using adj R^2
+
+We now conduct model selection using adj R^2. Same as before, we do both forward and backward selection for comparison.
+
+```{r AW adjr2 Model backward, echo=TRUE}
+sel_summary <- summary(regfit_backward)
+coef(regfit_backward, which.max(sel_summary$adjr2))
+```
+
+```{r AW adjr2 Model forward, echo=TRUE}
+sel_summary <- summary(regfit_forward)
+coef(regfit_forward, which.max(sel_summary$adjr2))
+```
+
+From the above, we see that both the forward and backward selection process rendered the same model.
+
+#### Model Comparison between all 3 Selection Criteria
+
+Model selected using AIC: logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + GovSpendingCent + cat_inflationDangerouslyHigh + cat_inflationHigh + cat_inflationLow + RegionAsia-Pacific + RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica + GovInterferenceLimited + GovInterferenceExtensive + GovInterferenceRepressive
+    
+Model selected using BIC: logGDP ~  TariffRate + logpop + GDPGrowth + cat_inflationDangerouslyHigh + cat_inflationHigh + GovInterferenceExtensive + RegionSub-Saharan Africa             
+
+Model selected using adj R^2: logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent +  cat_inflationDangerously High + cat_inflationHigh + GovInterferenceLimited + GovInterferenceModerate + RegionSub-Saharan Africa 
+
+From the final equations generated using different selection criteria, we see that all three selection criteria included TariffRate + logpop + GDPGrowth + GovInterference in the final model. For that reason, we decide to include all four of these predictors into our final model.
+
+cat_inflation is included in all three equations, though for BIC and adj R^2, the level of low inflation is excluded. This is not surprising considering that the p-value of the cat_inflationLow coefficient in the AIC model is 0.8030022, implying that this coefficient is very likely to be insignificant.
+
+While there is one level that could be very statistically insignificant, we will choose to include cat_inflation in the final model for the following reasons. One, a categorical variable with 4 levels require us to use 3 dummy variables. Removing one because it is insignificant will affect the coefficients of the other levels because the missing level has to be forcibly added to either of the three category. We will also not change the categories of inflation rates because the present classification references economic literature which generally suggests four levels of inflation rates: low, healthy, high, and dangerously high (hyperinflation). Two, we also note that the AIC coefficient for cat_inflationLow to be extremely small. This means that the regression model only made very minimal changes to fit the data categorized as Low inflation, thus we are not too concerned that the inclusion of this level will significantly impact the accuracy of the regression. 
+
+The same is observed for the categorical variable Region. The final BIC and adj R^2 models selected only RegionSub-SaharanAfrica. In this case, it is hard to conclude that the other levels of the categories are statistically insignificant as their p values in the final models are not extremely high/ close to 1. In fact, the coefficient of RegionMiddleEastandNorthAfrica has a very low p value at 0.0025057, while those of RegionEurope and RegionAsia-Pacific are above  From these circumstantial evidence, we are hesitant to recode the Region variable to have only two values: Sub-Saharan Africa and Not Subsaharan Africa. There seems to be a statistical difference between being in the Middle East and North Africa versus Europe or Asia Pacific.
+
+GovSpendingCent is included only in the AIC equation while TaxBurdenCent is included in both the AIC and adjR2 equations. We conduct a nested F test to finally decide if these two predictor variables are significant to the model with predictor variables which we have decided to include thus far (TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region) based on the above reasoning.
+
+Nested F test for GovSpendingCent:
+```{r AW Nested F for GovSpendingCent, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + GovSpendingCent, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+The p value of the nested F test for GovSpendingCent is extremely high and thus we choose not include it in our model. Moreover, we also do not accord it high practical significance. The role of government spending is also highly contested in economic literature depending on which school of thought you subscribe to. That it is not a significant determinant of GDP reflect this ambuiguity in academic literature.
+
+
+Nested F test for TaxBurdenCent:
+```{r AW Nested F for TaxBurdenCent, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + TaxBurdenCent, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+The p value of the nested F test for TaxBurdenCent = 0.048 < 0.05. We thus choose to include TaxBurdenCent into our final model.
+
+
+#### Testing Interaction Variables
+
+To test for interaction between the categorical and predictor varaibles, we will conducted nested F tests. 
+
+We do so by first testing for interaction between cat_inflation and the 4 quantitative variables.
+
+Interaction between cat_inflation and TariffRate: 
+
+```{r AW Nested F for TariffRate interaction with cat_inflation, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*TariffRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between cat_inflation and logpop: 
+```{r AW Nested F for logpop interaction with cat_inflation, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*logpop, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between cat_inflation and GDPGrowth: 
+```{r AW Nested F for GDPGrowth interaction with cat_inflation, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*GDPGrowth, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between cat_inflation and TaxBurdenCent: 
+```{r AW Nested F for TaxBurdenCent interaction with cat_inflation, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*GDPGrowth, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+As seen from the nested F tests, none of the p values are close to 0.05. This implies that none of the interaction between the 4 quantitive predictor variables and cat_inflation is statistically significant. 
+
+We thus include no interaction variables for cat_inflation.
+
+
+We now test for interaction between GovInterference and the 4 quantitative variables.
+
+Interaction between GovInterference and TariffRate:
+```{r AW Nested F for tariffrate interaction with GovInterference, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TariffRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between GovInterference and logpop:
+```{r AW Nested F for logpop interaction with GovInterference, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*logpop, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between GovInterference and GDPGrowth:
+```{r AW Nested F for GDPgrowth interaction with GovInterference, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*GDPGrowth, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between GovInterference and TaxBurdenCent:
+```{r AW Nested F for TaxBurdenCent interaction with GovInterference, echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TaxBurdenCent, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+From the nested F tests above, we see that the p values for the interaction variables between GovInterference and TaxBurdenCent, GDPGrowth, logpop are all way above 0.05. Only the p value of the nested F test for the interaction between GovInterference and TariffRate is 0.067 which is close to 0.05. Since the p value is not far from 0.05 and we know that the dataset does not have a large number of observation, it is reasonable to assume that the effect of GovInterference on TariffRate must have been considerably large for the p value to be so close 0.05 even with a small dataset. 
+
+Thus, we choose to include the interaction term GovInterference*TariffRate into the final model.
+
+
+We now test for interaction between Region and the 4 quantitative variables.
+
+Interaction between Region and TariffRate:
+```{r AW Nested F for TariffRate interaction with region , echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*TariffRate, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between Region and logpop:
+```{r AW Nested F for logpop interaction with region , echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*logpop, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between Region and GDPGrowth:
+```{r AW Nested F for GDPGrowth interaction with region , echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*GDPGrowth, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+Interaction between Region and TaxBurdenCent:
+```{r AW Nested F for taxburdenCent interaction with region , echo=TRUE}
+reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
+full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*TaxBurdenCent, data = economic_data)
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+From the nested F tests above, we see that the p values for the interaction variables between Region and TaxBurdenCent, GDPGrowth, logpop are all way above 0.05. Only the p value of the nested F test for the interaction between Region and TariffRate is 0.006 which is smaller than 0.05. This implies that there is significant interaction between Region and TariffRate.
+
+Thus, we choose to include the interaction term Region*TariffRate into the final model.
+
+### Detailed discussion of Model Assumptions
+
+##### Independence Check
+
+Because our data is about countries, we expect countries in the same region to have similar GDP and status, which might harm the independence assumption of our model. So, we made color-coded plot of residuals vs. region to see if region really affects the independence.
+
+```{r AW independence}
+economic_data <- economic_data %>% 
+  mutate(predicted = predict.lm(final_model), residuals = resid(final_model))
+
+ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)) + 
+  geom_point() +
+  labs(x = "predicted",
+       y = "Residuals",
+       color = "Region")
+```
+
+By looking at the color-coded residual plot, residual points of each category seems randomly scattered and don't have distinguishable shape. So this finding indicates no cluster effect and thus negates the possible violation of independence assumption.
+
+Moreover, we do not expect that the recording of GDP in one country to be affected by the recording of GDP in another. In that sense, the observations are deduced to be independent. 
+
+##### Constant Variance Check
+
+```{r AW residual vs. predicted}
+ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(title="Residuals vs. Predicted Values")
+```
+
+From the residuals vs. predicted values plot above, we can also conclude that the linearity assumption is satisfied. The figure shows no obvious shape or pattern, and therefore, the constant variance assumption is also satisfied. 
+
+```{r AW residuals vs. predictor variables}
+ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "TariffRate", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. TariffRate")
+
+ggplot(data=economic_data,aes(x=logpop, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "log of Population", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. log of Population")
+
+ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "CorporateTaxRate", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. CorporateTaxRate")
+
+ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "GDPGrowth", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. GovInterference")
+
+ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Inflation", 
+       y="Residuals")
+
+ggplot(data=economic_data,aes(x=Region, y=residuals)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Region", 
+       y = "Residuals",
+       title = "Scatterplot of Residuals vs. Region")
+
+ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=Region)) + 
+  geom_point() +
+  labs(x = "TariffRate",
+       y = "Residuals",
+       color = "Region")
+
+ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=GovInterference)) + 
+  geom_point() +
+  labs(x = "TariffRate",
+       y = "Residuals",
+       color = "GovInterference")
+```
+
+The constant variance assumption is further satisfied because the residuals from each of the residuals vs. quantitative predictor variables plot is randomly scattered and doesn't appear any distinguishable shape. For those categorical predictor variables, the boxplot of residuals are appproximately centered around 0, sysmetric, and the interquantile range is roughly the same for each category. Furthermore, for interaction terms, we made color coded residual plots according to different categories. And for each category (each color), the residual points all look randomly scattered. So, we can say that constant variance assumption is met.
+
+##### Normality Check
+
+```{r AW residual normality check}
+ggplot(data = economic_data, aes(x = residuals)) +
+  geom_histogram(binwidth = 0.2)+
+  labs(x = "Residuals",
+       y = "Frequency of Given Residual",
+       title = "Histogram of Residuals")
+
+ggplot(data=economic_data, aes(sample=residuals)) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title="Normal QQ Plot of Residuals")
+```
+
+The normality assumption is satisfied since the distribution of residuals appears to be unimodal and approximately normal. Also, the normal QQ plot of points fit the theoretical line very well.
+
+##### Leverage, Standardized Residual, Cook's Distance
+
+Lastly, we augmented the model and took a look into leverage, cook's distance, and standardized residual to check for outliers and assess their influence on our model.
+
+```{r AW augment model}
+economic_data_aug <- augment(final_model) %>%
+  mutate(obs_num = row_number())
+
+glimpse(head(economic_data_aug, n=5))
+```
+
+```{r AW leverage}
+leverage_threshold <- 2*(8+1)/nrow(economic_data)
+
+ggplot(data = economic_data_aug, aes(x = obs_num ,y = .hat)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = leverage_threshold,color = "red")+
+  labs(x = "Observation Number",y = "Leverage",title = "Leverage") +
+  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
+
+economic_data_aug %>% filter(.hat > leverage_threshold)
+
+economic_data_aug %>% filter(.hat > leverage_threshold) %>%
+  select(obs_num, .cooksd)
+```
+
+There are 8 points with high leverage. After printing them out, we can see the reason why they have high leverage compared with other points: some observations have significantly high population (thus logpop is high), other observations have lower TaxBurdenCent than normal datapoints, while the rest have lower corporate taxrate than most points. In conclusion, significant high or low values in predictor variables lead to high leverage of those datapoints. 
+
+```{r AW standardized residuals}
+ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = 0,color = "red") +
+  geom_hline(yintercept = -2,color = "red",linetype = "dotted") +
+  geom_hline(yintercept = 2,color = "red",linetype = "dotted") +
+  labs(x ="Predicted Value",y ="Standardized Residuals",title = "Standardized Residuals vs. Predicted") +
+  geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)
+
+nrow(economic_data_aug %>% filter(abs(.std.resid) > 2))
+```
+
+There are 8 observations that are considered to have large standardized residuals with large magnitudes. If ploted the distribution of standardized residuals using a N(0,1) distribution, we can expect 8/173 = 4.62% of the observations have standardized residuals with magnitude > 2. We might need to remove these points from our final data in order to train a more accurate model. 
+
+```{r AW cook distace}
+ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept=1,color = "red")+
+  labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
+  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
+```
+
+Even though there are 8 points with high leverage and high standardized residues, none of them has a cook distance that is larger than 1. Therefore, we don't believe that they have significant influence on model coefficients, so it is safe to keep them in our model.
+
+```{r AW VIF, echo=TRUE}
+tidy(vif(final_model))
+```
+
+There is only variable that exceeds the threshold of 10: TariffRate:RegionSub-Saharan Africa. However, we don't see another one that is close to 15.758. Usually we would be concerned if two variables in the model have close VIF values exceeding 10. This means the two variables are highly correlated with each other. Since that is not the case here, we are less concernned about the model validity. 
+
+According to other model diagonistics, our model looks good, and it is not unreasonable to have a high multicollinearity for this particular interaction variable. Its high multicollinearity means that knowing that a country is from subsaharan Africa, one can easily predict the coefficient of the TariffRate predictor variable. This is not entirely surprising considering that the region has a considerably higher tariff rates compared to all other regions.
+
+```{r AW Tariff rate by region}
+economic_data %>%
+ggplot(mapping = aes(x = Region, y = TariffRate)) +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of TariffRate versus Region")
+```
+
+Moreover the VIF values for the interaction between TariffRate and other levels of Region are not high. This means that they are useful in the model and we will not want to remove all the other meaningful interactions. 
+
+For the above reasons, we choose to keep the interaction variables between TariffRate and all the levels of Region.
