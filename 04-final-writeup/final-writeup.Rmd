@@ -379,12 +379,12 @@ economic_data <- economic_data %>%
 
 ## Section 2: Regression Analysis (includes the final model and discussion of assumptions)
 
-```{r setting healthy as baseline, echo=TRUE}
+```{r setting healthy as baseline, echo=FALSE}
 economic_data <- economic_data %>%
   mutate(cat_inflation = relevel(cat_inflation, ref = "Healthy", ordered = FALSE))
 ```
 
-```{r setting moderate as baseline, echo=TRUE}
+```{r setting moderate as baseline, echo=FALSE}
 economic_data <- economic_data %>%
   mutate(GovInterference = as.factor(GovInterference))
 
@@ -394,11 +394,14 @@ economic_data <- economic_data %>%
 
 Our approach is this: running model selection using all three selection criteria - AIC, BIC, and adjusted R^2 - and comparing all three models to decide on the final model.
 
-Model selected using AIC: logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + GovSpendingCent + cat_inflationDangerouslyHigh + cat_inflationHigh + cat_inflationLow + RegionAsia-Pacific + RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica + GovInterferenceLimited + GovInterferenceExtensive + GovInterferenceRepressive
+Model selected using AIC: 
+logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + GovSpendingCent + cat_inflationDangerouslyHigh + cat_inflationHigh + cat_inflationLow + RegionAsia-Pacific + RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica + GovInterferenceLimited + GovInterferenceExtensive + GovInterferenceRepressive
     
-Model selected using BIC: logGDP ~  TariffRate + logpop + GDPGrowth + cat_inflationDangerouslyHigh + cat_inflationHigh + GovInterferenceExtensive + RegionSub-Saharan Africa             
+Model selected using BIC: 
+logGDP ~  TariffRate + logpop + GDPGrowth + cat_inflationDangerouslyHigh + cat_inflationHigh + GovInterferenceExtensive + RegionSub-Saharan Africa             
 
-Model selected using adj R^2: logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent +  cat_inflationDangerously High + cat_inflationHigh + GovInterferenceLimited + GovInterferenceModerate + RegionSub-Saharan Africa 
+Model selected using adj R^2: 
+logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent +  cat_inflationDangerously High + cat_inflationHigh + GovInterferenceLimited + GovInterferenceModerate + RegionSub-Saharan Africa 
 
 Since all three selection criteria included TariffRate + logpop + GDPGrowth + GovInterference, we will include these four predictors into our final model.
 
@@ -439,7 +442,7 @@ VIF is also calculated to ensure no multi-collinearity between predictor variabl
 
 (Refer to Additional Work for detailed discussion on Model Assumptions)
 
-#### Independence #### 
+#### Independence  
 
 ```{r independence}
 economic_data <- economic_data %>% 
@@ -588,7 +591,9 @@ ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) +
 
 Even though there are 8 points with high leverage and high standardized residues, none of them has a cook distance that is larger than 1. Therefore, we conclude they do not have significant influence on model coefficients and include them.
 
-```{r VIF, echo=FALSE}
+#### Multi-Collinearity in Model
+
+```{r VIF, echo=FALSE, warning=FALSE}
 tidy(vif(final_model))
 ```
 
