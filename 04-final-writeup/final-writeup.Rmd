@@ -1,17 +1,30 @@
 ---
-title: "PROJECT TITLE"
-author: "NAME HERE"
-date: "TODAY'S DATE"
+title: "What makes a country economically great?"
+author: "RTists"
+date: "12/7/19"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warnings = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Your project goes here! Before you submit, make sure your chunks are turned off with `echo = FALSE`. 
+```{r libraries, warnings = FALSE, echo = FALSE, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(readxl)
+library(skimr)
+```
 
-You can add sections as you see fit. At a minimum, you should have the following sections: 
+```{r data, warnings = FALSE, echo = FALSE, include = FALSE}
+economic_data <- read_excel("/cloud/project/02-data/economic_data.xlsx",
+col_types = c("text", "text", "text",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric",
+"numeric", "numeric", "numeric"))
+```
+
 
 ## Section 1: Introduction (includes introduction and exploratory data analysis)
 
@@ -19,11 +32,77 @@ You can add sections as you see fit. At a minimum, you should have the following
 ## Section 2: Regression Analysis (includes the final model and discussion of assumptions)
 
 
-## Section 3: Discussion and Limitations 
+### Coefficient Interpretations
+We have interpreted each of the coefficients in our model below:
 
+For countries who don't have "extensive" government interference and are in the Americas, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.009)`.
+
+For countries who are in the Asia Pacific, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.18)`, holding all other variables constant.
+
+For countries who are in Europe, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.068)`, holding all other variables constant.
+
+For countries who are in the Middle East or North Africa, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.045)`, holding all other variables constant.
+
+For countries who are in Sub-Saharan Africa, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.058)`, holding all other variables constant.
+
+For countries who do have extensive government interference, as the TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(.08)`, holding all other variables constant.
+
+If the population increases by 1 million, GDP is expected to increase by  $`r exp(1.006)`
+
+As GDPGrowth increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.057)`, holding all other variables constant. As GDP growth increases, we see a decrease in GDP.
+
+As the tax burden increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.020)`, holding all other variables constant. As the tax burden increases, we can expect the GDP of the country to be lower.
+
+If the country's inflation rate is listed as "Healthy", this provides no further input to the model as "Healthy" is the baseline for our model. However, if the country's inflation is listed as low, the expected median GDP of the country is multiplied by a factor of `r exp(.022)`, holding all other variables constant. If the country's inflation is listed as high, the expected median GDP of the country is multiplied by a factor of `r exp(-.402)`, holding all other variables constant. If the country's inflation is listed as dangerously high, the expected median GDP of the country is multiplied by a factor of `r exp(-.374)`, holding all other variables constant. 
+
+If the country has extensive government interference, the expected median GDP of the country is multiplied by a factor of `r exp(-1.045)`, holding all other variables constant.
+
+If the country is in the Americas, this provides no further input to the model as this is the baseline for our model. However, if the country is in the Asia Pacific region, the expected median GDP of the country is multiplied by a factor of `r exp(1.117)`, holding all other variables constant. If the country is in Europe, the expected median GDP of the country is multiplied by a factor of `r exp(.537)`, holding all other variables constant. If the country is in the Middle East or North Africa, the expected median GDP of the country is multiplied by a factor of `r exp(.969)`, holding all other variables constant. If the country is in Sub-Saharan Africa, the expected median GDP of the country is multiplied by a factor of `r exp(-.655)`, holding all other variables constant.
+
+
+### Interesting Findings
+Through the investigation we came across several interesting findings that we will describe below. 
+
+The first and most notable is that none of our interaction effect terms involving inflation ended up in our final model as they did not have a significant effect on the response. We tried five different interaction effects with inflation: The effects between inflation and GDP growth, inflation, inflation and the log of the population, and inflation and the tariff rate. We hypothesized that the effect of these quantitative predictors may depend on the rate of inflation as this represents the stability of the currency which drives the country's economy, but this ended up not being the case. 
+
+Another set of interesting facts involves the coefficients in our model; dangerously_high_inflation has a higher coefficient than high_inflation - counterintuitively, this suggests that countries with very high inflation should experience higher GDP than those with merely high inflation. We suspect that the reason for this odd result is that the countries with dangerously high inflation do not always reliably report economic data for political reasons, and may have lower GDPs than the data would indicate.
+
+Furthermore, we noticed a negative coefficient for GDP growth - while it's initially surprising, countries with very high GDP growht tend to be developing countries who have lots of room for growth. Thus, while growth is high, they have less overall development than other countries.
+
+One major set of indicators/variables that did not make it into our final model were the tax rates: both corporate and income taxes. This is peculiar because there is almost a constant discussion by political parties and governments about how raising taxes (for those on the left) or lowering taxes (for those on the right) is necessary to stimulate the economy and/or boost production of goods and services. Our model on the other hand suggests that a relationship may not be as clear as traditional economists would claim.
+
+```{r tax, echo = FALSE}
+ggplot(economic_data, mapping = aes(x = CorporateTaxRate, y = GDP)) +
+  geom_point(color = "red") +
+  geom_point(aes(x = IncomeTaxRate, y = GDP), color = "blue") +
+  labs(x = "Tax Rates (Blue = Income, Red = Corporate)",
+       y = "GDP",
+       title = "Relationship between GDP and Tax Rates")
+```
+
+Indeed, according to the above plot, there doesn't seem to be any visually evident relationship between GDP and either corporate or income tax rate. Instead, it seems that a tax rate that's modest but not too high or too low is perhaps indicative of a high GDP.
+
+Finally, we would like to touch on one other variable that wasn't included in the model. Public debt wasn't included in the model which at first glance may seem strange, but when examining the role of debt further, may be reasonable. Countries that have high can in some cases be well managed and be using debt to increase production and business investment, while other countries that have high debt may just be dealing with bad economic policy. For example, the U.S. has approx. 60k dollars per capita of debt, while Italy, a country with a significantly smaller GDP, has the same amount of debt per capita as well. 
+
+## Section 3: Discussion and Limitations 
+In our final model, we included the tariff rate, population, GDP growth, tax burden, inflation, region, and the interaction between region and tariff rate. Since the goal of the model is not prediction (our model is built from almost all the world's countries, so there are no countries' GDPs left to predict), it is not useful to try to predict various cases. Instead, the model allows us to determine the effect of a particular indicator or variable on the expected GDP, which we have described at length in the interpretation of each coefficient above. Our model has allowed us to say, for example, that being located in the Asia-Pacific region means the expected GDP of the country is higher than being located in Europe, or that each additional percentage point of the tax burden has a greater effect on the expected GDP than the each additional percentage point of the tariff rate.
+
+While this model does provide many insights into the role of various economic indicators in GDP, there are various limitations that can be resolved in future investigations. The most obvious limitation is that we decided, for the purposes of simplicity, to remove the 12 observations in our dataset that didn't have complete data reported. While this represents only a small subset of the total observations, this certainly does decrease the validity of our data. This is especially true because the countries that we removed for this reason, such as North Korea, Iraq, Somalia, etc. have certain similar characteristics such as high government interference, high tariff rates, etc. that effectively mean we are removing an entire "group" of countries from our dataset. However, it is likely that were we to have data on these countries, the figures would not be accurately reported/would be inflated by the countries' governments. 
+
+Another limitation is that we only used 2019 data figures for our analysis, which runs somewhat counter to the fact that GDP represents the accumulation over time of economic policy, business growth, trade relationship changes, and other long-term effects that cannot be captured through economic indicators from only 1 year. We could remedy this issue by using a time-series model that analyzes the trends in these indicators year-over-year.
+
+Our overall methods for building and verifying the model were sound. By examining all three indicators of the model, AIC, BIC, and Adjusted R^2, we were able to choose a model that best fit our needs. Additionally, we conducted a full diagnosis of the model including looking at leverage points and whether these points exceeded a variety of thresholds such as Cook's Distance and VIF. One potential issue with our methods were that our threshold for multicollinearity may have been a little lenient for the types of variables we were looking at. It is definitely true that there are relationships between the economic indicators that we looked at: for example, corporate tax rate may very well be a function of income tax rate in many countries. Or, for example, the rate of GDP growth is related to the GDP itself. Because of this, we had a VIF value for certain observations that was coming up to a value of 9, which while not exceeding our theshold of 10, is still something to examine further.
+
+Now, we will discuss our model performance as a whole. While we did not use R^2 to choose our model, this value is still a fine measure of the ability of our model to explain variation in the data. The R^2 value fo our model is .842, which suggests that approx. 84.2 percent of the variation in GDP can be explained by a linear relationship of our transformed predictors. As discussed above, our model diagnostics included determining points with high leverage, analyzing them in relation to Cook's Distance, and looking at the VIF. However, this issue of multicollinearity certainly affects the validity of our model.
+
+If we were to restart or go further with our investigation, we would resolve many of the questions of multicollinearity as well as somewhat strange outcomes with the variables our model chose by adding data for each country pertaining to non-economic factors. Our model clearly illustrates that purely economic factors such as tax rates or debt are actually not as significant in predicting GDP as we thought, which suggests that it may be demographic, geographical, or cultural factors that are more responsible for predicting GDP. By adding these variables, a potential final model would not only likely have more predictive power but would have a better chance of avoiding multicollinearity as instead of including 17 variables relating to economics we would have fewer.
 
 ## Section 4: Conclusion
+While we have already discussed the specifics of the model and its coefficients, looking at it from a broader view has certainly shed some light on what really contributes to the GDP of country and what perhaps doesn't. The first takeaway is that a lot of the GDP of a country is actually out of the government of the country's control. This is evident in that region was an extremely important aspect of our model, as the regions stood in as their own variables as well as interacting with other variables. Region is likely important in that it serves as a proxy for access to natural resources as well as shipping routes and ports. These factors are out of a government's control for the most part.
 
+Additionally, the GDP is actually not just the result of the actions of a government in a vacuum but rather the result of broader, international efforts and cooperation. The variable TariffRate was crucial in our model, serving as its own coefficient as well as interacting with other variables. This is likely because TariffRate serves as a indicator for not only the average rate of import taxes but also whether or not a country has trade unions and agreements with other countries and is open to free trade, which is an extremely important aspect of the GDP of a country.
+
+Finally, our model has shown us that the most important predictors of GDP involve long-term investments made by the government to improve the country's economy, such as population growth, inflation (currency stability), etc.. Short-term fixes such as marginal tax rate changes or debt are not nearly as effective. This indicates that short-term losses from actions like cutting inflation have long-term benefits when looking at GDP. By keeping their currencies stable, their populations healthy, and their trade agreements fair, governments can increase their GDP without having to resort to these short-term measures.
 
 ## Section 5: Additional Work
 
