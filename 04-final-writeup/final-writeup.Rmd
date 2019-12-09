@@ -61,7 +61,8 @@ ggplot(data = economic_data, mapping = aes(x = GDP)) +
   geom_histogram(binwidth = 1000, fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
-       title = "Distribution of GDPs")
+       title = "Distribution of GDPs") +
+  theme_classic()
 
 economic_data %>%
 select(GDP) %>%
@@ -77,7 +78,8 @@ ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
   geom_histogram(fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
-       title = "Distribution of GDPs")
+       title = "Distribution of GDPs")+
+  theme_classic()
 
 economic_data %>%
 select(GDP) %>%
@@ -93,7 +95,8 @@ ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
   geom_histogram(binwidth = 1, fill = "forestgreen") +
   labs(x = "log(GDP)",
        y = "Frequency",
-       title = "Distribution of log-GDPs")
+       title = "Distribution of log-GDPs")+
+  theme_classic()
 
 economic_data <- economic_data %>%
   mutate(logGDP = log(GDP))
@@ -114,7 +117,8 @@ ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
   geom_histogram(binwidth = 2, fill = "forestgreen") + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
-       title = "Distribution of Tax Burden")
+       title = "Distribution of Tax Burden")+
+  theme_classic()
 
 economic_data %>%
 select(TaxBurden) %>%
@@ -128,7 +132,8 @@ ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 3, fill = "forestgreen") + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
-       title = "Distribution of Government Spending")
+       title = "Distribution of Government Spending")+
+  theme_classic()
 
 economic_data %>%
 select(GovSpending) %>%
@@ -142,7 +147,8 @@ ggplot(data = economic_data, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 40, fill = "forestgreen") + 
   labs(x = "Population (Million)",
        y = "Frequency",
-       title = "Distribution of Population")
+       title = "Distribution of Population")+
+  theme_classic()
 
 economic_data %>%
 select(Population) %>%
@@ -158,7 +164,8 @@ ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 10, fill = "forestgreen") + 
   labs(x = "Population (Million)",
        y = "Frequency",
-       title = "Distribution of Population")
+       title = "Distribution of Population")+
+  theme_classic()
 
 economic_data %>%
 select(Population) %>%
@@ -173,7 +180,8 @@ economic_data <- economic_data %>%
 
 ggplot(data=economic_data, aes(x=logpop)) +
   geom_histogram(fill = "forestgreen") +
-  labs(title="Distribution of logpop", x="Log(Population)")
+  labs(title="Distribution of logpop", x="Log(Population)")+
+  theme_classic()
 ```
 
 Based on the above plot, the logarithmic transformation has been successful in normalizing the population variable, which should allow a more linear relationship with GDP.
@@ -183,7 +191,8 @@ ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
   geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Unemployment (%)",
        y = "Frequency",
-       title = "Distribution of Unemployment")
+       title = "Distribution of Unemployment")+
+  theme_classic()
 
 economic_data %>%
 select(Unemployment) %>%
@@ -197,14 +206,16 @@ ggplot(data = economic_data, mapping = aes(x = Inflation)) +
   geom_histogram(fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
-       title = "Distribution of Inflation")
+       title = "Distribution of Inflation")+
+  theme_classic()
 
 economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
 ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
   geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
-       title = "Distribution of Inflation without Outlier")
+       title = "Distribution of Inflation without Outlier")+
+  theme_classic()
 
 economic_data %>%
 select(Inflation) %>%
@@ -226,7 +237,8 @@ economic_data <- economic_data %>%
 
 economic_data %>%
 ggplot(mapping = aes(x = cat_inflation, y = logGDP)) +
-  geom_boxplot(position="dodge",fill="forestgreen")
+  geom_boxplot(position="dodge",fill="forestgreen")+
+  theme_classic()
 ```
 
 `Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because inflation can vary widely between countries, we have recoded it into a categorical variable that better captures whether a country's inflation is healthy or unhealthy. Above is a plot to show the frequency of each level of inflation.
@@ -242,12 +254,14 @@ ggplot(data = economic_data, mapping = aes(x = Region)) +
   geom_bar(fill = "forestgreen") + 
   labs(x = "Region",
        y = "Frequency",
-       title = "Distribution of Region")
+       title = "Distribution of Region")+
+  theme_classic()
 
 ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
     geom_bar(stat = "identity", color = "white") +
     coord_polar("y", start = 0) +
-    theme_void()
+    theme_void()+
+  theme_classic()
 ```
 
 `Region` represents the geographical continent/area that the country is situated in. The bar graph and piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
@@ -255,7 +269,8 @@ ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
 ```{r Government Interference}
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   geom_bar(fill = "forestgreen") +
-  labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+  labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")+
+  theme_classic()
 ```
 
 `GovInterference` represents the amount of interference that the government has in the economy as determined by the World Economic Index. The distribution of government interference shows that most countries either have extensive or moderate government inteference. The mode of the distribution is moderate government interference. Economies with limited and repressive intervention are significanly lesser, each having around 10-15 countries. We do not report the center or spread here because government interference is a categorical variable.
@@ -266,13 +281,15 @@ economic_data <- economic_data %>%
 
 ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   geom_bar(fill = "forestgreen") +
-  labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+  labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")+
+  theme_classic()
 ```
 
 ```{r Tariff Rate}
 ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
   geom_histogram(binwidth = 1, fill = "forestgreen") +
-  labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+  labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")+
+  theme_classic()
 
 economic_data %>%
   select(TariffRate) %>%
@@ -284,7 +301,8 @@ economic_data %>%
 ```{r Income Tax Rate}
 ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
   geom_histogram(binwidth = 5, fill = "forestgreen") +
-  labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+  labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")+
+  theme_classic()
 
 economic_data %>%
   select(IncomeTaxRate) %>%
@@ -296,7 +314,8 @@ economic_data %>%
 ```{r Corporate Tax Rate}
 ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
 geom_histogram(binwidth = 4, fill = "forestgreen") +
-labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
+labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")+
+  theme_classic()
 
 economic_data %>%
 select(CorporateTaxRate) %>%
@@ -310,7 +329,8 @@ ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
   geom_histogram(binwidth = 8, fill = "forestgreen") + 
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
-       title = "Distribution of Public Debt")
+       title = "Distribution of Public Debt")+
+  theme_classic()
 
 economic_data %>%
 select(PublicDebt) %>%
@@ -355,12 +375,15 @@ Within this analysis, we have split the pairs plot for visual convenience, but w
 economic_data %>%
 ggplot(mapping = aes(x = Region, y = logGDP)) +
   geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of log GDP versus Region")
+  labs(title = "Boxplots of log GDP versus Region")+
+  theme_classic()
 
 economic_data %>%
-ggplot(mapping = aes(x = GovInterference, y = logGDP)) +
+ggplot(mapping = aes(x = GovInterference, y = logGDP))+
+  theme_classic() +
   geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of log GDP versus Government Interference")
+  labs(title = "Boxplots of log GDP versus Government Interference")+
+  theme_classic()
 ```
 
 For the relationship between the response and categorical variables, the various boxplots suggest that there are generally normally distributed with minimal skewing. This means that a linear regression between log GDP and the categorical variables of region and government interference are appropriate.
@@ -452,7 +475,8 @@ ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)
   geom_point() +
   labs(x = "predicted",
        y = "Residuals",
-       color = "Region")
+       color = "Region")+
+  theme_classic()
 ```
 One may suspect non-independence to be violated due to spatial correlation. We included Region as a predictor variable to negate this. Moreover, the residuals did not show significant cluster effect based on Region.
 
@@ -464,7 +488,8 @@ We also do not expect that the recording of GDP in one country to affect the rec
 ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
-  labs(title="Residuals vs. Predicted Values")
+  labs(title="Residuals vs. Predicted Values")+
+  theme_classic()
 ```
 
 ```{r residuals vs. predictor variables}
@@ -473,53 +498,61 @@ ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) +
   geom_hline(yintercept=0,color="red") +
   labs(x = "TariffRate", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. TariffRate")
+       title = "Scatterplot of Residuals vs. TariffRate")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=logpop, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "log of Population", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. log of Population")
+       title = "Scatterplot of Residuals vs. log of Population")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "CorporateTaxRate", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. CorporateTaxRate")
+       title = "Scatterplot of Residuals vs. CorporateTaxRate")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "GDPGrowth", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. GovInterference")
+       title = "Scatterplot of Residuals vs. GovInterference")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Inflation", 
-       y="Residuals")
+       y="Residuals")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=Region, y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Region", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. Region")
+       title = "Scatterplot of Residuals vs. Region")+
+  theme_classic()
 
 ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=Region)) + 
   geom_point() +
   labs(x = "TariffRate",
        y = "Residuals",
-       color = "Region")
+       color = "Region")+
+  theme_classic()
 
 ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=GovInterference)) + 
   geom_point() +
   labs(x = "TariffRate",
        y = "Residuals",
-       color = "GovInterference")
+       color = "GovInterference")+
+  theme_classic()
 ```
 
 From the residual plots above, we conclude the constant variance and linearity assumptions are satisified. Residuals are all randomly scattered with no observable pattern, for both quantitative and categorical predictors. 
@@ -531,12 +564,14 @@ ggplot(data = economic_data, aes(x = residuals)) +
   geom_histogram(binwidth = 0.2)+
   labs(x = "Residuals",
        y = "Frequency of Given Residual",
-       title = "Histogram of Residuals")
+       title = "Histogram of Residuals")+
+  theme_classic()
 
 ggplot(data=economic_data, aes(sample=residuals)) + 
   stat_qq() + 
   stat_qq_line() +
-  labs(title="Normal QQ Plot of Residuals")
+  labs(title="Normal QQ Plot of Residuals")+
+  theme_classic()
 ```
 
 The normality assumption is satisfied since the distribution of residuals appears to be unimodal and approximately normal. Also, the normal QQ plot of points fit the theoretical line very well.
@@ -557,7 +592,8 @@ ggplot(data = economic_data_aug, aes(x = obs_num ,y = .hat)) +
   geom_point(alpha = 0.7) + 
   geom_hline(yintercept = leverage_threshold,color = "red")+
   labs(x = "Observation Number",y = "Leverage",title = "Leverage") +
-  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
+  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)+
+  theme_classic()
 
 economic_data_aug %>% filter(.hat > leverage_threshold)
 
@@ -574,7 +610,8 @@ ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
   geom_hline(yintercept = -2,color = "red",linetype = "dotted") +
   geom_hline(yintercept = 2,color = "red",linetype = "dotted") +
   labs(x ="Predicted Value",y ="Standardized Residuals",title = "Standardized Residuals vs. Predicted") +
-  geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)
+  geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)+
+  theme_classic()
 
 nrow(economic_data_aug %>% filter(abs(.std.resid) > 2))
 ```
@@ -586,7 +623,8 @@ ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) +
   geom_point(alpha = 0.7) + 
   geom_hline(yintercept=1,color = "red")+
   labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
-  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
+  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))+
+  theme_classic()
 ```
 
 Even though there are 8 points with high leverage and high standardized residues, none of them has a cook distance that is larger than 1. Therefore, we conclude they do not have significant influence on model coefficients and include them.
@@ -644,7 +682,8 @@ ggplot(economic_data, mapping = aes(x = CorporateTaxRate, y = GDP)) +
   geom_point(aes(x = IncomeTaxRate, y = GDP), color = "blue") +
   labs(x = "Tax Rates (Blue = Income, Red = Corporate)",
        y = "GDP",
-       title = "Relationship between GDP and Tax Rates")
+       title = "Relationship between GDP and Tax Rates")+
+  theme_classic()
 ```
 
 Indeed, according to the above plot, there doesn't seem to be any visually evident relationship between GDP and either corporate or income tax rate. Instead, it seems that a tax rate that's modest but not too high or too low is perhaps indicative of a high GDP.
@@ -918,7 +957,8 @@ ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)
   geom_point() +
   labs(x = "predicted",
        y = "Residuals",
-       color = "Region")
+       color = "Region")+
+  theme_classic()
 ```
 
 By looking at the color-coded residual plot, residual points of each category seems randomly scattered and don't have distinguishable shape. So this finding indicates no cluster effect and thus negates the possible violation of independence assumption.
@@ -931,7 +971,8 @@ Moreover, we do not expect that the recording of GDP in one country to be affect
 ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
-  labs(title="Residuals vs. Predicted Values")
+  labs(title="Residuals vs. Predicted Values")+
+  theme_classic()
 ```
 
 From the residuals vs. predicted values plot above, we can also conclude that the linearity assumption is satisfied. The figure shows no obvious shape or pattern, and therefore, the constant variance assumption is also satisfied. 
@@ -942,36 +983,42 @@ ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) +
   geom_hline(yintercept=0,color="red") +
   labs(x = "TariffRate", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. TariffRate")
+       title = "Scatterplot of Residuals vs. TariffRate")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=logpop, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "log of Population", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. log of Population")
+       title = "Scatterplot of Residuals vs. log of Population")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "CorporateTaxRate", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. CorporateTaxRate")
+       title = "Scatterplot of Residuals vs. CorporateTaxRate")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "GDPGrowth", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. GovInterference")
+       title = "Scatterplot of Residuals vs. GovInterference")+
+  theme_classic()
 
 ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Inflation", 
-       y="Residuals")
+       y="Residuals")+
+  theme_classic()
 
-ggplot(data=economic_data,aes(x=Region, y=residuals)) + 
+ggplot(data=economic_data,aes(x=Region, y=residuals))+
+  theme_classic() + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Region", 
@@ -982,13 +1029,15 @@ ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=Region
   geom_point() +
   labs(x = "TariffRate",
        y = "Residuals",
-       color = "Region")
+       color = "Region")+
+  theme_classic()
 
 ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=GovInterference)) + 
   geom_point() +
   labs(x = "TariffRate",
        y = "Residuals",
-       color = "GovInterference")
+       color = "GovInterference")+
+  theme_classic()
 ```
 
 The constant variance assumption is further satisfied because the residuals from each of the residuals vs. quantitative predictor variables plot is randomly scattered and doesn't appear any distinguishable shape. For those categorical predictor variables, the boxplot of residuals are appproximately centered around 0, sysmetric, and the interquantile range is roughly the same for each category. Furthermore, for interaction terms, we made color coded residual plots according to different categories. And for each category (each color), the residual points all look randomly scattered. So, we can say that constant variance assumption is met.
@@ -1000,12 +1049,14 @@ ggplot(data = economic_data, aes(x = residuals)) +
   geom_histogram(binwidth = 0.2)+
   labs(x = "Residuals",
        y = "Frequency of Given Residual",
-       title = "Histogram of Residuals")
+       title = "Histogram of Residuals")+
+  theme_classic()
 
 ggplot(data=economic_data, aes(sample=residuals)) + 
   stat_qq() + 
   stat_qq_line() +
-  labs(title="Normal QQ Plot of Residuals")
+  labs(title="Normal QQ Plot of Residuals")+
+  theme_classic()
 ```
 
 The normality assumption is satisfied since the distribution of residuals appears to be unimodal and approximately normal. Also, the normal QQ plot of points fit the theoretical line very well.
@@ -1028,7 +1079,8 @@ ggplot(data = economic_data_aug, aes(x = obs_num ,y = .hat)) +
   geom_point(alpha = 0.7) + 
   geom_hline(yintercept = leverage_threshold,color = "red")+
   labs(x = "Observation Number",y = "Leverage",title = "Leverage") +
-  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
+  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)+
+  theme_classic()
 
 economic_data_aug %>% filter(.hat > leverage_threshold)
 
@@ -1045,7 +1097,8 @@ ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
   geom_hline(yintercept = -2,color = "red",linetype = "dotted") +
   geom_hline(yintercept = 2,color = "red",linetype = "dotted") +
   labs(x ="Predicted Value",y ="Standardized Residuals",title = "Standardized Residuals vs. Predicted") +
-  geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)
+  geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)+
+  theme_classic()
 
 nrow(economic_data_aug %>% filter(abs(.std.resid) > 2))
 ```
@@ -1057,7 +1110,8 @@ ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) +
   geom_point(alpha = 0.7) + 
   geom_hline(yintercept=1,color = "red")+
   labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
-  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
+  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))+
+  theme_classic()
 ```
 
 Even though there are 8 points with high leverage and high standardized residues, none of them has a cook distance that is larger than 1. Therefore, we don't believe that they have significant influence on model coefficients, so it is safe to keep them in our model.
@@ -1074,7 +1128,8 @@ According to other model diagonistics, our model looks good, and it is not unrea
 economic_data %>%
 ggplot(mapping = aes(x = Region, y = TariffRate)) +
   geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of TariffRate versus Region")
+  labs(title = "Boxplots of TariffRate versus Region")+
+  theme_classic()
 ```
 
 Moreover the VIF values for the interaction between TariffRate and other levels of Region are not high. This means that they are useful in the model and we will not want to remove all the other meaningful interactions. 

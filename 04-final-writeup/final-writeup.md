@@ -78,7 +78,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -99,7 +99,7 @@ graph of GDP with some of these influential points
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -120,7 +120,7 @@ distribution is visualized below:
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
     ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
     ##      hist
@@ -143,7 +143,7 @@ to predict GDP, starting with `TaxBurden`.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
@@ -162,7 +162,7 @@ deviation of the distribution is 10.17%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
@@ -181,7 +181,7 @@ of GDP and the distribution has a standard deviation of 15.52%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -199,7 +199,7 @@ below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -229,7 +229,7 @@ more linear relationship with GDP.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -249,7 +249,7 @@ IQR is
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
@@ -315,7 +315,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -334,7 +334,7 @@ examine it further in a pairs plot later in the analysis.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
@@ -356,7 +356,7 @@ the distribution is 13.4%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
@@ -375,7 +375,7 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist
