@@ -75,9 +75,9 @@ b <- ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
   geom_histogram(fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
-       title = "Distribution of GDPs (Without Outliers)") + 
-  theme(plot.title = element_text(size = 12)) +
-    theme_classic()
+       title = "Distribution of GDPs (Without Outliers)") +
+    theme_classic() + 
+  theme(plot.title = element_text(size = 12))
 
 
 economic_data <- economic_data %>%
@@ -120,9 +120,9 @@ b <- ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 3, fill = "forestgreen") + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
-       title = "Distribution of Government Spending") + 
-  theme(plot.title = element_text(size = 12))+
-    theme_classic()
+       title = "Distribution of Government Spending") +
+    theme_classic() + 
+  theme(plot.title = element_text(size = 12))
 
 
 c <- ggplot(data = economic_data, mapping = aes(x = Population)) +
@@ -130,6 +130,7 @@ c <- ggplot(data = economic_data, mapping = aes(x = Population)) +
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population")+  theme_classic()
+  
 
 
 economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
@@ -138,8 +139,8 @@ d <- ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 10, fill = "forestgreen") + 
   labs(x = "Population (Million)",
        y = "Frequency",
-       title = "Distribution of Population (No Outliers)") + 
-  theme(plot.title = element_text(size = 12))+  theme_classic()
+       title = "Distribution of Population (No Outliers)") + theme_classic() + 
+  theme(plot.title = element_text(size = 12))
 
 
 f <- ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
