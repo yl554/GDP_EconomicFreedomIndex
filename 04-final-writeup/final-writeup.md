@@ -56,23 +56,23 @@ The response variable is GDP.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
     ##  ▇▁▁▁▁▁▁▁
 
-From our EDA, we decide to log-transform the response variable since the
-histogram of GDP (without outlier) shows a unimodal and right-skewed
+From our EDA, we decided to log-transform the response variable since
+the histogram of GDP (without outlier) shows a unimodal and right-skewed
 distribution. The logGDP distribution on the other hand is unimodal and
 symmetric. The mean logGDP is 4.61 and the standard deviation of its
-distribution is 2.08.
+distribution is 2.08. LogGDP’s summary statistics are printed below.
 
     ## Skim summary statistics
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
     ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
     ##      hist
@@ -80,42 +80,62 @@ distribution is 2.08.
 
 #### Univariate Analysis of Predictor Variables
 
-The quantitative predictor variables
-ARE\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-The categorical predictor variables
-ARE\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-Here, we highlight two predictor variables Population and
-Inflation.
+The quantitative predictor variables are TariffRate, IncomeTaxRate,
+CorporateTaxRate, TaxBurden, GovSpending, Population, GDPGrowth,
+Unemployment, and PublicDebt. Out of these, we will discuss two
+predictor variables, Population and Inflation. (Discussion of the rest
+of the variables will be in Additional Work). The distribution of each
+of the quantitative predictor variables is shown
+below.
 
 ![](final-writeup_files/figure-gfm/EDA1-1.png)<!-- -->![](final-writeup_files/figure-gfm/EDA1-2.png)<!-- -->
 
-    ## Skim summary statistics
-    ##  n obs: 173 
-    ##  n variables: 1 
-    ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
-    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
-    ##      hist
-    ##  ▇▁▁▁▁▁▁▁
-
 From this histogram of population without outliers, the distribution of
 population is unimodal and right-skewed. The median is 9.15 and the IQR
-is 26.85. Based on the subsequent pairs plot, population has a
-logarithmic relationship with logGDP and thus we will apply a
-logarithmic transform to population below.
+is 26.85. Based on the subsequent pairs plot (in multivariate EDA),
+population has a logarithmic relationship with logGDP and thus we will
+apply a logarithmic transform to population below. The summary
+statistics of this transformed variable are also
+printed.
+
+![](final-writeup_files/figure-gfm/Population%20without%20Outlier-1.png)<!-- -->
 
     ## Skim summary statistics
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n mean  sd   p0  p25  p50  p75 p100     hist
+    ##    logpop       0      173 173 2.16 1.8 -2.3 1.06 2.25 3.45 7.24 ▁▃▃▇▆▃▁▁
+
+The categorical predictor variables are Region, GovInterference, and
+Inflation. The distribution of these variables is printed
+below.
+
+![](final-writeup_files/figure-gfm/EDA2-1.png)<!-- -->![](final-writeup_files/figure-gfm/EDA2-2.png)<!-- -->
+
+`Inflation` represents the change in prices of goods and services in a
+year in the country. The distribution of inflation rate is generally
+unimodal and right skewed. The mode of the distribution is around 2%.
+Given significant skewing, we report the median and IQR as measures of
+center and spread. The median inflation rate is 2.7% and the IQR is 4%.
+These summary statistics are printed below.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
     ##  ▇▁▁▁▁▁▁▁
+
+Because we hypothesize that inflation interacts with other variables and
+can determine whether the effect of other variables (that have to do
+with currency stability) is positive or negative, we have recoded it
+into a categorical variable that will make interpretation of these
+interaction terms easier.
 
     ## # A tibble: 4 x 2
     ## # Groups:   cat_inflation [4]
@@ -126,26 +146,7 @@ logarithmic transform to population below.
     ## 3 High                42
     ## 4 Low                 30
 
-![](final-writeup_files/figure-gfm/EDA2-1.png)<!-- -->![](final-writeup_files/figure-gfm/EDA2-2.png)<!-- -->
-
-EXPLAIN WHY HOW WE CHANGE INFLATION INTO CATEGORIES AND WHY DID WE DO SO
-
-CUT DOWN THE FOLLOWING PARAGRAPH
-
-`Inflation` represents the change in prices of goods and services in a
-year in the country. The first distribution of inflation rates includes
-all outliers. Because of the size and resolution of the diagram, the
-distribution of most economies are not visible. The second diagram shows
-the distribution of inflation rates without the outlier with more than
-1000% inflation. The distribution of inflation rate is generally
-unimodal and right skewed. The mode of the distribution is around 2%.
-Given significant skewing, we report the median and IQR as measures of
-center and spread. The median inflation rate is 2.7% and the IQR is 4%.
-Because inflation can vary widely between countries, we have recoded it
-into a categorical variable that better captures whether a country’s
-inflation is healthy or unhealthy. Above is a plot to show the frequency
-of each level of
-inflation.
+![](final-writeup_files/figure-gfm/inflation-eda-1.png)<!-- -->
 
 ### Multivariate Exploration
 
@@ -163,13 +164,15 @@ include tariff rate and unemployment as well as tariff rate and
 unemployment.
 
 A similar analysis is conducted between the response and the categorical
-variables using side-by-side boxplots.
+variables using side-by-side
+boxplots.
 
-INCLUDE ONE LINE WHY NOTHING OUTSTANDING IS OBSERVED FOR RESPONSE VS
-CATEGORICAL
-VARIABLE
+![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-1.png)<!-- -->![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-2.png)<!-- -->![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-3.png)<!-- -->
 
-![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-1.png)<!-- -->![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-2.png)<!-- -->
+In each case, it seems apparent that across the different levels of each
+of our three categorical variables, the mean logGDP values tend to be
+different from one another. This suggests that these variables, or at
+least some of their levels, may end up in our final model.
 
 We also meancentered the following variables for the modelling:
 TaxBurden and
@@ -1516,7 +1519,7 @@ GDP, starting with
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
@@ -1533,7 +1536,7 @@ deviation of the distribution is 10.17%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
@@ -1550,7 +1553,7 @@ of GDP and the distribution has a standard deviation of 15.52%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -1565,7 +1568,7 @@ graph of population without these two points below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -1584,7 +1587,7 @@ apply a logarithmic transform to population below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -1599,7 +1602,7 @@ IQR is 5.6.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -1616,7 +1619,7 @@ examine it further in a pairs plot later in the analysis.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
@@ -1660,7 +1663,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
@@ -1680,7 +1683,7 @@ the distribution is 13.4%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
@@ -1697,7 +1700,7 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist

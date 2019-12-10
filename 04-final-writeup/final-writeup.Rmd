@@ -89,7 +89,7 @@ select(GDP) %>%
 skim()
 ```
 
-From our EDA, we decide to log-transform the response variable since the histogram of GDP (without outlier) shows a unimodal and right-skewed distribution. The logGDP distribution on the other hand is unimodal and symmetric. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. 
+From our EDA, we decided to log-transform the response variable since the histogram of GDP (without outlier) shows a unimodal and right-skewed distribution. The logGDP distribution on the other hand is unimodal and symmetric. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. LogGDP's summary statistics are printed below.
 
 ```{r log-gdp-vis}
 economic_data %>%
@@ -99,11 +99,8 @@ skim()
 
 #### Univariate Analysis of Predictor Variables
 
-The quantitative predictor variables ARE__________________________________ 
-
-The categorical predictor variables ARE__________________________________
-
-Here, we highlight two predictor variables Population and Inflation.
+The quantitative predictor variables are TariffRate, IncomeTaxRate, CorporateTaxRate, TaxBurden, GovSpending, Population, GDPGrowth, Unemployment, and PublicDebt. Out of these, we will discuss two predictor variables, Population and Inflation. (Discussion of the rest of the variables will be in Additional Work).
+The distribution of each of the quantitative predictor variables is shown below.
 
 ```{r EDA1}
 a <- ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
@@ -134,13 +131,6 @@ d <- ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
        title = "Distribution of Population (No Outliers)") + 
   theme(plot.title = element_text(size = 12))
 
-economic_data <- economic_data %>%
-  mutate(logpop=log(Population))
-
-e <- ggplot(data=economic_data, aes(x=logpop)) +
-  geom_histogram(fill = "forestgreen") +
-  labs(title="Distribution of logpop", x="Log(Population)", y="Frequency")
-
 f <- ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
   geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Unemployment (%)",
@@ -152,16 +142,25 @@ g <- ggplot(mapping = aes(x = TariffRate), data = economic_data) +
   labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 
 grid.arrange(a, b, c, d, nrow = 2, ncol=2)
-grid.arrange(e, f, g, nrow = 2, ncol=2)
+grid.arrange(f, g, nrow = 2, ncol=2)
 ```
 
+From this histogram of population without outliers, the distribution of population is unimodal and right-skewed. The median is 9.15 and the IQR is 26.85. Based on the subsequent pairs plot (in multivariate EDA), population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below. The summary statistics of this transformed variable are also printed.
+
 ```{r Population without Outlier}
+economic_data <- economic_data %>%
+  mutate(logpop=log(Population))
+
+ggplot(data=economic_data, aes(x=logpop)) +
+  geom_histogram(fill = "forestgreen") +
+  labs(title="Distribution of logpop", x="Log(Population)", y="Frequency")
+
 economic_data %>%
-select(Population) %>%
+select(logpop) %>%
 skim()
 ```
 
-From this histogram of population without outliers, the distribution of population is unimodal and right-skewed. The median is 9.15 and the IQR is 26.85. Based on the subsequent pairs plot, population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below.
+The categorical predictor variables are Region, GovInterference, and Inflation. The distribution of these variables is printed below.
 
 ```{r EDA2}
 a <- ggplot(data = economic_data, mapping = aes(x = Inflation)) +
@@ -178,31 +177,6 @@ b <- ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
        y = "Frequency",
        title = "Distribution of Inflation without Outlier") + 
   theme(plot.title = element_text(size = 12))
-
-economic_data %>%
-select(Inflation) %>%
-skim()
-
-economic_data <- economic_data %>%
-  mutate(cat_inflation = case_when(
-    Inflation >= 6 ~ "Dangerously High",
-    Inflation <6 & Inflation >3 ~ "High",
-    Inflation <= 3 & Inflation >=1 ~ "Healthy",
-    Inflation <1 ~ "Low"))
-
-economic_data%>%
-  group_by(cat_inflation) %>%
-  count()
-
-economic_data <- economic_data %>%
-  mutate(cat_inflation = as.factor(cat_inflation))
-
-c <- economic_data %>%
-ggplot(mapping = aes(x = cat_inflation)) +
-  geom_bar(position="dodge",fill="forestgreen") + 
-  labs(x = "cat_inflation",
-       y = "Frequency",
-       title = "Distribution of Inflation")
 
 regional <- economic_data %>%
   group_by(Region) %>%
@@ -235,15 +209,45 @@ g <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   labs(title = "Bar Graph of Government Inteference in \n Economy", x  = "Levels of Government Interference", y = "Frequency") + 
   theme(plot.title = element_text(size = 12))
 
-grid.arrange(a, b, c, d, nrow = 2, ncol=2)
+grid.arrange(a, b, d, nrow = 2, ncol=2)
 grid.arrange(e, f, g, nrow = 2, ncol=2)
 ```
 
-EXPLAIN WHY HOW WE CHANGE INFLATION INTO CATEGORIES AND WHY DID WE DO SO
 
-CUT DOWN THE FOLLOWING PARAGRAPH
+`Inflation` represents the change in prices of goods and services in a year in the country. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. These summary statistics are printed below.
 
-`Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because inflation can vary widely between countries, we have recoded it into a categorical variable that better captures whether a country's inflation is healthy or unhealthy. Above is a plot to show the frequency of each level of inflation.
+```{r inflation-sum}
+economic_data %>%
+select(Inflation) %>%
+skim()
+```
+
+
+Because we hypothesize that inflation interacts with other variables and can determine whether the effect of other variables (that have to do with currency stability) is positive or negative, we have recoded it into a categorical variable that will make interpretation of these interaction terms easier.
+
+```{r inflation-eda}
+economic_data <- economic_data %>%
+  mutate(cat_inflation = case_when(
+    Inflation >= 6 ~ "Dangerously High",
+    Inflation <6 & Inflation >3 ~ "High",
+    Inflation <= 3 & Inflation >=1 ~ "Healthy",
+    Inflation <1 ~ "Low"))
+
+economic_data%>%
+  group_by(cat_inflation) %>%
+  count()
+
+economic_data <- economic_data %>%
+  mutate(cat_inflation = as.factor(cat_inflation))
+
+economic_data %>%
+ggplot(mapping = aes(x = cat_inflation)) +
+  geom_bar(position="dodge",fill="forestgreen") + 
+  labs(x = "cat_inflation",
+       y = "Frequency",
+       title = "Distribution of Inflation")
+```
+
 
 ### Multivariate Exploration
 
@@ -261,8 +265,6 @@ There is some multicollinearity issues between predictor variables. The relation
 
 A similar analysis is conducted between the response and the categorical variables using side-by-side boxplots. 
 
-INCLUDE ONE LINE WHY NOTHING OUTSTANDING IS OBSERVED FOR RESPONSE VS CATEGORICAL VARIABLE
-
 ```{r Boxplots for response vs categorical}
 economic_data %>%
 ggplot(mapping = aes(x = Region, y = logGDP)) +
@@ -276,7 +278,16 @@ ggplot(mapping = aes(x = GovInterference, y = logGDP))+
   geom_boxplot(position="dodge") +
   labs(title = "Boxplots of log GDP versus Government Interference")+
   theme_classic()
+
+economic_data %>%
+ggplot(mapping = aes(x = cat_inflation, y = logGDP))+
+  theme_classic() +
+  geom_boxplot(position="dodge") +
+  labs(title = "Boxplots of log GDP versus Inflation")+
+  theme_classic()
 ```
+
+In each case, it seems apparent that across the different levels of each of our three categorical variables, the mean logGDP values tend to be different from one another. This suggests that these variables, or at least some of their levels, may end up in our final model.
 
 We also meancentered the following variables for the modelling: TaxBurden and GovSpending.
 
