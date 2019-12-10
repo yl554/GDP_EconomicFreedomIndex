@@ -59,6 +59,8 @@ economic_data <- na.omit(economic_data)
 The response variable is GDP.
 
 ```{r gdp-vis}
+theme <-theme_set(theme_classic)
+theme_set(theme)
 a <- ggplot(data = economic_data, mapping = aes(x = GDP)) +
   geom_histogram(binwidth = 1000, fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
