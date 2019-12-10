@@ -71,7 +71,8 @@ b <- ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
   geom_histogram(fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
-       title = "Distribution of GDPs (Without Outliers)")
+       title = "Distribution of GDPs (Without Outliers)") + 
+  theme(plot.title = element_text(size = 12))
 
 economic_data <- economic_data %>%
   mutate(logGDP = log(GDP))
@@ -209,8 +210,8 @@ g <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   labs(title = "Bar Graph of Government Inteference in \n Economy", x  = "Levels of Government Interference", y = "Frequency") + 
   theme(plot.title = element_text(size = 12))
 
-grid.arrange(a, b, d, nrow = 2, ncol=2)
-grid.arrange(e, f, g, nrow = 2, ncol=2)
+grid.arrange(a, b, d, e, nrow = 2, ncol=2)
+grid.arrange(f, g, nrow = 2, ncol=2)
 ```
 
 
@@ -221,7 +222,6 @@ economic_data %>%
 select(Inflation) %>%
 skim()
 ```
-
 
 Because we hypothesize that inflation interacts with other variables and can determine whether the effect of other variables (that have to do with currency stability) is positive or negative, we have recoded it into a categorical variable that will make interpretation of these interaction terms easier.
 
