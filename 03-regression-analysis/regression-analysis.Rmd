@@ -2,7 +2,7 @@
 title: "What Makes a Strong GDP?"
 subtitle: "Regression Analysis"
 author: "Rtists"
-date: "11/14/2019"
+date: "12/6/2019"
 output: github_document
 ---
 
