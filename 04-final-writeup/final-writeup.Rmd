@@ -45,8 +45,6 @@ Our research question is this: what variables explain the size of an economy’s
 
 ### Exploratory Data Analysis
 
-We will begin our exploratory data analysis by cleaning the data. We notice a total of 12 countries which have a "NA" value for one or more of the predictor variables that we will investigate. We will omit these entries from our analysis, but we expect this to add a slight bias to our results; the below 12 countries are all developing and thus our model may fit developed countries better than developing countries. However, the 12 countries below also have unusual governmental and economic structures as well as poor data quality associated with them; including them in the model may also significantly influence the coefficients associated with predictors. Thus, we have decided to leave them out of the model.
-
 ```{r NA-removal}
 economic_data %>%
   filter(complete.cases(economic_data)==FALSE) %>%
@@ -97,9 +95,15 @@ The distribution of GDP is unimodal and right-skewed. Since the media and interq
 
 This calls for a log-transform of the response variable. This distribution of logGDP is normal and unimodal. We will likely use this as our response variable. Since there is minimal skewing and the distribution is generally symmetric, we report the mean and standard deviation as measures of center and spread. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. 
 
+```{r log-gdp-vis}
+economic_data %>%
+select(logGDP) %>%
+skim()
+```
+
 #### Predictor Variables
 
-We will now look at each of the 12 predictor variables that we will use to predict GDP, starting with `TaxBurden`.
+We will now look at the most important of the 12 predictor variables that we will use to predict GDP. The other variables will be explored in "additional work". We will look at a plot of each of the explanatory variables but will go in depth on population and inflation variables.
 
 ```{r EDA1}
 a <- ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
@@ -149,21 +153,7 @@ g <- ggplot(mapping = aes(x = TariffRate), data = economic_data) +
 
 grid.arrange(a, b, c, d, nrow = 2, ncol=2)
 grid.arrange(e, f, g, nrow = 2, ncol=2)
-
-economic_data %>%
-select(TaxBurden) %>%
-skim()
 ```
-
-`TaxBurden` represents the amount of tax paid by the citizens of a country as a proportion of the GDP of that country. The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appears normally distributed. The mean tax burden is 22.19% and the standard deviation of the distribution is 10.17%. 
-
-```{r Government Spending}
-economic_data %>%
-select(GovSpending) %>%
-skim()
-```
-
-`GovSpending` represents the amount spent by the government as a percentage of the GDP of the country. The distribution of government spending is generally symmmetric and unimodal. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87% of GDP and the distribution has a standard deviation of 15.52%.
 
 ```{r Population}
 economic_data %>%
@@ -181,21 +171,6 @@ skim()
 
 The distribution of population is unimodal and right-skewed. The mode of the distribution is around 1 million. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 9.15 and the IQR is 26.85. Additionally, when conducting our analysis, we may need to apply a log-transform to make the distribution of the variable more normal; based on a pairs plot, population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below.
 
-```{r Unemployment}
-economic_data %>%
-select(Unemployment) %>%
-skim()
-```
-
-`Unemployment` represents the percantage of the workforce of a country that is currently not working. The distribution of unemployment is unimodal and right-skewed. The mode of the distribution is around 4-5%. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 5.7 and the IQR is 5.6.
-
-```{r Tariff Rate}
-economic_data %>%
-  select(TariffRate) %>%
-  skim()
-```
-
-`TariffRate` represents the average percentage tax on imports that the country has outstanding as of 2019. The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. Because of this right-skew, log-transforming this variable might be necessary; we will examine it further in a pairs plot later in the analysis.
 
 ```{r EDA2}
 a <- ggplot(data = economic_data, mapping = aes(x = Inflation)) +
@@ -275,51 +250,6 @@ grid.arrange(e, f, g, nrow = 2, ncol=2)
 
 `Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because inflation can vary widely between countries, we have recoded it into a categorical variable that better captures whether a country's inflation is healthy or unhealthy. Above is a plot to show the frequency of each level of inflation.
 
-`Region` represents the geographical continent/area that the country is situated in. The bar graph and piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
-
-
-`GovInterference` represents the amount of interference that the government has in the economy as determined by the World Economic Index. The distribution of government interference shows that most countries either have extensive or moderate government inteference. The mode of the distribution is moderate government interference. Economies with limited and repressive intervention are significanly lesser, each having around 10-15 countries. We do not report the center or spread here because government interference is a categorical variable.
-
-```{r Income Tax Rate}
-a <- ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
-  geom_histogram(binwidth = 5, fill = "forestgreen") +
-  labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
-
-b <- ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
-geom_histogram(binwidth = 4, fill = "forestgreen") +
-labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
-
-c <- ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
-  geom_histogram(binwidth = 8, fill = "forestgreen") + 
-  labs(x = "Public Debt (% of GDP)",
-       y = "Frequency",
-       title = "Distribution of Public Debt")
-
-grid.arrange(a, b, c, nrow = 2, ncol=2)
-
-economic_data %>%
-  select(IncomeTaxRate) %>%
-  skim()
-```
-
-`IncomeTaxRate` represents the average tax rate applied to individuals on their incomes. The distribution of income tax rate is unimodal and generally symmetric. While its general shape resembles a normal distribution, there are several values of income tax rate which have particularly high frequency such as 10%, 25% and 34-35%. The mode of the distribution occurs at 35%. Since there is relatively minimal skewing, we report the mean and standard deviation as measures of center and spread. The mean income tax rate is 28.23% and the standard deviation of the distribution is 13.4%. 
-
-```{r Corporate Tax Rate}
-economic_data %>%
-select(CorporateTaxRate) %>%
-skim()
-```
-
-`CorporateTaxRate` represents the average tax rate applied to corporations on their revenues. The distribution of corporate tax rate is unimodal and only slightly right skewed. The mode of the distribution is around 28-30%. Since there is minimal skewing, we report the mean and the standard deviation as measures of center and spread. The mean corporate tax rate is 23.89% and the standard deviation is 8.88%.
-
-```{r Public Debt}
-economic_data %>%
-select(PublicDebt) %>%
-skim()
-```
-
-`PublicDebt` represents the debt of the country as a percentage of the country's GDP. The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
-
 ### Multivariate Exploration
 
 Finally, we can visualize paired scatter plots of the relationship between GDP and each of our predictor variables. This is shown below. Many of the plots are visually difficult and don't offer good information as there are outliers that skew the visualization.
@@ -377,7 +307,6 @@ economic_data <- economic_data %>%
 economic_data <- economic_data %>%
   mutate(GovSpendingCent = GovSpending - mean(GovSpending))
 ```
-
 
 ## Section 2: Regression Analysis (includes the final model and discussion of assumptions)
 
@@ -617,41 +546,18 @@ tidy(vif(final_model))
 There is only variable that exceeds the threshold of 10: TariffRate:RegionSub-Saharan Africa. We choose to keep the interaction variables between TariffRate and all the levels of Region for the following reasons. One, no other value is close to 15.758. Two, its high multicollinearity is not entirely surprising considering that the region has considerably higher tariff rates compared to all other regions. Three, VIF values for the interaction between TariffRate and other levels of Region are not high and we want to retain their explanatory value. (Refer to Additional Work for detailed discussion)
 
 ### Coefficient Interpretations
-We have interpreted each of the coefficients in our model below:
-
-For countries who don't have "extensive" government interference and are in the Americas, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.009)`.
+For detailed interpretations of each coefficient, please see additional work below. A brief sample of an interpretation of a coefficient is below.
 
 For countries who are in the Asia Pacific, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.18)`, holding all other variables constant.
 
-For countries who are in Europe, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.068)`, holding all other variables constant.
-
-For countries who are in the Middle East or North Africa, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.045)`, holding all other variables constant.
-
-For countries who are in Sub-Saharan Africa, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.058)`, holding all other variables constant.
-
-For countries who do have extensive government interference, as the TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(.08)`, holding all other variables constant.
-
-If the population increases by 1 million, GDP is expected to increase by  $`r exp(1.006)`
-
-As GDPGrowth increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.057)`, holding all other variables constant. As GDP growth increases, we see a decrease in GDP.
-
 As the tax burden increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.020)`, holding all other variables constant. As the tax burden increases, we can expect the GDP of the country to be lower.
-
-If the country's inflation rate is listed as "Healthy", this provides no further input to the model as "Healthy" is the baseline for our model. However, if the country's inflation is listed as low, the expected median GDP of the country is multiplied by a factor of `r exp(.022)`, holding all other variables constant. If the country's inflation is listed as high, the expected median GDP of the country is multiplied by a factor of `r exp(-.402)`, holding all other variables constant. If the country's inflation is listed as dangerously high, the expected median GDP of the country is multiplied by a factor of `r exp(-.374)`, holding all other variables constant. 
-
-If the country has extensive government interference, the expected median GDP of the country is multiplied by a factor of `r exp(-1.045)`, holding all other variables constant.
-
-If the country is in the Americas, this provides no further input to the model as this is the baseline for our model. However, if the country is in the Asia Pacific region, the expected median GDP of the country is multiplied by a factor of `r exp(1.117)`, holding all other variables constant. If the country is in Europe, the expected median GDP of the country is multiplied by a factor of `r exp(.537)`, holding all other variables constant. If the country is in the Middle East or North Africa, the expected median GDP of the country is multiplied by a factor of `r exp(.969)`, holding all other variables constant. If the country is in Sub-Saharan Africa, the expected median GDP of the country is multiplied by a factor of `r exp(-.655)`, holding all other variables constant.
-
 
 ### Interesting Findings
 Through the investigation we came across several interesting findings that we will describe below. 
 
 The first and most notable is that none of our interaction effect terms involving inflation ended up in our final model as they did not have a significant effect on the response. We tried five different interaction effects with inflation: The effects between inflation and GDP growth, inflation, inflation and the log of the population, and inflation and the tariff rate. We hypothesized that the effect of these quantitative predictors may depend on the rate of inflation as this represents the stability of the currency which drives the country's economy, but this ended up not being the case. 
 
-Another set of interesting facts involves the coefficients in our model; dangerously_high_inflation has a higher coefficient than high_inflation - counterintuitively, this suggests that countries with very high inflation should experience higher GDP than those with merely high inflation. We suspect that the reason for this odd result is that the countries with dangerously high inflation do not always reliably report economic data for political reasons, and may have lower GDPs than the data would indicate.
-
-Furthermore, we noticed a negative coefficient for GDP growth - while it's initially surprising, countries with very high GDP growht tend to be developing countries who have lots of room for growth. Thus, while growth is high, they have less overall development than other countries.
+Furthermore, we noticed a negative coefficient for GDP growth - while it's initially surprising, countries with very high GDP growth tend to be developing countries who have lots of room for growth. Thus, while growth is high, they have less overall development than other countries.
 
 One major set of indicators/variables that did not make it into our final model were the tax rates: both corporate and income taxes. This is peculiar because there is almost a constant discussion by political parties and governments about how raising taxes (for those on the left) or lowering taxes (for those on the right) is necessary to stimulate the economy and/or boost production of goods and services. Our model on the other hand suggests that a relationship may not be as clear as traditional economists would claim.
 
@@ -667,117 +573,52 @@ ggplot(economic_data, mapping = aes(x = CorporateTaxRate, y = GDP)) +
 
 Indeed, according to the above plot, there doesn't seem to be any visually evident relationship between GDP and either corporate or income tax rate. Instead, it seems that a tax rate that's modest but not too high or too low is perhaps indicative of a high GDP.
 
-Finally, we would like to touch on one other variable that wasn't included in the model. Public debt wasn't included in the model which at first glance may seem strange, but when examining the role of debt further, may be reasonable. Countries that have high can in some cases be well managed and be using debt to increase production and business investment, while other countries that have high debt may just be dealing with bad economic policy. For example, the U.S. has approx. 60k dollars per capita of debt, while Italy, a country with a significantly smaller GDP, has the same amount of debt per capita as well. 
-
 ## Section 3: Discussion and Limitations 
 In our final model, we included the tariff rate, population, GDP growth, tax burden, inflation, region, and the interaction between region and tariff rate. Since the goal of the model is not prediction (our model is built from almost all the world's countries, so there are no countries' GDPs left to predict), it is not useful to try to predict various cases. Instead, the model allows us to determine the effect of a particular indicator or variable on the expected GDP, which we have described at length in the interpretation of each coefficient above. Our model has allowed us to say, for example, that being located in the Asia-Pacific region means the expected GDP of the country is higher than being located in Europe, or that each additional percentage point of the tax burden has a greater effect on the expected GDP than the each additional percentage point of the tariff rate.
 
 While this model does provide many insights into the role of various economic indicators in GDP, there are various limitations that can be resolved in future investigations. The most obvious limitation is that we decided, for the purposes of simplicity, to remove the 12 observations in our dataset that didn't have complete data reported. While this represents only a small subset of the total observations, this certainly does decrease the validity of our data. This is especially true because the countries that we removed for this reason, such as North Korea, Iraq, Somalia, etc. have certain similar characteristics such as high government interference, high tariff rates, etc. that effectively mean we are removing an entire "group" of countries from our dataset. However, it is likely that were we to have data on these countries, the figures would not be accurately reported/would be inflated by the countries' governments. 
 
-Another limitation is that we only used 2019 data figures for our analysis, which runs somewhat counter to the fact that GDP represents the accumulation over time of economic policy, business growth, trade relationship changes, and other long-term effects that cannot be captured through economic indicators from only 1 year. We could remedy this issue by using a time-series model that analyzes the trends in these indicators year-over-year.
+Our overall methods for building and verifying the model were sound. By examining all three indicators of the model, AIC, BIC, and Adjusted R^2, we were able to choose a model that best fit our needs. Additionally, we conducted a full diagnosis of the model including looking at leverage points and whether these points exceeded a variety of thresholds such as Cook's Distance and VIF. One potential issue with our methods were that our threshold for multicollinearity may have been a little lenient for the types of variables we were looking at. It is definitely true that there are relationships between the economic indicators that we looked at: for example, corporate tax rate may very well be a function of income tax rate in many countries. Or, for example, the rate of GDP growth is related to the GDP itself. Because of this, we had a VIF value for certain observations that was coming up to a value of 9, which while not exceeding our threshold of 10, is still something to examine further. If we were to restart or go further with our investigation, we would resolve many of the questions of multicollinearity as well as somewhat strange outcomes with the variables our model chose by adding data for each country pertaining to non-economic factors. By adding these variables, a potential final model would not only likely have more predictive power but would have a better chance of avoiding multicollinearity as instead of including 17 variables relating to economics we would have fewer.
 
-Our overall methods for building and verifying the model were sound. By examining all three indicators of the model, AIC, BIC, and Adjusted R^2, we were able to choose a model that best fit our needs. Additionally, we conducted a full diagnosis of the model including looking at leverage points and whether these points exceeded a variety of thresholds such as Cook's Distance and VIF. One potential issue with our methods were that our threshold for multicollinearity may have been a little lenient for the types of variables we were looking at. It is definitely true that there are relationships between the economic indicators that we looked at: for example, corporate tax rate may very well be a function of income tax rate in many countries. Or, for example, the rate of GDP growth is related to the GDP itself. Because of this, we had a VIF value for certain observations that was coming up to a value of 9, which while not exceeding our theshold of 10, is still something to examine further.
-
-Now, we will discuss our model performance as a whole. While we did not use R^2 to choose our model, this value is still a fine measure of the ability of our model to explain variation in the data. The R^2 value fo our model is .842, which suggests that approx. 84.2 percent of the variation in GDP can be explained by a linear relationship of our transformed predictors. As discussed above, our model diagnostics included determining points with high leverage, analyzing them in relation to Cook's Distance, and looking at the VIF. However, this issue of multicollinearity certainly affects the validity of our model.
-
-If we were to restart or go further with our investigation, we would resolve many of the questions of multicollinearity as well as somewhat strange outcomes with the variables our model chose by adding data for each country pertaining to non-economic factors. Our model clearly illustrates that purely economic factors such as tax rates or debt are actually not as significant in predicting GDP as we thought, which suggests that it may be demographic, geographical, or cultural factors that are more responsible for predicting GDP. By adding these variables, a potential final model would not only likely have more predictive power but would have a better chance of avoiding multicollinearity as instead of including 17 variables relating to economics we would have fewer.
+Now, we will discuss our model performance as a whole. While we did not use R^2 to choose our model, this value is still a fine measure of the ability of our model to explain variation in the data. The R^2 value for our model is .842, which suggests that approx. 84.2 percent of the variation in GDP can be explained by a linear relationship of our transformed predictors. As discussed above, our model diagnostics included determining points with high leverage, analyzing them in relation to Cook's Distance, and looking at the VIF. However, this issue of multicollinearity certainly affects the validity of our model.
 
 ## Section 4: Conclusion
-While we have already discussed the specifics of the model and its coefficients, looking at it from a broader view has certainly shed some light on what really contributes to the GDP of country and what perhaps doesn't. The first takeaway is that a lot of the GDP of a country is actually out of the government of the country's control. This is evident in that region was an extremely important aspect of our model, as the regions stood in as their own variables as well as interacting with other variables. Region is likely important in that it serves as a proxy for access to natural resources as well as shipping routes and ports. These factors are out of a government's control for the most part.
-
-Additionally, the GDP is actually not just the result of the actions of a government in a vacuum but rather the result of broader, international efforts and cooperation. The variable TariffRate was crucial in our model, serving as its own coefficient as well as interacting with other variables. This is likely because TariffRate serves as a indicator for not only the average rate of import taxes but also whether or not a country has trade unions and agreements with other countries and is open to free trade, which is an extremely important aspect of the GDP of a country.
-
-Finally, our model has shown us that the most important predictors of GDP involve long-term investments made by the government to improve the country's economy, such as population growth, inflation (currency stability), etc.. Short-term fixes such as marginal tax rate changes or debt are not nearly as effective. This indicates that short-term losses from actions like cutting inflation have long-term benefits when looking at GDP. By keeping their currencies stable, their populations healthy, and their trade agreements fair, governments can increase their GDP without having to resort to these short-term measures.
+While we have already discussed the specifics of the model and its coefficients, looking at it from a broader view has certainly shed some light on what really contributes to the GDP of country and what perhaps doesn't. The first takeaway is that a lot of the GDP of a country is actually out of the government of the country's control. This is evident in that region was an extremely important aspect of our model, as the regions stood in as their own variables as well as interacting with other variables. Region is likely important in that it serves as a proxy for access to natural resources as well as shipping routes and ports. These factors are out of a government's control for the most part. Additionally, the GDP is actually not just the result of the actions of a government in a vacuum but rather the result of broader, international efforts and cooperation. The variable TariffRate was crucial in our model, serving as its own coefficient as well as interacting with other variables. This is likely because TariffRate serves as a indicator for not only the average rate of import taxes but also whether or not a country has trade unions and agreements with other countries and is open to free trade, which is an extremely important aspect of the GDP of a country. Finally, our model has shown us that the most important predictors of GDP involve long-term investments made by the government to improve the country's economy, such as population growth, inflation (currency stability), etc. Short-term fixes such as marginal tax rate changes or debt are not nearly as effective. This indicates that short-term losses from actions like cutting inflation have long-term benefits when looking at GDP. By keeping their currencies stable, their populations healthy, and their trade agreements fair, governments can increase their GDP without having to resort to these short-term measures.
 
 ## Section 5: Additional Work
 
-### Citations
+### Detailed interpretation of model coefficients
+We have interpreted each of the coefficients in our model below:
 
-https://www.heritage.org/index/ranking
+For countries who don't have "extensive" government interference and are in the Americas, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.009)`.
 
-https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html
+For countries who are in the Asia Pacific, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.18)`, holding all other variables constant.
 
-https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008
+For countries who do have extensive government interference, as the TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(.08)`, holding all other variables constant.
+
+If the population increases by 1 million, GDP is expected to increase by  $`r exp(1.006)`
+
+As GDPGrowth increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.057)`, holding all other variables constant. As GDP growth increases, we see a decrease in GDP.
+
+As the tax burden increases by one percentage point, the expected median GDP of the country is multiplied by a factor of `r exp(-.020)`, holding all other variables constant. As the tax burden increases, we can expect the GDP of the country to be lower.
+
+If the country's inflation rate is listed as "Healthy", this provides no further input to the model as "Healthy" is the baseline for our model. However, if the country's inflation is listed as low, the expected median GDP of the country is multiplied by a factor of `r exp(.022)`, holding all other variables constant. If the country's inflation is listed as high, the expected median GDP of the country is multiplied by a factor of `r exp(-.402)`, holding all other variables constant. If the country's inflation is listed as dangerously high, the expected median GDP of the country is multiplied by a factor of `r exp(-.374)`, holding all other variables constant. 
+
+If the country has extensive government interference, the expected median GDP of the country is multiplied by a factor of `r exp(-1.045)`, holding all other variables constant.
+
+If the country is in the Americas, this provides no further input to the model as this is the baseline for our model. However, if the country is in the Asia Pacific region, the expected median GDP of the country is multiplied by a factor of `r exp(1.117)`, holding all other variables constant. If the country is in Europe, the expected median GDP of the country is multiplied by a factor of `r exp(.537)`, holding all other variables constant. If the country is in the Middle East or North Africa, the expected median GDP of the country is multiplied by a factor of `r exp(.969)`, holding all other variables constant. If the country is in Sub-Saharan Africa, the expected median GDP of the country is multiplied by a factor of `r exp(-.655)`, holding all other variables constant.
+
+For countries who are in Europe, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.068)`, holding all other variables constant.
+
+For countries who are in the Middle East or North Africa, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.045)`, holding all other variables constant.
+
+For countries who are in Sub-Saharan Africa, as their TariffRate increases by 1%, the median GDP of the country is expected to be multiplied by a factor of `r exp(-.058)`, holding all other variables constant.
 
 ### Detailed Discussion on EDA for every variable
 
-GDP is a measure of the total market value of all goods and services produced within a country over a period of time. Consequently, a high GDP implies that a country has significant economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. 
-
-The use of multiple linear regression in the study of GDP and GDP growth is not novel. The approach has been widely employed by economists. For instance, Anghelache et. al has employed multiple linear regression model in analyzing the influence of final consumption and gross investment on Romania's GDP over time. Urrutia et. al, on the other hand, modeled Philippines's real GDP using multiple linear regression techniques. (Refer to citation of articles in the Citation section)
-
-In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables. If we can get a better understanding of how these economic indicators correlate to GDP, it could provide policy makers and economists with a path towards sound governmental decisions. 
-
-### Exploratory Data Analysis
-
-We will begin our exploratory data analysis by cleaning the data. We notice a total of 12 countries which have a "NA" value for one or more of the predictor variables that we will investigate. We will omit these entries from our analysis, but we expect this to add a slight bias to our results; the below 12 countries are all developing and thus our model may fit developed countries better than developing countries. However, the 12 countries below also have unusual governmental and economic structures as well as poor data quality associated with them; including them in the model may also significantly influence the coefficients associated with predictors. Thus, we have decided to leave them out of the model.
-
-```{r NA-removal AW}
-economic_data %>%
-  filter(complete.cases(economic_data)==FALSE) %>%
-  select(Country)
-```
-```{r omit-NA AW}
-economic_data <- na.omit(economic_data)
-```
-
-#### Response Variable
-
-Now that the data has been cleaned, we can begin exploring our response variable.
-
-```{r gdp-vis AW}
-a <- ggplot(data = economic_data, mapping = aes(x = GDP)) +
-  geom_histogram(binwidth = 1000, fill = "forestgreen") +
-  labs(x = "GDP (billions of USD)",
-       y = "Frequency",
-       title = "Distribution of GDPs")
-
-economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
-
-b <- ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
-  geom_histogram(fill = "forestgreen") +
-  labs(x = "GDP (billions of USD)",
-       y = "Frequency",
-       title = "Distribution of GDPs")
-
-economic_data <- economic_data %>%
-  mutate(logGDP = log(GDP))
-
-c <- ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
-  geom_histogram(binwidth = 1, fill = "forestgreen") +
-  labs(x = "log(GDP)",
-       y = "Frequency",
-       title = "Distribution of log-GDPs")
-
-grid.arrange(a, b, c, nrow =2, ncol=2)
-
-economic_data %>%
-select(GDP) %>%
-skim()
-```
-
-The distribution of GDP shows significant right skew, which is reasonable and expected as the world has countries such as the US and China who, due to their population and industrial advantages, have significantly greater GDP's than the average country. We will now show a graph of GDP with some of these influential points removed.
-
-```{r GDP without Outlier AW}
-economic_data %>%
-select(GDP) %>%
-skim()
-```
-
-The distribution of GDP is unimodal and right-skewed. Since the media and interquartile range are less influenced by outliers, we report them as measures of center and spread. The median of the distribution is 88.9 billion and the interquartile range is 411.3. THe values are in billions of dollars.
-
-This calls for a log-transform of the response variable, whose distribution is visualized below:
-
-```{r log-gdp-vis AW}
-economic_data %>%
-select(logGDP) %>%
-skim()
-```
-
-This distribution of logGDP is normal and unimodal. We will likely use this as our response variable. Since there is minimal skewing and the distribution is generally symmetric, we report the mean and standard deviation as measures of center and spread. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. 
-
 #### Predictor Variables
 
-We will now look at each of the 12 predictor variables that we will use to predict GDP, starting with `TaxBurden`.
+We will now look at the rest of the variables that we used to predict GDP, starting with `TaxBurden`.
 
 ```{r EDA1 AW}
 a <- ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
@@ -875,7 +716,7 @@ economic_data %>%
 
 `TariffRate` represents the average percentage tax on imports that the country has outstanding as of 2019. The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. Because of this right-skew, log-transforming this variable might be necessary; we will examine it further in a pairs plot later in the analysis.
 
-```{r EDA2 AW}
+```{r EDA2-2}
 a <- ggplot(data = economic_data, mapping = aes(x = Inflation)) +
   geom_histogram(fill = "forestgreen") + 
   labs(x = "Inflation (%)",
@@ -951,8 +792,6 @@ grid.arrange(a, b, c, d, nrow = 2, ncol=2)
 grid.arrange(e, f, g, nrow = 2, ncol=2)
 ```
 
-`Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because inflation can vary widely between countries, we have recoded it into a categorical variable that better captures whether a country's inflation is healthy or unhealthy. Above is a plot to show the frequency of each level of inflation.
-
 `Region` represents the geographical continent/area that the country is situated in. The bar graph and piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
 
 
@@ -998,7 +837,7 @@ skim()
 
 `PublicDebt` represents the debt of the country as a percentage of the country's GDP. The distribution of public debt is unimodal and right skewed. There are several outliers with public debt more than 175%. The mode of the distribution is around 30%. The median public debt is 49.4% and the interquartile range is 35%.
 
-### Multivariate Exploration
+#### Multivariate Exploration
 
 Finally, we can visualize paired scatter plots of the relationship between GDP and each of our predictor variables. This is shown below. Many of the plots are visually difficult and don't offer good information as there are outliers that skew the visualization.
 
@@ -1479,3 +1318,11 @@ ggplot(mapping = aes(x = Region, y = TariffRate)) +
 Moreover the VIF values for the interaction between TariffRate and other levels of Region are not high. This means that they are useful in the model and we will not want to remove all the other meaningful interactions. 
 
 For the above reasons, we choose to keep the interaction variables between TariffRate and all the levels of Region.
+
+### Citations
+
+https://www.heritage.org/index/ranking
+
+https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html
+
+https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008
