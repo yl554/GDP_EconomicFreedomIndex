@@ -338,7 +338,8 @@ economic_data <- economic_data %>%
 Our approach is this: running model selection using all three selection criteria - AIC, BIC, and adjusted R^2 - and comparing all three models to decide on the final model.
 
 Model selected using AIC: 
-logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + GovSpendingCent + cat_inflationDangerouslyHigh + cat_inflationHigh + cat_inflationLow + RegionAsia-Pacific + RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica + GovInterferenceLimited + GovInterferenceExtensive + GovInterferenceRepressive
+logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + GovSpendingCent + cat_inflationDangerouslyHigh + cat_inflationHigh + cat_inflationLow + RegionAsia-Pacific + RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica 
++ GovInterferenceLimited + GovInterferenceExtensive + GovInterferenceRepressive
     
 Model selected using BIC: 
 logGDP ~  TariffRate + logpop + GDPGrowth + cat_inflationDangerouslyHigh + cat_inflationHigh + GovInterferenceExtensive + RegionSub-Saharan Africa             
@@ -396,8 +397,9 @@ One may suspect non-independence to be violated due to spatial correlation. We i
 a <- ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
-  labs(title="Residuals vs. Predicted Values")+
-  theme_classic()
+  labs(title="Scatterplot of Residuals vs. Predicted Values")+
+  theme_classic() + 
+  theme(plot.title = element_text(size = 11))
 
 b <- ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
   geom_point() + 
@@ -405,7 +407,8 @@ b <- ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) +
   labs(x = "TariffRate", 
        y = "Residuals",
        title = "Scatterplot of Residuals vs. TariffRate")+
-  theme_classic()
+  theme_classic() + 
+  theme(plot.title = element_text(size = 11))
 
 c <- ggplot(data=economic_data,aes(x=logpop, y=residuals)) + 
   geom_point() + 
@@ -413,7 +416,8 @@ c <- ggplot(data=economic_data,aes(x=logpop, y=residuals)) +
   labs(x = "log of Population", 
        y = "Residuals",
        title = "Scatterplot of Residuals vs. log of Population")+
-  theme_classic()
+  theme_classic() + 
+  theme(plot.title = element_text(size = 11))
 
 d <- ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) + 
   geom_point() + 
@@ -421,30 +425,35 @@ d <- ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) +
   labs(x = "CorporateTaxRate", 
        y = "Residuals",
        title = "Scatterplot of Residuals vs. CorporateTaxRate")+
-  theme_classic()
+  theme_classic() + 
+  theme(plot.title = element_text(size = 11))
 
 e <- ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "GDPGrowth", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. GovInterference")+
-  theme_classic()
+       title = "Boxplot of Residuals vs. GDPGrowth")+
+  theme_classic() + 
+  theme(plot.title = element_text(size = 11))
 
 f <- ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Inflation", 
-       y="Residuals")+
-  theme_classic()
+       y="Residuals",
+       title="Boxplot of Residues vs. Inflation")+
+  theme_classic() + 
+  theme(plot.title = element_text(size = 11))
 
 g <- ggplot(data=economic_data,aes(x=Region, y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Region", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. Region")+
-  theme_classic()
+       title = "Boxplot of Residuals vs. Region")+
+  theme_classic() + 
+  theme(plot.title = element_text(size = 11))
 
 grid.arrange(a, b, c, d, nrow = 2, ncol=2)
 grid.arrange(e, f, g, nrow = 2, ncol=2)
