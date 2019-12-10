@@ -235,10 +235,10 @@ skim()
 
 Because we hypothesize that inflation interacts with other variables and can determine whether the effect of other variables (that have to do with currency stability) is positive or negative, we have recoded it into a categorical variable that will make interpretation of these interaction terms easier.
 
-The categories are as follows:
-Inflation > 6% = "Dangerously High"
-Inflation 3-4% = "High"
-Inflation 1-3% = "Healthy"
+The categories are as follows: </br>
+Inflation > 6% = "Dangerously High" </br>
+Inflation 3-4% = "High" </br>
+Inflation 1-3% = "Healthy" </br>
 Inflation <1% = "Low"
 
 This categorization is informed by extant economic literature (Refer to Citations)
@@ -287,7 +287,7 @@ A similar analysis is conducted between the response and the categorical variabl
 a <- economic_data %>%
 ggplot(mapping = aes(x = Region, y = logGDP)) +
   geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of log GDP versus Region")+
+  labs(title = "Log GDP\n vs. Region")+
   theme_classic() +
   coord_flip()
 
@@ -295,7 +295,7 @@ b <- economic_data %>%
 ggplot(mapping = aes(x = GovInterference, y = logGDP))+
   theme_classic() +
   geom_boxplot(position="dodge") +
-  labs(title = "Boxplots of log GDP versus Government Interference")+
+  labs(title = "Boxplots of log GDP versus\n Government Interference")+
   theme_classic() +
   theme(plot.title = element_text(size = 8))+  theme_classic()
 
@@ -660,8 +660,8 @@ d <- ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 10, fill = "forestgreen") + 
   labs(x = "Population (Million)",
        y = "Frequency",
-       title = "Dist. of Population (No Outliers)") + 
-  theme(plot.title = element_text(size = 12))+  theme_classic()
+       title = "Dist. of Population (No Outliers)") +  theme_classic()+ 
+  theme(plot.title = element_text(size = 12))
 
 
 economic_data <- economic_data %>%
@@ -748,8 +748,8 @@ b <- ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
   geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
-       title = "Distribution of Inflation without Outlier") + 
-  theme(plot.title = element_text(size = 12))+  theme_classic()
+       title = "Distribution of Inflation without Outlier")+  theme_classic()+ 
+  theme(plot.title = element_text(size = 12)) 
 
 
 economic_data %>%
@@ -787,8 +787,9 @@ d <- ggplot(data = economic_data, mapping = aes(x = Region)) +
   geom_bar(fill = "forestgreen") + 
   labs(x = "Region",
        y = "Frequency",
-       title = "Distribution of Region") +
-    theme(axis.text.x = element_text(size = 5))+  theme_classic()
+       title = "Dist. of Region") +
+    theme(axis.text.x = element_text(size = 5))+  theme_classic() +
+  coord_flip()
 
 
 e <- ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
@@ -800,7 +801,7 @@ e <- ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
 
 f <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   geom_bar(fill = "forestgreen") +
-  labs(title = "Bar Graph of Government Inteference in \n Economy", x  = "Levels of Government Interference", y = "Frequency") + 
+  labs(title = "Bar Graph of Government\n Inteference", x  = "Levels of Government Interference", y = "Frequency") + 
   theme(plot.title = element_text(size = 12))+  theme_classic()
 
 
@@ -814,7 +815,7 @@ g <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
 
 
 grid.arrange(a, b, c, d, nrow = 2, ncol=2)
-grid.arrange(e, f, g, nrow = 2, ncol=2)
+grid.arrange(e, f, nrow = 1, ncol=2)
 ```
 
 `Region` represents the geographical continent/area that the country is situated in. The bar graph and piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
