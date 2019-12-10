@@ -176,12 +176,12 @@ skim()
 The categorical predictor variables are Region, GovInterference, and Inflation. The distribution of these variables is printed below.
 
 ```{r EDA2}
-a <- ggplot(data = economic_data, mapping = aes(x = Inflation)) +
+a <- ggplot(data = economic_data, aes(x = Inflation)) +
   geom_histogram(fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
-       title = "Distribution of Inflation")+  theme_classic()
-
+       title = "Distribution of Inflation")+  
+  theme_classic()
 
 economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
 
@@ -202,7 +202,7 @@ d <- ggplot(data = economic_data, mapping = aes(x = Region)) +
   geom_bar(fill = "forestgreen") + 
   labs(x = "Region",
        y = "Frequency",
-       title = "Distribution of Region") +
+       title = "Dist. of Region") +
     theme(axis.text.x = element_text(size = 5))+  theme_classic() +
   coord_flip()
 
@@ -211,7 +211,7 @@ e <- ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
     geom_bar(stat = "identity", color = "white") +
     coord_polar("y", start = 0) +
     theme_void() + 
-    theme(plot.title = element_text(hjust = 1))+  theme_classic()
+    theme(plot.title = element_text(hjust = 1))+  theme_classic() 
 
 economic_data <- economic_data %>%
   mutate(GovInterference = recode_factor(GovInterference, "Limited" =  "Moderate", "Repressive" = "Extensive"))
@@ -224,7 +224,6 @@ g <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
 
 grid.arrange(a, b, d, e, f, g, nrow = 3, ncol=2)
 ```
-
 
 `Inflation` represents the change in prices of goods and services in a year in the country. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. These summary statistics are printed below.
 
@@ -444,7 +443,8 @@ g <- ggplot(data=economic_data,aes(x=Region, y=residuals)) +
   labs(x = "Region", 
        y = "Residuals",
        title = "Scatterplot of Residuals vs. Region")+
-  theme_classic()
+  theme_classic() +
+  coord_flip()
 
 grid.arrange(a, b, c, d, nrow = 2, ncol=2)
 grid.arrange(e, f, g, nrow = 2, ncol=2)
