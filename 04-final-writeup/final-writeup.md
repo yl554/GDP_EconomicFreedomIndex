@@ -202,21 +202,16 @@ Africa
 
 Since all three selection criteria included TariffRate + logpop +
 GDPGrowth + GovInterference, we will include these four predictors into
-our final model.
-
-cat\_inflation and Region will be included in the final model, although
-some of their levels are not selected. Briefly, their explanatory value
-outweighs the noise they add to the model. This is discussed in detail
-in Additional Work.
-
-GovSpendingCent is included only in the AIC equation while TaxBurdenCent
-is included in both the AIC and adjR2 equations. Conducting nested F
-test, we choose to include TaxBudenCent and not GovSpendingCent in the
-final model.
-
-We also conducted Nested F test for interaction variables. We found
-significant interaction between GovInterference and TariffRate as well
-as Region and TariffRate.
+our final model. Cat\_inflation and Region will be included in the final
+model, although some of their levels are not selected. Briefly, their
+explanatory value outweighs the noise they add to the model. This is
+discussed in detail in Additional Work. GovSpendingCent is included only
+in the AIC equation while TaxBurdenCent is included in both the AIC and
+adjR2 equations. Conducting nested F test, we choose to include
+TaxBudenCent and not GovSpendingCent in the final model. We also
+conducted Nested F test for interaction variables. We found significant
+interaction between GovInterference and TariffRate as well as Region and
+TariffRate.
 
 (Refer to Additional Work for detailed discussion on Model Section
 process)
@@ -1137,13 +1132,10 @@ The final R^2 value for the model is .842, implying that approximately
 relationship with our transformed predictors.
 
 We examined the four model assumptions: linearity, constant variance,
-normality, and independence. None of the model assumptions
-
-Furthermore, we examined leverage, cook’s distance, and standardized
-residual to check for outliers and assess their influence on our model.
-
-VIF is also calculated to ensure no multi-collinearity between predictor
-variables.
+normality, and independence. None of the model assumptions Furthermore,
+we examined leverage, cook’s distance, and standardized residual to
+check for outliers and assess their influence on our model. VIF is also
+calculated to ensure no multi-collinearity between predictor variables.
 
 (Refer to Additional Work for detailed discussion on Model Assumptions)
 
@@ -1152,9 +1144,8 @@ variables.
 ![](final-writeup_files/figure-gfm/independence-1.png)<!-- --> One may
 suspect non-independence to be violated due to spatial correlation. We
 included Region as a predictor variable to negate this. Moreover, the
-residuals did not show significant cluster effect based on Region.
-
-We also do not expect that the recording of GDP in one country to affect
+residuals did not show significant cluster effect based on Region. We
+also do not expect that the recording of GDP in one country to affect
 the recording of GDP in another. Thus, the observations are deduced to
 be
 independent.
@@ -1342,17 +1333,12 @@ high or too low is perhaps indicative of a high GDP.
 
 In our final model, we included the tariff rate, population, GDP growth,
 tax burden, inflation, region, and the interaction between region and
-tariff rate. Since the goal of the model is not prediction (our model is
-built from almost all the world’s countries, so there are no countries’
-GDPs left to predict), it is not useful to try to predict various cases.
-Instead, the model allows us to determine the effect of a particular
-indicator or variable on the expected GDP, which we have described at
-length in the interpretation of each coefficient above. Our model has
-allowed us to say, for example, that being located in the Asia-Pacific
-region means the expected GDP of the country is higher than being
-located in Europe, or that each additional percentage point of the tax
-burden has a greater effect on the expected GDP than the each additional
-percentage point of the tariff rate.
+tariff rate. The goal of the model isn’t prediction; instead, it allows
+us to determine the effect of a particular indicator or variable on the
+expected GDP, which we have described at length in the interpretation of
+each coefficient below. Our model has allowed us to say, for example,
+that being located in the Asia-Pacific region means the expected GDP of
+the country is higher than being located in Europe.
 
 While this model does provide many insights into the role of various
 economic indicators in GDP, there are various limitations that can be
@@ -1391,16 +1377,6 @@ these variables, a potential final model would not only likely have more
 predictive power but would have a better chance of avoiding
 multicollinearity as instead of including 17 variables relating to
 economics we would have fewer.
-
-Now, we will discuss our model performance as a whole. While we did not
-use R^2 to choose our model, this value is still a fine measure of the
-ability of our model to explain variation in the data. The R^2 value for
-our model is .842, which suggests that approx. 84.2 percent of the
-variation in GDP can be explained by a linear relationship of our
-transformed predictors. As discussed above, our model diagnostics
-included determining points with high leverage, analyzing them in
-relation to Cook’s Distance, and looking at the VIF. However, this issue
-of multicollinearity certainly affects the validity of our model.
 
 ## Section 4: Conclusion
 
