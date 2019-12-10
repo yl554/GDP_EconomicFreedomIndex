@@ -127,6 +127,12 @@ with currency stability) is positive or negative, we have recoded it
 into a categorical variable that will make interpretation of these
 interaction terms easier.
 
+The categories are as follows: Inflation \> 6% = “Dangerously High”
+Inflation 3-4% = “High” Inflation 1-3% = “Healthy” Inflation \<1% =
+“Low”
+
+This categorization is informed
+
     ## # A tibble: 4 x 2
     ## # Groups:   cat_inflation [4]
     ##   cat_inflation        n
@@ -1616,12 +1622,9 @@ actual geographical distribution of nation-states.
 `GovInterference` represents the amount of interference that the
 government has in the economy as determined by the World Economic Index.
 The distribution of government interference shows that most countries
-either have extensive or moderate government inteference. The mode of
-the distribution is moderate government interference. Economies with
-limited and repressive intervention are significanly lesser, each having
-around 10-15 countries. We do not report the center or spread here
-because government interference is a categorical
-variable.
+either have extensive or moderate government inteference. The
+distribution between the two is relatively
+balanced.
 
 ![](final-writeup_files/figure-gfm/Income%20Tax%20Rate%20AW-1.png)<!-- -->
 
