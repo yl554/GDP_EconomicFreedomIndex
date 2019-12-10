@@ -379,8 +379,6 @@ economic_data <- economic_data %>%
 ```
 
 
-
-
 ## Section 2: Regression Analysis (includes the final model and discussion of assumptions)
 
 ```{r setting healthy as baseline, echo=FALSE}
@@ -409,7 +407,7 @@ logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent +  cat_inflationDangero
 
 Since all three selection criteria included TariffRate + logpop + GDPGrowth + GovInterference, we will include these four predictors into our final model.
 
-cat_inflation and Region will be included in the final model, although some of their levels are not selected. Briefly, their explanatory value outweighs the noise they add to the model. 
+cat_inflation and Region will be included in the final model, although some of their levels are not selected. Briefly, their explanatory value outweighs the noise they add to the model. This is discussed in detail in Additional Work.
 
 GovSpendingCent is included only in the AIC equation while TaxBurdenCent is included in both the AIC and adjR2 equations. Conducting nested F test, we choose to include TaxBudenCent and not GovSpendingCent in the final model.
 
@@ -582,7 +580,7 @@ economic_data_aug %>% filter(.hat > leverage_threshold) %>%
   select(obs_num, .cooksd)
 ```
 
-There are 8 points with high leverage. This becauseome observations have significantly high population, others have lower TaxBurdenCent, while the rest have lower corporate taxrate than most points. Significantly high or low values in predictor variables lead to high leverage of those datapoints. 
+There are 8 points with high leverage. This becauseome observations have significantly high population, others have lower TaxBurdenCent, while the rest have lower corporate taxrate than most points. 
 
 ```{r standardized residuals}
 ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
@@ -597,7 +595,7 @@ ggplot(data = economic_data_aug, aes(x = .fitted,y = .std.resid)) +
 nrow(economic_data_aug %>% filter(abs(.std.resid) > 2))
 ```
 
-There are 8 observations that are considered to have large standardized residuals with large magnitudes. If ploted the distribution of standardized residuals using a N(0,1) distribution, we can expect 8/173 = 4.62% of the observations have standardized residuals with magnitude > 2. 
+There are 8 observations with std. residuals considered large. Assuming a N(0,1) distribution,  8/173 = 4.62% of the observations have std. residuals > 2. 
 
 ```{r cook distace}
 ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) + 
@@ -608,7 +606,7 @@ ggplot(data = economic_data_aug, aes(x = obs_num, y = .cooksd)) +
   theme_classic()
 ```
 
-Even though there are 8 points with high leverage and high standardized residues, none of them has a cook distance that is larger than 1. Therefore, we conclude they do not have significant influence on model coefficients and include them.
+Even though there are 8 points with high leverage and high standardized residues, none of them has a cook distance > 1. Therefore, we conclude they do not have significant influence on model coefficients and include them.
 
 #### Multi-Collinearity in Model
 
@@ -616,7 +614,7 @@ Even though there are 8 points with high leverage and high standardized residues
 tidy(vif(final_model))
 ```
 
-There is only variable that exceeds the threshold of 10: TariffRate:RegionSub-Saharan Africa. We choose to keep the interaction variables between TariffRate and all the levels of Region for the following reasons. One, no other value is close to 15.758. Two, its high multicollinearity is not entirely surprising considering that the region has a considerably higher tariff rates compared to all other regions. Three, VIF values for the interaction between TariffRate and other levels of Region are not high and we want to retain their explanatory value. (Refer to Additional Work for detailed discussion)
+There is only variable that exceeds the threshold of 10: TariffRate:RegionSub-Saharan Africa. We choose to keep the interaction variables between TariffRate and all the levels of Region for the following reasons. One, no other value is close to 15.758. Two, its high multicollinearity is not entirely surprising considering that the region has considerably higher tariff rates compared to all other regions. Three, VIF values for the interaction between TariffRate and other levels of Region are not high and we want to retain their explanatory value. (Refer to Additional Work for detailed discussion)
 
 ### Coefficient Interpretations
 We have interpreted each of the coefficients in our model below:

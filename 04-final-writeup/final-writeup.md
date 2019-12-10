@@ -401,7 +401,8 @@ our final model.
 
 cat\_inflation and Region will be included in the final model, although
 some of their levels are not selected. Briefly, their explanatory value
-outweighs the noise they add to the model.
+outweighs the noise they add to the model. This is discussed in detail
+in Additional Work.
 
 GovSpendingCent is included only in the AIC equation while TaxBurdenCent
 is included in both the AIC and adjR2 equations. Conducting nested F
@@ -1430,26 +1431,23 @@ normal QQ plot of points fit the theoretical line very well.
 
 There are 8 points with high leverage. This becauseome observations have
 significantly high population, others have lower TaxBurdenCent, while
-the rest have lower corporate taxrate than most points. Significantly
-high or low values in predictor variables lead to high leverage of those
-datapoints.
+the rest have lower corporate taxrate than most
+points.
 
 ![](final-writeup_files/figure-gfm/standardized%20residuals-1.png)<!-- -->
 
     ## [1] 8
 
-There are 8 observations that are considered to have large standardized
-residuals with large magnitudes. If ploted the distribution of
-standardized residuals using a N(0,1) distribution, we can expect 8/173
-= 4.62% of the observations have standardized residuals with magnitude
-\> 2.
+There are 8 observations with std. residuals considered large. Assuming
+a N(0,1) distribution, 8/173 = 4.62% of the observations have std.
+residuals \> 2.
 
 ![](final-writeup_files/figure-gfm/cook%20distace-1.png)<!-- -->
 
 Even though there are 8 points with high leverage and high standardized
-residues, none of them has a cook distance that is larger than 1.
-Therefore, we conclude they do not have significant influence on model
-coefficients and include them.
+residues, none of them has a cook distance \> 1. Therefore, we conclude
+they do not have significant influence on model coefficients and include
+them.
 
 #### Multi-Collinearity in Model
 
@@ -1479,7 +1477,7 @@ TariffRate:RegionSub-Saharan Africa. We choose to keep the interaction
 variables between TariffRate and all the levels of Region for the
 following reasons. One, no other value is close to 15.758. Two, its high
 multicollinearity is not entirely surprising considering that the region
-has a considerably higher tariff rates compared to all other regions.
+has considerably higher tariff rates compared to all other regions.
 Three, VIF values for the interaction between TariffRate and other
 levels of Region are not high and we want to retain their explanatory
 value. (Refer to Additional Work for detailed discussion)
