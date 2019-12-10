@@ -48,8 +48,7 @@ predictor variables.
 
 #### Response Variable
 
-Now that the data has been cleaned, we can begin exploring our response
-variable.
+The response variable is GDP.
 
 ![](final-writeup_files/figure-gfm/gdp-vis-1.png)<!-- -->
 
@@ -63,24 +62,11 @@ variable.
     ##      hist
     ##  ▇▁▁▁▁▁▁▁
 
-The distribution of GDP shows significant right skew, which is
-reasonable and expected as the world has countries such as the US and
-China who, due to their population and industrial advantages, have
-significantly greater GDP’s than the average country. We will now show a
-graph of GDP with some of these influential points removed.
-
-The distribution of GDP is unimodal and right-skewed. Since the media
-and interquartile range are less influenced by outliers, we report them
-as measures of center and spread. The median of the distribution is 88.9
-billion and the interquartile range is 411.3. THe values are in billions
-of dollars.
-
-This calls for a log-transform of the response variable. This
-distribution of logGDP is normal and unimodal. We will likely use this
-as our response variable. Since there is minimal skewing and the
-distribution is generally symmetric, we report the mean and standard
-deviation as measures of center and spread. The mean logGDP is 4.61 and
-the standard deviation of its distribution is 2.08.
+From our EDA, we decide to log-transform the response variable since the
+histogram of GDP (without outlier) shows a unimodal and right-skewed
+distribution. The logGDP distribution on the other hand is unimodal and
+symmetric. The mean logGDP is 4.61 and the standard deviation of its
+distribution is 2.08.
 
     ## Skim summary statistics
     ##  n obs: 173 
@@ -92,13 +78,16 @@ the standard deviation of its distribution is 2.08.
     ##      hist
     ##  ▁▃▅▇▆▅▂▁
 
-#### Predictor Variables
+#### Univariate Analysis of Predictor Variables
 
-We will now look at the most important of the 12 predictor variables
-that we will use to predict GDP. The other variables will be explored in
-“additional work”. We will look at a plot of each of the explanatory
-variables but will go in depth on population and inflation
-variables.
+The quantitative predictor variables
+ARE\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The categorical predictor variables
+ARE\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Here, we highlight two predictor variables Population and
+Inflation.
 
 ![](final-writeup_files/figure-gfm/EDA1-1.png)<!-- -->![](final-writeup_files/figure-gfm/EDA1-2.png)<!-- -->
 
@@ -112,29 +101,11 @@ variables.
     ##      hist
     ##  ▇▁▁▁▁▁▁▁
 
-`Population` represents the number of individuals living in a country.
-The distribution of population is unimodal and right-skewed. Because
-there are two influential points in “population”, we will plot another
-graph of population without these two points below.
-
-    ## Skim summary statistics
-    ##  n obs: 173 
-    ##  n variables: 1 
-    ## 
-    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
-    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
-    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
-    ##      hist
-    ##  ▇▁▁▁▁▁▁▁
-
-The distribution of population is unimodal and right-skewed. The mode of
-the distribution is around 1 million. Since the median and IQR are more
-robust to skewing, we report them instead as a measures of center and
-spread. The median is 9.15 and the IQR is 26.85. Additionally, when
-conducting our analysis, we may need to apply a log-transform to make
-the distribution of the variable more normal; based on a pairs plot,
-population has a logarithmic relationship with logGDP and thus we will
-apply a logarithmic transform to population below.
+From this histogram of population without outliers, the distribution of
+population is unimodal and right-skewed. The median is 9.15 and the IQR
+is 26.85. Based on the subsequent pairs plot, population has a
+logarithmic relationship with logGDP and thus we will apply a
+logarithmic transform to population below.
 
     ## Skim summary statistics
     ##  n obs: 173 
@@ -157,6 +128,10 @@ apply a logarithmic transform to population below.
 
 ![](final-writeup_files/figure-gfm/EDA2-1.png)<!-- -->![](final-writeup_files/figure-gfm/EDA2-2.png)<!-- -->
 
+EXPLAIN WHY HOW WE CHANGE INFLATION INTO CATEGORIES AND WHY DID WE DO SO
+
+CUT DOWN THE FOLLOWING PARAGRAPH
+
 `Inflation` represents the change in prices of goods and services in a
 year in the country. The first distribution of inflation rates includes
 all outliers. Because of the size and resolution of the diagram, the
@@ -169,68 +144,36 @@ center and spread. The median inflation rate is 2.7% and the IQR is 4%.
 Because inflation can vary widely between countries, we have recoded it
 into a categorical variable that better captures whether a country’s
 inflation is healthy or unhealthy. Above is a plot to show the frequency
-of each level of inflation.
+of each level of
+inflation.
 
 ### Multivariate Exploration
 
-Finally, we can visualize paired scatter plots of the relationship
-between GDP and each of our predictor variables. This is shown below.
-Many of the plots are visually difficult and don’t offer good
-information as there are outliers that skew the
-visualization.
-
-![](final-writeup_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-1.png)<!-- -->![](final-writeup_files/figure-gfm/scatterplot%20matrix%20GDP%20growth-2.png)<!-- -->
-
-To better help us visualize the relationship between the predictor and
-response variables for most data points, we plotted a scatterplot matrix
-with most of the outliers
-removed.
-
-![](final-writeup_files/figure-gfm/Scatterplot%20GDP%20without%20outliers-1.png)<!-- -->![](final-writeup_files/figure-gfm/Scatterplot%20GDP%20without%20outliers-2.png)<!-- -->
-
-Based on the scatterplots above, we observe that most predictor
-variables do not have a clear linear relationship with the response
-variable GDP. Thus, we log transform GDP to see if there is a stronger
-linear relationship. As seen previously, logGDP has a normal
-distribution while GDP is extremely right
-skewed.
-
 ![](final-writeup_files/figure-gfm/Scatterplot%20logGDP-1.png)<!-- -->![](final-writeup_files/figure-gfm/Scatterplot%20logGDP-2.png)<!-- -->
 
-Based on the scatterplots of the response variables against the
-quantitative predictor variables, we see that there is now a much
-stronger a linear relationship between the two. Particularly, we note
-that the logGDP against population scatterplot shows a curved
-distribution which resembles a logarithimic function. This is why we
-transformed population into the logpop variable, which has a linear
-relationship with GDP. Furthermore, the pairs plot validates all of the
-transformations we have applied in the univariate analysis, so they will
-remain in place for our regression.
+From the scatterplots, we note that logGDP against population
+scatterplot shows a curved distribution which resembles a logarithimic
+function. This is why we transformed population into the logpop
+variable, which has a linear relationship with GDP.
 
-Moreover, we also noticed some multicollinearity issues between
-predictor variables. In specific, the relationship between GovSpending
-and TaxBurden appears very strongly if not almost linear. Other
-variables suspect of multicollinearity problems include tariff rate and
-unemployment as well as tariff rate and unemployment.
+There is some multicollinearity issues between predictor variables. The
+relationship between GovSpending and TaxBurden appears very strongly if
+not almost linear. Other variables suspect of multicollinearity problems
+include tariff rate and unemployment as well as tariff rate and
+unemployment.
 
-Within this analysis, we have split the pairs plot for visual
-convenience, but we did analyze multicollinearity via a full pairs plot
-with all of our variables in one visualization; unfortunately, due to
-the large number of variables, this isn’t visually convenient and we
-have split the plots within the
-markdown.
+A similar analysis is conducted between the response and the categorical
+variables using side-by-side boxplots.
+
+INCLUDE ONE LINE WHY NOTHING OUTSTANDING IS OBSERVED FOR RESPONSE VS
+CATEGORICAL
+VARIABLE
 
 ![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-1.png)<!-- -->![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical-2.png)<!-- -->
 
-For the relationship between the response and categorical variables, the
-various boxplots suggest that there are generally normally distributed
-with minimal skewing. This means that a linear regression between log
-GDP and the categorical variables of region and government interference
-are appropriate.
-
-We will now mean-center a few of the variables investigated thus far to
-ensure meaningful intercepts during the
-regression.
+We also meancentered the following variables for the modelling:
+TaxBurden and
+GovSpending.
 
 ## Section 2: Regression Analysis (includes the final model and discussion of assumptions)
 
