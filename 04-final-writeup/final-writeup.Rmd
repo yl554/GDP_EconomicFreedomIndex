@@ -324,13 +324,7 @@ logGDP ~  TariffRate + logpop + GDPGrowth + cat_inflationDangerouslyHigh + cat_i
 Model selected using adj R^2: 
 logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent +  cat_inflationDangerously High + cat_inflationHigh + GovInterferenceLimited + GovInterferenceModerate + RegionSub-Saharan Africa 
 
-Since all three selection criteria included TariffRate + logpop + GDPGrowth + GovInterference, we will include these four predictors into our final model.
-
-cat_inflation and Region will be included in the final model, although some of their levels are not selected. Briefly, their explanatory value outweighs the noise they add to the model. This is discussed in detail in Additional Work.
-
-GovSpendingCent is included only in the AIC equation while TaxBurdenCent is included in both the AIC and adjR2 equations. Conducting nested F test, we choose to include TaxBudenCent and not GovSpendingCent in the final model.
-
-We also conducted Nested F test for interaction variables. We found significant interaction between GovInterference and TariffRate as well as Region and TariffRate.
+Since all three selection criteria included TariffRate + logpop + GDPGrowth + GovInterference, we will include these four predictors into our final model. Cat_inflation and Region will be included in the final model, although some of their levels are not selected. Briefly, their explanatory value outweighs the noise they add to the model. This is discussed in detail in Additional Work. GovSpendingCent is included only in the AIC equation while TaxBurdenCent is included in both the AIC and adjR2 equations. Conducting nested F test, we choose to include TaxBudenCent and not GovSpendingCent in the final model. We also conducted Nested F test for interaction variables. We found significant interaction between GovInterference and TariffRate as well as Region and TariffRate.
 
 (Refer to Additional Work for detailed discussion on Model Section process)
 
@@ -355,11 +349,7 @@ glance(final_model)
 
 The final R^2 value for the model is .842, implying that approximately 84.2% of the variation in GDP can be well-explained by a linear relationship with our transformed predictors.
 
-We examined the four model assumptions: linearity, constant variance, normality, and independence. None of the model assumptions
-
-Furthermore, we examined leverage, cook's distance, and standardized residual to check for outliers and assess their influence on our model.
-
-VIF is also calculated to ensure no multi-collinearity between predictor variables.
+We examined the four model assumptions: linearity, constant variance, normality, and independence. None of the model assumptions Furthermore, we examined leverage, cook's distance, and standardized residual to check for outliers and assess their influence on our model. VIF is also calculated to ensure no multi-collinearity between predictor variables.
 
 (Refer to Additional Work for detailed discussion on Model Assumptions)
 
@@ -376,9 +366,7 @@ ggplot(data = economic_data, mapping=aes(x=predicted, y=residuals, color=Region)
        color = "Region")+
   theme_classic()
 ```
-One may suspect non-independence to be violated due to spatial correlation. We included Region as a predictor variable to negate this. Moreover, the residuals did not show significant cluster effect based on Region.
-
-We also do not expect that the recording of GDP in one country to affect the recording of GDP in another. Thus, the observations are deduced to be independent. 
+One may suspect non-independence to be violated due to spatial correlation. We included Region as a predictor variable to negate this. Moreover, the residuals did not show significant cluster effect based on Region. We also do not expect that the recording of GDP in one country to affect the recording of GDP in another. Thus, the observations are deduced to be independent. 
 
 #### Constant Variance & Linearity
 
@@ -564,13 +552,11 @@ ggplot(economic_data, mapping = aes(x = CorporateTaxRate, y = GDP)) +
 Indeed, according to the above plot, there doesn't seem to be any visually evident relationship between GDP and either corporate or income tax rate. Instead, it seems that a tax rate that's modest but not too high or too low is perhaps indicative of a high GDP.
 
 ## Section 3: Discussion and Limitations 
-In our final model, we included the tariff rate, population, GDP growth, tax burden, inflation, region, and the interaction between region and tariff rate. Since the goal of the model is not prediction (our model is built from almost all the world's countries, so there are no countries' GDPs left to predict), it is not useful to try to predict various cases. Instead, the model allows us to determine the effect of a particular indicator or variable on the expected GDP, which we have described at length in the interpretation of each coefficient above. Our model has allowed us to say, for example, that being located in the Asia-Pacific region means the expected GDP of the country is higher than being located in Europe, or that each additional percentage point of the tax burden has a greater effect on the expected GDP than the each additional percentage point of the tariff rate.
+In our final model, we included the tariff rate, population, GDP growth, tax burden, inflation, region, and the interaction between region and tariff rate. The goal of the model isn't prediction; instead, it allows us to determine the effect of a particular indicator or variable on the expected GDP, which we have described at length in the interpretation of each coefficient below. Our model has allowed us to say, for example, that being located in the Asia-Pacific region means the expected GDP of the country is higher than being located in Europe.
 
 While this model does provide many insights into the role of various economic indicators in GDP, there are various limitations that can be resolved in future investigations. The most obvious limitation is that we decided, for the purposes of simplicity, to remove the 12 observations in our dataset that didn't have complete data reported. While this represents only a small subset of the total observations, this certainly does decrease the validity of our data. This is especially true because the countries that we removed for this reason, such as North Korea, Iraq, Somalia, etc. have certain similar characteristics such as high government interference, high tariff rates, etc. that effectively mean we are removing an entire "group" of countries from our dataset. However, it is likely that were we to have data on these countries, the figures would not be accurately reported/would be inflated by the countries' governments. 
 
 Our overall methods for building and verifying the model were sound. By examining all three indicators of the model, AIC, BIC, and Adjusted R^2, we were able to choose a model that best fit our needs. Additionally, we conducted a full diagnosis of the model including looking at leverage points and whether these points exceeded a variety of thresholds such as Cook's Distance and VIF. One potential issue with our methods were that our threshold for multicollinearity may have been a little lenient for the types of variables we were looking at. It is definitely true that there are relationships between the economic indicators that we looked at: for example, corporate tax rate may very well be a function of income tax rate in many countries. Or, for example, the rate of GDP growth is related to the GDP itself. Because of this, we had a VIF value for certain observations that was coming up to a value of 9, which while not exceeding our threshold of 10, is still something to examine further. If we were to restart or go further with our investigation, we would resolve many of the questions of multicollinearity as well as somewhat strange outcomes with the variables our model chose by adding data for each country pertaining to non-economic factors. By adding these variables, a potential final model would not only likely have more predictive power but would have a better chance of avoiding multicollinearity as instead of including 17 variables relating to economics we would have fewer.
-
-Now, we will discuss our model performance as a whole. While we did not use R^2 to choose our model, this value is still a fine measure of the ability of our model to explain variation in the data. The R^2 value for our model is .842, which suggests that approx. 84.2 percent of the variation in GDP can be explained by a linear relationship of our transformed predictors. As discussed above, our model diagnostics included determining points with high leverage, analyzing them in relation to Cook's Distance, and looking at the VIF. However, this issue of multicollinearity certainly affects the validity of our model.
 
 ## Section 4: Conclusion
 While we have already discussed the specifics of the model and its coefficients, looking at it from a broader view has certainly shed some light on what really contributes to the GDP of country and what perhaps doesn't. The first takeaway is that a lot of the GDP of a country is actually out of the government of the country's control. This is evident in that region was an extremely important aspect of our model, as the regions stood in as their own variables as well as interacting with other variables. Region is likely important in that it serves as a proxy for access to natural resources as well as shipping routes and ports. These factors are out of a government's control for the most part. Additionally, the GDP is actually not just the result of the actions of a government in a vacuum but rather the result of broader, international efforts and cooperation. The variable TariffRate was crucial in our model, serving as its own coefficient as well as interacting with other variables. This is likely because TariffRate serves as a indicator for not only the average rate of import taxes but also whether or not a country has trade unions and agreements with other countries and is open to free trade, which is an extremely important aspect of the GDP of a country. Finally, our model has shown us that the most important predictors of GDP involve long-term investments made by the government to improve the country's economy, such as population growth, inflation (currency stability), etc. Short-term fixes such as marginal tax rate changes or debt are not nearly as effective. This indicates that short-term losses from actions like cutting inflation have long-term benefits when looking at GDP. By keeping their currencies stable, their populations healthy, and their trade agreements fair, governments can increase their GDP without having to resort to these short-term measures.
