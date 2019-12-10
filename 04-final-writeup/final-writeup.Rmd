@@ -132,7 +132,6 @@ c <- ggplot(data = economic_data, mapping = aes(x = Population)) +
        title = "Distribution of Population")+  theme_classic()
   
 
-
 economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
 
 d <- ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
