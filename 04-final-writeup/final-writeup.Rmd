@@ -92,23 +92,9 @@ skim()
 
 The distribution of GDP shows significant right skew, which is reasonable and expected as the world has countries such as the US and China who, due to their population and industrial advantages, have significantly greater GDP's than the average country. We will now show a graph of GDP with some of these influential points removed.
 
-```{r GDP without Outlier}
-economic_data %>%
-select(GDP) %>%
-skim()
-```
-
 The distribution of GDP is unimodal and right-skewed. Since the media and interquartile range are less influenced by outliers, we report them as measures of center and spread. The median of the distribution is 88.9 billion and the interquartile range is 411.3. THe values are in billions of dollars.
 
-This calls for a log-transform of the response variable, whose distribution is visualized below:
-
-```{r log-gdp-vis}
-economic_data %>%
-select(logGDP) %>%
-skim()
-```
-
-This distribution of logGDP is normal and unimodal. We will likely use this as our response variable. Since there is minimal skewing and the distribution is generally symmetric, we report the mean and standard deviation as measures of center and spread. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. 
+This calls for a log-transform of the response variable. This distribution of logGDP is normal and unimodal. We will likely use this as our response variable. Since there is minimal skewing and the distribution is generally symmetric, we report the mean and standard deviation as measures of center and spread. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. 
 
 #### Predictor Variables
 
