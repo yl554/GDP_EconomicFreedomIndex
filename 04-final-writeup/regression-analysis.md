@@ -1,71 +1,7 @@
 What Makes a Strong GDP?
 ================
 Rtists
-12/6/2019
-
-    ## ── Attaching packages ─────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
-
-    ## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
-    ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-    ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
-    ## ✔ readr   1.3.1     ✔ forcats 0.4.0
-
-    ## ── Conflicts ────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-
-    ## 
-    ## Attaching package: 'skimr'
-
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     filter
-
-    ## 
-    ## Attaching package: 'magrittr'
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     set_names
-
-    ## The following object is masked from 'package:tidyr':
-    ## 
-    ##     extract
-
-    ## 
-    ## Attaching package: 'knitr'
-
-    ## The following object is masked from 'package:skimr':
-    ## 
-    ##     kable
-
-    ## Loading required package: Hmisc
-
-    ## Loading required package: lattice
-
-    ## Loading required package: survival
-
-    ## Loading required package: Formula
-
-    ## 
-    ## Attaching package: 'Hmisc'
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     src, summarize
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     format.pval, units
-
-    ## Loading required package: SparseM
-
-    ## 
-    ## Attaching package: 'SparseM'
-
-    ## The following object is masked from 'package:base':
-    ## 
-    ##     backsolve
+11/14/2019
 
 Your regression analysis results go here. At a minimum, the regression
 analysis should include the following:
@@ -168,9 +104,7 @@ reasonable and expected as the world has countries such as the US and
 China who, due to their population and industrial advantages, have
 significantly greater GDP’s than the average country. We will now show a
 graph of GDP with some of these influential points
-    removed.
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+removed.
 
 ![](regression-analysis_files/figure-gfm/GDP%20without%20Outlier-1.png)<!-- -->
 
@@ -292,10 +226,7 @@ spread. The median is 9.15 and the IQR is 26.85. Additionally, when
 conducting our analysis, we may need to apply a log-transform to make
 the distribution of the variable more normal; based on a pairs plot,
 population has a logarithmic relationship with logGDP and thus we will
-apply a logarithmic transform to population
-    below.
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+apply a logarithmic transform to population below.
 
 ![](regression-analysis_files/figure-gfm/logpop-1.png)<!-- -->
 
@@ -319,9 +250,7 @@ unimodal and right-skewed. The mode of the distribution is around 4-5%.
 Since the median and IQR are more robust to skewing, we report them
 instead as a measures of center and spread. The median is 5.7 and the
 IQR is
-    5.6.
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+5.6.
 
 ![](regression-analysis_files/figure-gfm/Inflation-1.png)<!-- -->![](regression-analysis_files/figure-gfm/Inflation-2.png)<!-- -->
 
@@ -2262,9 +2191,6 @@ model coefficients, so it is safe to keep them in our model.
 ``` r
 tidy(vif(final_model))
 ```
-
-    ## Warning: 'tidy.numeric' is deprecated.
-    ## See help("Deprecated")
 
     ## # A tibble: 17 x 2
     ##    names                                             x

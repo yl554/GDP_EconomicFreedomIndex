@@ -7,7 +7,9 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, 
+                      message = FALSE, 
+                      warning = FALSE)
 ```
 
 ```{r libraries}
@@ -20,6 +22,7 @@ library(broom)
 library(leaps)
 library(knitr) 
 library(rms)
+library(gridExtra)
 ```
 
 
@@ -45,6 +48,7 @@ Your regression analysis results go here. At a minimum, the regression analysis 
 - Additional work of other models or analylsis not included in the final model.
 
 *Use proper headings as needed.*
+## Introduction
 
 ### Question and Objective
 
@@ -69,16 +73,35 @@ economic_data %>%
 economic_data <- na.omit(economic_data)
 ```
 
-### Response Variable
+#### Response Variable
 
 Now that the data has been cleaned, we can begin exploring our response variable.
 
 ```{r gdp-vis}
-ggplot(data = economic_data, mapping = aes(x = GDP)) +
+a <- ggplot(data = economic_data, mapping = aes(x = GDP)) +
   geom_histogram(binwidth = 1000, fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
        y = "Frequency",
        title = "Distribution of GDPs")
+
+economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
+
+b <- ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
+  geom_histogram(fill = "forestgreen") +
+  labs(x = "GDP (billions of USD)",
+       y = "Frequency",
+       title = "Distribution of GDPs")
+
+economic_data <- economic_data %>%
+  mutate(logGDP = log(GDP))
+
+c <- ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
+  geom_histogram(binwidth = 1, fill = "forestgreen") +
+  labs(x = "log(GDP)",
+       y = "Frequency",
+       title = "Distribution of log-GDPs")
+
+grid.arrange(a, b, c, nrow =2, ncol=2)
 
 economic_data %>%
 select(GDP) %>%
@@ -88,14 +111,6 @@ skim()
 The distribution of GDP shows significant right skew, which is reasonable and expected as the world has countries such as the US and China who, due to their population and industrial advantages, have significantly greater GDP's than the average country. We will now show a graph of GDP with some of these influential points removed.
 
 ```{r GDP without Outlier}
-economic_data_temp <- economic_data %>% select(GDP) %>% filter(GDP < 3000)
-
-ggplot(data = economic_data_temp, mapping = aes(x = GDP)) +
-  geom_histogram(fill = "forestgreen") +
-  labs(x = "GDP (billions of USD)",
-       y = "Frequency",
-       title = "Distribution of GDPs")
-
 economic_data %>%
 select(GDP) %>%
 skim()
@@ -106,15 +121,6 @@ The distribution of GDP is unimodal and right-skewed. Since the media and interq
 This calls for a log-transform of the response variable, whose distribution is visualized below:
 
 ```{r log-gdp-vis}
-ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
-  geom_histogram(binwidth = 1, fill = "forestgreen") +
-  labs(x = "log(GDP)",
-       y = "Frequency",
-       title = "Distribution of log-GDPs")
-
-economic_data <- economic_data %>%
-  mutate(logGDP = log(GDP))
-
 economic_data %>%
 select(logGDP) %>%
 skim()
@@ -122,16 +128,55 @@ skim()
 
 This distribution of logGDP is normal and unimodal. We will likely use this as our response variable. Since there is minimal skewing and the distribution is generally symmetric, we report the mean and standard deviation as measures of center and spread. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. 
 
-### Predictor Variables
+#### Predictor Variables
 
 We will now look at each of the 12 predictor variables that we will use to predict GDP, starting with `TaxBurden`.
 
 ```{r Tax Burden}
-ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
+a <- ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
   geom_histogram(binwidth = 2, fill = "forestgreen") + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Tax Burden")
+
+b <- ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
+  geom_histogram(binwidth = 3, fill = "forestgreen") + 
+  labs(x = "Government Spending (% of Country's GDP)",
+       y = "Frequency",
+       title = "Distribution of Government Spending")
+
+c <- ggplot(data = economic_data, mapping = aes(x = Population)) +
+  geom_histogram(binwidth = 40, fill = "forestgreen") + 
+  labs(x = "Population (Million)",
+       y = "Frequency",
+       title = "Distribution of Population")
+
+economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
+
+d <- ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
+  geom_histogram(binwidth = 10, fill = "forestgreen") + 
+  labs(x = "Population (Million)",
+       y = "Frequency",
+       title = "Distribution of Population")
+
+economic_data <- economic_data %>%
+  mutate(logpop=log(Population))
+
+e <- ggplot(data=economic_data, aes(x=logpop)) +
+  geom_histogram(fill = "forestgreen") +
+  labs(title="Distribution of logpop", x="Log(Population)")
+
+f <- ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
+  geom_histogram(binwidth = 1, fill = "forestgreen") + 
+  labs(x = "Unemployment (%)",
+       y = "Frequency",
+       title = "Distribution of Unemployment")
+
+g <- ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
+  geom_histogram(binwidth = 1, fill = "forestgreen") +
+  labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+
+grid.arrange(a, b, c, d, e, f, g, nrow = 3, ncol=2)
 
 economic_data %>%
 select(TaxBurden) %>%
@@ -141,12 +186,6 @@ skim()
 `TaxBurden` represents the amount of tax paid by the citizens of a country as a proportion of the GDP of that country. The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appears normally distributed. The mean tax burden is 22.19% and the standard deviation of the distribution is 10.17%. 
 
 ```{r Government Spending}
-ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
-  geom_histogram(binwidth = 3, fill = "forestgreen") + 
-  labs(x = "Government Spending (% of Country's GDP)",
-       y = "Frequency",
-       title = "Distribution of Government Spending")
-
 economic_data %>%
 select(GovSpending) %>%
 skim()
@@ -155,12 +194,6 @@ skim()
 `GovSpending` represents the amount spent by the government as a percentage of the GDP of the country. The distribution of government spending is generally symmmetric and unimodal. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87% of GDP and the distribution has a standard deviation of 15.52%.
 
 ```{r Population}
-ggplot(data = economic_data, mapping = aes(x = Population)) +
-  geom_histogram(binwidth = 40, fill = "forestgreen") + 
-  labs(x = "Population (Million)",
-       y = "Frequency",
-       title = "Distribution of Population")
-
 economic_data %>%
 select(Population) %>%
 skim()
@@ -169,14 +202,6 @@ skim()
 `Population` represents the number of individuals living in a country. The distribution of population is unimodal and right-skewed. Because there are two influential points in "population", we will plot another graph of population without these two points below.
 
 ```{r Population without Outlier}
-economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
-
-ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
-  geom_histogram(binwidth = 10, fill = "forestgreen") + 
-  labs(x = "Population (Million)",
-       y = "Frequency",
-       title = "Distribution of Population")
-
 economic_data %>%
 select(Population) %>%
 skim()
@@ -184,24 +209,7 @@ skim()
 
 The distribution of population is unimodal and right-skewed. The mode of the distribution is around 1 million. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 9.15 and the IQR is 26.85. Additionally, when conducting our analysis, we may need to apply a log-transform to make the distribution of the variable more normal; based on a pairs plot, population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below.
 
-```{r logpop}
-economic_data <- economic_data %>%
-  mutate(logpop=log(Population))
-
-ggplot(data=economic_data, aes(x=logpop)) +
-  geom_histogram(fill = "forestgreen") +
-  labs(title="Distribution of logpop", x="Log(Population)")
-```
-
-Based on the above plot, the logarithmic transformation has been successful in normalizing the population variable, which should allow a more linear relationship with GDP.
-
 ```{r Unemployment}
-ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
-  geom_histogram(binwidth = 1, fill = "forestgreen") + 
-  labs(x = "Unemployment (%)",
-       y = "Frequency",
-       title = "Distribution of Unemployment")
-
 economic_data %>%
 select(Unemployment) %>%
 skim()
@@ -209,15 +217,24 @@ skim()
 
 `Unemployment` represents the percantage of the workforce of a country that is currently not working. The distribution of unemployment is unimodal and right-skewed. The mode of the distribution is around 4-5%. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 5.7 and the IQR is 5.6.
 
+```{r Tariff Rate}
+economic_data %>%
+  select(TariffRate) %>%
+  skim()
+```
+
+`TariffRate` represents the average percentage tax on imports that the country has outstanding as of 2019. The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. Because of this right-skew, log-transforming this variable might be necessary; we will examine it further in a pairs plot later in the analysis.
+
 ```{r Inflation}
-ggplot(data = economic_data, mapping = aes(x = Inflation)) +
+a <- ggplot(data = economic_data, mapping = aes(x = Inflation)) +
   geom_histogram(fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation")
 
 economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
-ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
+
+b <- ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
   geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
@@ -241,67 +258,64 @@ economic_data%>%
 economic_data <- economic_data %>%
   mutate(cat_inflation = as.factor(cat_inflation))
 
-economic_data %>%
-ggplot(mapping = aes(x = cat_inflation, y = logGDP)) +
-  geom_boxplot(position="dodge",fill="forestgreen")
-```
+c <- economic_data %>%
+ggplot(mapping = aes(x = cat_inflation)) +
+  geom_bar(position="dodge",fill="forestgreen")
 
-`Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because inflation can vary widely between countries, we have recoded it into a categorical variable that better captures whether a country's inflation is healthy or unhealthy. Above is a plot to show the frequency of each level of inflation.
-
-
-```{r Region}
 regional <- economic_data %>%
   group_by(Region) %>%
   tally() %>%
   mutate(prop = n*100/nrow(economic_data))
 
-ggplot(data = economic_data, mapping = aes(x = Region)) +
+d <- ggplot(data = economic_data, mapping = aes(x = Region)) +
   geom_bar(fill = "forestgreen") + 
   labs(x = "Region",
        y = "Frequency",
        title = "Distribution of Region")
 
-ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
+e <- ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
     geom_bar(stat = "identity", color = "white") +
     coord_polar("y", start = 0) +
     theme_void()
-```
 
-`Region` represents the geographical continent/area that the country is situated in. The bar graph and piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
-
-```{r Government Interference}
-ggplot(mapping = aes(x = GovInterference), data = economic_data) +
+f <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   geom_bar(fill = "forestgreen") +
   labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
-```
 
-`GovInterference` represents the amount of interference that the government has in the economy as determined by the World Economic Index. The distribution of government interference shows that most countries either have extensive or moderate government inteference. The mode of the distribution is moderate government interference. Economies with limited and repressive intervention are significanly lesser, each having around 10-15 countries. We do not report the center or spread here because government interference is a categorical variable.
-
-```{r mutate Government Interference}
 economic_data <- economic_data %>%
   mutate(GovInterference = recode_factor(GovInterference, "Limited" =  "Moderate", "Repressive" = "Extensive"))
 
-ggplot(mapping = aes(x = GovInterference), data = economic_data) +
+g <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   geom_bar(fill = "forestgreen") +
   labs(title = "Bar Graph of Government Inteference in Economy", x  = "Levels of Government Interference", y = "Frequency")
+
+grid.arrange(a, b, c, nrow = 2, ncol=2)
+grid.arrange(d, e, f, g, nrow = 2, ncol=2)
 ```
 
-```{r Tariff Rate}
-ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
-  geom_histogram(binwidth = 1, fill = "forestgreen") +
-  labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+`Inflation` represents the change in prices of goods and services in a year in the country. The first distribution of inflation rates includes all outliers. Because of the size and resolution of the diagram, the distribution of most economies are not visible. The second diagram shows the distribution of inflation rates without the outlier with more than 1000% inflation. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. Because inflation can vary widely between countries, we have recoded it into a categorical variable that better captures whether a country's inflation is healthy or unhealthy. Above is a plot to show the frequency of each level of inflation.
 
-economic_data %>%
-  select(TariffRate) %>%
-  skim()
-```
+`Region` represents the geographical continent/area that the country is situated in. The bar graph and piechart of `Region` shows that there is a relatively equal representation of countries from different regions of the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe each represent around 25% of all the countries in the data. The smallest representation is from the Middle East and North Africa at 8.1%. We are not too concerned with the distribution because there are 195 countries in the world and our data has 173 countries. The difference in distribution across region is likely to be largely reflective of the actual geographical distribution of nation-states.
 
-`TariffRate` represents the average percentage tax on imports that the country has outstanding as of 2019. The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. Because of this right-skew, log-transforming this variable might be necessary; we will examine it further in a pairs plot later in the analysis.
+
+`GovInterference` represents the amount of interference that the government has in the economy as determined by the World Economic Index. The distribution of government interference shows that most countries either have extensive or moderate government inteference. The mode of the distribution is moderate government interference. Economies with limited and repressive intervention are significanly lesser, each having around 10-15 countries. We do not report the center or spread here because government interference is a categorical variable.
 
 ```{r Income Tax Rate}
-ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
+a <- ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
   geom_histogram(binwidth = 5, fill = "forestgreen") +
   labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+
+b <- ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
+geom_histogram(binwidth = 4, fill = "forestgreen") +
+labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
+
+c <- ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
+  geom_histogram(binwidth = 8, fill = "forestgreen") + 
+  labs(x = "Public Debt (% of GDP)",
+       y = "Frequency",
+       title = "Distribution of Public Debt")
+
+grid.arrange(a, b, c, nrow = 2, ncol=2)
 
 economic_data %>%
   select(IncomeTaxRate) %>%
@@ -311,10 +325,6 @@ economic_data %>%
 `IncomeTaxRate` represents the average tax rate applied to individuals on their incomes. The distribution of income tax rate is unimodal and generally symmetric. While its general shape resembles a normal distribution, there are several values of income tax rate which have particularly high frequency such as 10%, 25% and 34-35%. The mode of the distribution occurs at 35%. Since there is relatively minimal skewing, we report the mean and standard deviation as measures of center and spread. The mean income tax rate is 28.23% and the standard deviation of the distribution is 13.4%. 
 
 ```{r Corporate Tax Rate}
-ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
-geom_histogram(binwidth = 4, fill = "forestgreen") +
-labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
-
 economic_data %>%
 select(CorporateTaxRate) %>%
 skim()
@@ -323,12 +333,6 @@ skim()
 `CorporateTaxRate` represents the average tax rate applied to corporations on their revenues. The distribution of corporate tax rate is unimodal and only slightly right skewed. The mode of the distribution is around 28-30%. Since there is minimal skewing, we report the mean and the standard deviation as measures of center and spread. The mean corporate tax rate is 23.89% and the standard deviation is 8.88%.
 
 ```{r Public Debt}
-ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
-  geom_histogram(binwidth = 8, fill = "forestgreen") + 
-  labs(x = "Public Debt (% of GDP)",
-       y = "Frequency",
-       title = "Distribution of Public Debt")
-
 economic_data %>%
 select(PublicDebt) %>%
 skim()
