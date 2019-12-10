@@ -622,20 +622,23 @@ a <- ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
   geom_histogram(binwidth = 2, fill = "forestgreen") + 
   labs(x = "Tax Burden (% of Country's GDP)",
        y = "Frequency",
-       title = "Distribution of Tax Burden")
+       title = "Distribution of Tax Burden")+  theme_classic()
+
 
 b <- ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 3, fill = "forestgreen") + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
        title = "Distribution of Government Spending") + 
-  theme(plot.title = element_text(size = 12))
+  theme(plot.title = element_text(size = 12))+  theme_classic()
+
 
 c <- ggplot(data = economic_data, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 40, fill = "forestgreen") + 
   labs(x = "Population (Million)",
        y = "Frequency",
-       title = "Distribution of Population")
+       title = "Distribution of Population")+  theme_classic()
+
 
 economic_data_temp <- economic_data %>% select(Population) %>% filter(Population < 500)
 
@@ -644,24 +647,28 @@ d <- ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
   labs(x = "Population (Million)",
        y = "Frequency",
        title = "Distribution of Population (No Outliers)") + 
-  theme(plot.title = element_text(size = 12))
+  theme(plot.title = element_text(size = 12))+  theme_classic()
+
 
 economic_data <- economic_data %>%
   mutate(logpop=log(Population))
 
 e <- ggplot(data=economic_data, aes(x=logpop)) +
   geom_histogram(fill = "forestgreen") +
-  labs(title="Distribution of logpop", x="Log(Population)", y="Frequency")
+  labs(title="Distribution of logpop", x="Log(Population)", y="Frequency")+  theme_classic()
+
 
 f <- ggplot(data = economic_data, mapping = aes(x = Unemployment)) +
   geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Unemployment (%)",
        y = "Frequency",
-       title = "Distribution of Unemployment")
+       title = "Distribution of Unemployment")+  theme_classic()
+
 
 g <- ggplot(mapping = aes(x = TariffRate), data = economic_data) + 
   geom_histogram(binwidth = 1, fill = "forestgreen") +
-  labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
+  labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")+  theme_classic()
+
 
 grid.arrange(a, b, c, d, nrow = 2, ncol=2)
 grid.arrange(e, f, g, nrow = 2, ncol=2)
@@ -718,7 +725,8 @@ a <- ggplot(data = economic_data, mapping = aes(x = Inflation)) +
   geom_histogram(fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
-       title = "Distribution of Inflation")
+       title = "Distribution of Inflation")+  theme_classic()
+
 
 economic_data_temp <- economic_data %>% select(Inflation) %>% filter(Inflation < 100)
 
@@ -727,7 +735,8 @@ b <- ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
   labs(x = "Inflation (%)",
        y = "Frequency",
        title = "Distribution of Inflation without Outlier") + 
-  theme(plot.title = element_text(size = 12))
+  theme(plot.title = element_text(size = 12))+  theme_classic()
+
 
 economic_data %>%
 select(Inflation) %>%
@@ -752,7 +761,8 @@ ggplot(mapping = aes(x = cat_inflation)) +
   geom_bar(position="dodge",fill="forestgreen") + 
   labs(x = "cat_inflation",
        y = "Frequency",
-       title = "Distribution of Inflation")
+       title = "Distribution of Inflation")+  theme_classic()
+
 
 regional <- economic_data %>%
   group_by(Region) %>%
@@ -764,18 +774,21 @@ d <- ggplot(data = economic_data, mapping = aes(x = Region)) +
   labs(x = "Region",
        y = "Frequency",
        title = "Distribution of Region") +
-    theme(axis.text.x = element_text(size = 5))
+    theme(axis.text.x = element_text(size = 5))+  theme_classic()
+
 
 e <- ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
     geom_bar(stat = "identity", color = "white") +
     coord_polar("y", start = 0) +
     theme_void() + 
-    theme(plot.title = element_text(hjust = 1))
+    theme(plot.title = element_text(hjust = 1))+  theme_classic()
+
 
 f <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   geom_bar(fill = "forestgreen") +
   labs(title = "Bar Graph of Government Inteference in \n Economy", x  = "Levels of Government Interference", y = "Frequency") + 
-  theme(plot.title = element_text(size = 12))
+  theme(plot.title = element_text(size = 12))+  theme_classic()
+
 
 economic_data <- economic_data %>%
   mutate(GovInterference = recode_factor(GovInterference, "Limited" =  "Moderate", "Repressive" = "Extensive"))
@@ -783,7 +796,8 @@ economic_data <- economic_data %>%
 g <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   geom_bar(fill = "forestgreen") +
   labs(title = "Bar Graph of Government Inteference in \n Economy", x  = "Levels of Government Interference", y = "Frequency") + 
-  theme(plot.title = element_text(size = 12))
+  theme(plot.title = element_text(size = 12))+  theme_classic()
+
 
 grid.arrange(a, b, c, d, nrow = 2, ncol=2)
 grid.arrange(e, f, g, nrow = 2, ncol=2)
@@ -797,17 +811,20 @@ grid.arrange(e, f, g, nrow = 2, ncol=2)
 ```{r Income Tax Rate AW}
 a <- ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
   geom_histogram(binwidth = 5, fill = "forestgreen") +
-  labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
+  labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")+  theme_classic()
+
 
 b <- ggplot(mapping = aes(x = CorporateTaxRate), data = economic_data) +
 geom_histogram(binwidth = 4, fill = "forestgreen") +
-labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")
+labs(title = "Histogram of Corporate Tax Rate", x  = "Corporate Tax Rate", y = "Frequency")+  theme_classic()
+
 
 c <- ggplot(data = economic_data, mapping = aes(x = PublicDebt)) +
   geom_histogram(binwidth = 8, fill = "forestgreen") + 
   labs(x = "Public Debt (% of GDP)",
        y = "Frequency",
-       title = "Distribution of Public Debt")
+       title = "Distribution of Public Debt")+  theme_classic()
+
 
 grid.arrange(a, b, c, nrow = 2, ncol=2)
 
