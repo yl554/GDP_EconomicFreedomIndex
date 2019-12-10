@@ -36,11 +36,12 @@ col_types = c("text", "text", "text",
 
 ## Section 1: Introduction (includes introduction and exploratory data analysis)
 
-GDP is a measure of the total market value of all goods and services produced within a country over a period of time. Consequently, a high GDP implies that a country has significant economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. 
+GDP is a measure of the total market value of all goods and services produced within a country over a period of time. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becomes critical to policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country’s population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence.
 
-The use of multiple linear regression in the study of GDP and GDP growth is not novel. The approach has been widely employed by economists. For instance, Anghelache et. al has employed multiple linear regression model in analyzing the influence of final consumption and gross investment on Romania's GDP over time. Urrutia et. al, on the other hand, modeled Philippines's real GDP using multiple linear regression techniques. (Refer to citation of articles in the Citation section)
+The use of multiple linear regression in the study of GDP and GDP growth is not novel. The approach has been widely employed by economists. For instance, Anghelache et. al has employed MLR in analyzing the influence of final consumption and gross investment on Romania’s GDP over time. Urrutia et. al did the same with Philippines’s real GDP. (Refer to Additional Work section for citations)
 
-In this project, we will address the research question of what predictors are most useful in predicting GDP and to what extent GDP can be predicted successfully; we expect that factors such as population, inflation, GovInterference, and TaxBurden will most effectively predict GDP. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables. If we can get a better understanding of how these economic indicators correlate to GDP, it could provide policy makers and economists with a path towards sound governmental decisions. 
+Our research question is this: what variables explain the size of an economy’s GDP and to what is the relative explanatory value of each variable. The predictor variables used in our analysis are used in the calculation of the annual Economic Freedom Index. These predictors are not traditionally used in the multiple linear regression of GDP and we are interested to know the composite strength of these particular predictor variables. 
+
 
 ### Exploratory Data Analysis
 
@@ -692,6 +693,14 @@ Finally, our model has shown us that the most important predictors of GDP involv
 
 ## Section 5: Additional Work
 
+### Citations
+
+https://www.heritage.org/index/ranking
+
+https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html
+
+https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008
+
 ### Detailed Discussion on EDA for every variable
 
 GDP is a measure of the total market value of all goods and services produced within a country over a period of time. Consequently, a high GDP implies that a country has significant economic influence. As emerging markets continue to industrialize, the question of how one achieves a larger GDP is becoming a critical one in policy selection; failure to design policies that encourage GDP growth can cause widespread suffering for a country's population. Consider the case of Venezuela, where GDP-friendly policies were shunned and massive unrest appeared as a nearly direct consequence. In order to avoid this fate, nations must analyze which economic sectors are most influential on GDP in order to create guiding policies. 
@@ -704,12 +713,12 @@ In this project, we will address the research question of what predictors are mo
 
 We will begin our exploratory data analysis by cleaning the data. We notice a total of 12 countries which have a "NA" value for one or more of the predictor variables that we will investigate. We will omit these entries from our analysis, but we expect this to add a slight bias to our results; the below 12 countries are all developing and thus our model may fit developed countries better than developing countries. However, the 12 countries below also have unusual governmental and economic structures as well as poor data quality associated with them; including them in the model may also significantly influence the coefficients associated with predictors. Thus, we have decided to leave them out of the model.
 
-```{r NA-removal}
+```{r NA-removal AW}
 economic_data %>%
   filter(complete.cases(economic_data)==FALSE) %>%
   select(Country)
 ```
-```{r omit-NA}
+```{r omit-NA AW}
 economic_data <- na.omit(economic_data)
 ```
 
@@ -717,7 +726,7 @@ economic_data <- na.omit(economic_data)
 
 Now that the data has been cleaned, we can begin exploring our response variable.
 
-```{r gdp-vis}
+```{r gdp-vis AW}
 a <- ggplot(data = economic_data, mapping = aes(x = GDP)) +
   geom_histogram(binwidth = 1000, fill = "forestgreen") +
   labs(x = "GDP (billions of USD)",
@@ -750,7 +759,7 @@ skim()
 
 The distribution of GDP shows significant right skew, which is reasonable and expected as the world has countries such as the US and China who, due to their population and industrial advantages, have significantly greater GDP's than the average country. We will now show a graph of GDP with some of these influential points removed.
 
-```{r GDP without Outlier}
+```{r GDP without Outlier AW}
 economic_data %>%
 select(GDP) %>%
 skim()
@@ -760,7 +769,7 @@ The distribution of GDP is unimodal and right-skewed. Since the media and interq
 
 This calls for a log-transform of the response variable, whose distribution is visualized below:
 
-```{r log-gdp-vis}
+```{r log-gdp-vis AW}
 economic_data %>%
 select(logGDP) %>%
 skim()
@@ -772,7 +781,7 @@ This distribution of logGDP is normal and unimodal. We will likely use this as o
 
 We will now look at each of the 12 predictor variables that we will use to predict GDP, starting with `TaxBurden`.
 
-```{r EDA1}
+```{r EDA1 AW}
 a <- ggplot(data = economic_data, mapping = aes(x = TaxBurden)) +
   geom_histogram(binwidth = 2, fill = "forestgreen") + 
   labs(x = "Tax Burden (% of Country's GDP)",
@@ -828,7 +837,7 @@ skim()
 
 `TaxBurden` represents the amount of tax paid by the citizens of a country as a proportion of the GDP of that country. The distribution of tax burden is unimodal and only slightly right skewed. The mode is around 14-15%. In general, the tax burden across countries appears normally distributed. The mean tax burden is 22.19% and the standard deviation of the distribution is 10.17%. 
 
-```{r Government Spending}
+```{r Government Spending AW}
 economic_data %>%
 select(GovSpending) %>%
 skim()
@@ -836,7 +845,7 @@ skim()
 
 `GovSpending` represents the amount spent by the government as a percentage of the GDP of the country. The distribution of government spending is generally symmmetric and unimodal. The mode of the distribution is around 25%. Since there is minimal skewing, we report the mean and standard deviation. The mean government spending is 33.87% of GDP and the distribution has a standard deviation of 15.52%.
 
-```{r Population}
+```{r Population AW}
 economic_data %>%
 select(Population) %>%
 skim()
@@ -844,7 +853,7 @@ skim()
 
 `Population` represents the number of individuals living in a country. The distribution of population is unimodal and right-skewed. Because there are two influential points in "population", we will plot another graph of population without these two points below.
 
-```{r Population without Outlier}
+```{r Population without Outlier AW}
 economic_data %>%
 select(Population) %>%
 skim()
@@ -852,7 +861,7 @@ skim()
 
 The distribution of population is unimodal and right-skewed. The mode of the distribution is around 1 million. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 9.15 and the IQR is 26.85. Additionally, when conducting our analysis, we may need to apply a log-transform to make the distribution of the variable more normal; based on a pairs plot, population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below.
 
-```{r Unemployment}
+```{r Unemployment AW}
 economic_data %>%
 select(Unemployment) %>%
 skim()
@@ -860,7 +869,7 @@ skim()
 
 `Unemployment` represents the percantage of the workforce of a country that is currently not working. The distribution of unemployment is unimodal and right-skewed. The mode of the distribution is around 4-5%. Since the median and IQR are more robust to skewing, we report them instead as a measures of center and spread. The median is 5.7 and the IQR is 5.6.
 
-```{r Tariff Rate}
+```{r Tariff Rate AW}
 economic_data %>%
   select(TariffRate) %>%
   skim()
@@ -868,7 +877,7 @@ economic_data %>%
 
 `TariffRate` represents the average percentage tax on imports that the country has outstanding as of 2019. The distribution of tariff rate is generally right skewed and unimodal. There are several outlier economies with 50% tariff rate such as Central African Republic and North Korea. The mode of the distribution is around 2%. The median tariff rate is 4.3 and the interquartile range of the distribution is 6.7. Because of this right-skew, log-transforming this variable might be necessary; we will examine it further in a pairs plot later in the analysis.
 
-```{r EDA2}
+```{r EDA2 AW}
 a <- ggplot(data = economic_data, mapping = aes(x = Inflation)) +
   geom_histogram(fill = "forestgreen") + 
   labs(x = "Inflation (%)",
@@ -951,7 +960,7 @@ grid.arrange(e, f, g, nrow = 2, ncol=2)
 
 `GovInterference` represents the amount of interference that the government has in the economy as determined by the World Economic Index. The distribution of government interference shows that most countries either have extensive or moderate government inteference. The mode of the distribution is moderate government interference. Economies with limited and repressive intervention are significanly lesser, each having around 10-15 countries. We do not report the center or spread here because government interference is a categorical variable.
 
-```{r Income Tax Rate}
+```{r Income Tax Rate AW}
 a <- ggplot(mapping = aes(x = IncomeTaxRate), data = economic_data) +
   geom_histogram(binwidth = 5, fill = "forestgreen") +
   labs(title = "Histogram of Income Tax Rate", x  = "Income Tax Rate", y = "Frequency")
@@ -975,7 +984,7 @@ economic_data %>%
 
 `IncomeTaxRate` represents the average tax rate applied to individuals on their incomes. The distribution of income tax rate is unimodal and generally symmetric. While its general shape resembles a normal distribution, there are several values of income tax rate which have particularly high frequency such as 10%, 25% and 34-35%. The mode of the distribution occurs at 35%. Since there is relatively minimal skewing, we report the mean and standard deviation as measures of center and spread. The mean income tax rate is 28.23% and the standard deviation of the distribution is 13.4%. 
 
-```{r Corporate Tax Rate}
+```{r Corporate Tax Rate AW}
 economic_data %>%
 select(CorporateTaxRate) %>%
 skim()
@@ -983,7 +992,7 @@ skim()
 
 `CorporateTaxRate` represents the average tax rate applied to corporations on their revenues. The distribution of corporate tax rate is unimodal and only slightly right skewed. The mode of the distribution is around 28-30%. Since there is minimal skewing, we report the mean and the standard deviation as measures of center and spread. The mean corporate tax rate is 23.89% and the standard deviation is 8.88%.
 
-```{r Public Debt}
+```{r Public Debt AW}
 economic_data %>%
 select(PublicDebt) %>%
 skim()
@@ -995,14 +1004,14 @@ skim()
 
 Finally, we can visualize paired scatter plots of the relationship between GDP and each of our predictor variables. This is shown below. Many of the plots are visually difficult and don't offer good information as there are outliers that skew the visualization.
 
-```{r scatterplot matrix GDP growth}
+```{r scatterplot matrix GDP growth AW}
 pairs(GDP ~ TariffRate + Population + Unemployment + Inflation + PublicDebt, data=economic_data, lower.panel = NULL)
 pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=economic_data, lower.panel = NULL)
 ```
 
 To better help us visualize the relationship between the predictor and response variables for most data points, we plotted a scatterplot matrix with most of the outliers removed.
 
-```{r Scatterplot GDP without outliers}
+```{r Scatterplot GDP without outliers AW}
 temp <- economic_data %>%
   filter(GDP<3000 & Inflation < 100)
 
@@ -1012,7 +1021,7 @@ pairs(GDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=tem
 
 Based on the scatterplots above, we observe that most predictor variables do not have a clear linear relationship with the response variable GDP. Thus, we log transform GDP to see if there is a stronger linear relationship. As seen previously, logGDP has a normal distribution while GDP is extremely right skewed.
 
-```{r Scatterplot logGDP}
+```{r Scatterplot logGDP AW}
 pairs(logGDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
@@ -1023,7 +1032,7 @@ Moreover, we also noticed some multicollinearity issues between predictor variab
 
 Within this analysis, we have split the pairs plot for visual convenience, but we did analyze multicollinearity via a full pairs plot with all of our variables in one visualization; unfortunately, due to the large number of variables, this isn't visually convenient and we have split the plots within the markdown.
 
-```{r Boxplots for response vs categorical}
+```{r Boxplots for response vs categorical AW}
 economic_data %>%
 ggplot(mapping = aes(x = Region, y = logGDP)) +
   geom_boxplot(position="dodge") +
@@ -1042,7 +1051,7 @@ For the relationship between the response and categorical variables, the various
 
 We will now mean-center a few of the variables investigated thus far to ensure meaningful intercepts during the regression. 
 
-```{r mean center variables}
+```{r mean center variables AW}
 economic_data <- economic_data %>%
   mutate(TaxBurdenCent = TaxBurden - mean(TaxBurden))
 economic_data <- economic_data %>%
@@ -1055,12 +1064,12 @@ Our approach to model selection is as such: we will be running model selection u
 
 We have three categorical variables here: cat_inflation, Region, and GovInterference. We begin by first setting "Healthy" as the baseline for cat_inflation and "Moderate" as the baseline for GovInterference. These are chosen as the baseline conditions of a healthy inflation rate and moderate government interference are often seen as the norm. Excessive government intervention and unhealthy inflation - whether is it too low, high, or dangerously high - are, in contrast, deviant conditions. 
 
-```{r AW setting healthy as baseline, echo=TRUE}
+```{r AW setting healthy as baseline, echo=FALSE}
 economic_data <- economic_data %>%
   mutate(cat_inflation = relevel(cat_inflation, ref = "Healthy", ordered = FALSE))
 ```
 
-```{r AW setting moderate as baseline, echo=TRUE}
+```{r AW setting moderate as baseline, echo=FALSE}
 economic_data <- economic_data %>%
   mutate(GovInterference = as.factor(GovInterference))
 
@@ -1073,13 +1082,13 @@ economic_data <- economic_data %>%
 
 Below, we conduct model selection using AIC. We first use backward selection then forward selection and check if the final model selected is different.
 
-```{r AW Modeling AIC backward, echo=TRUE}
+```{r AW Modeling AIC backward, echo=FALSE}
 aic_full_model <- lm(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + Region + GovInterference, data = economic_data)
 
 aic_backward_model <- step(aic_full_model, direction = "backward")
 ```
 
-```{r AW Modeling AIC forward, echo=TRUE}
+```{r AW Modeling AIC forward, echo=FALSE}
 aic_null_model <- lm(logGDP ~ 1, data = economic_data)
 
 aic_forward_model <- step(aic_null_model, scope = formula(aic_full_model), direction = "forward")
@@ -1100,14 +1109,14 @@ tidy(aic_backward_model, conf.int="TRUE") %>%
 
 We now conduct model selection using BIC. Same as before, we do both forward and backward selection for comparison.
 
-```{r AW BIC Model backward, echo=TRUE}
+```{r AW BIC Model backward, echo=FALSE}
 regfit_backward <- regsubsets(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + GovInterference + Region, data = economic_data, method="backward")
 
 sel_summary <- summary(regfit_backward)
 coef(regfit_backward, which.min(sel_summary$bic))
 ```
 
-```{r AW BIC Model forward, echo=TRUE}
+```{r AW BIC Model forward, echo=FALSE}
 regfit_forward <- regsubsets(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + GovInterference + Region, data = economic_data, method="forward")
 
 sel_summary <- summary(regfit_forward)
@@ -1121,12 +1130,12 @@ From the above, we see that both the forward and backward selection process rend
 
 We now conduct model selection using adj R^2. Same as before, we do both forward and backward selection for comparison.
 
-```{r AW adjr2 Model backward, echo=TRUE}
+```{r AW adjr2 Model backward, echo=FALSE}
 sel_summary <- summary(regfit_backward)
 coef(regfit_backward, which.max(sel_summary$adjr2))
 ```
 
-```{r AW adjr2 Model forward, echo=TRUE}
+```{r AW adjr2 Model forward, echo=FALSE}
 sel_summary <- summary(regfit_forward)
 coef(regfit_forward, which.max(sel_summary$adjr2))
 ```
@@ -1152,7 +1161,7 @@ The same is observed for the categorical variable Region. The final BIC and adj 
 GovSpendingCent is included only in the AIC equation while TaxBurdenCent is included in both the AIC and adjR2 equations. We conduct a nested F test to finally decide if these two predictor variables are significant to the model with predictor variables which we have decided to include thus far (TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region) based on the above reasoning.
 
 Nested F test for GovSpendingCent:
-```{r AW Nested F for GovSpendingCent, echo=TRUE}
+```{r AW Nested F for GovSpendingCent, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + GovSpendingCent, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
@@ -1162,7 +1171,7 @@ The p value of the nested F test for GovSpendingCent is extremely high and thus 
 
 
 Nested F test for TaxBurdenCent:
-```{r AW Nested F for TaxBurdenCent, echo=TRUE}
+```{r AW Nested F for TaxBurdenCent, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + TaxBurdenCent, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
@@ -1179,28 +1188,28 @@ We do so by first testing for interaction between cat_inflation and the 4 quanti
 
 Interaction between cat_inflation and TariffRate: 
 
-```{r AW Nested F for TariffRate interaction with cat_inflation, echo=TRUE}
+```{r AW Nested F for TariffRate interaction with cat_inflation, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*TariffRate, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between cat_inflation and logpop: 
-```{r AW Nested F for logpop interaction with cat_inflation, echo=TRUE}
+```{r AW Nested F for logpop interaction with cat_inflation, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*logpop, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between cat_inflation and GDPGrowth: 
-```{r AW Nested F for GDPGrowth interaction with cat_inflation, echo=TRUE}
+```{r AW Nested F for GDPGrowth interaction with cat_inflation, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*GDPGrowth, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between cat_inflation and TaxBurdenCent: 
-```{r AW Nested F for TaxBurdenCent interaction with cat_inflation, echo=TRUE}
+```{r AW Nested F for TaxBurdenCent interaction with cat_inflation, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*GDPGrowth, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
@@ -1214,28 +1223,28 @@ We thus include no interaction variables for cat_inflation.
 We now test for interaction between GovInterference and the 4 quantitative variables.
 
 Interaction between GovInterference and TariffRate:
-```{r AW Nested F for tariffrate interaction with GovInterference, echo=TRUE}
+```{r AW Nested F for tariffrate interaction with GovInterference, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TariffRate, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between GovInterference and logpop:
-```{r AW Nested F for logpop interaction with GovInterference, echo=TRUE}
+```{r AW Nested F for logpop interaction with GovInterference, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*logpop, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between GovInterference and GDPGrowth:
-```{r AW Nested F for GDPgrowth interaction with GovInterference, echo=TRUE}
+```{r AW Nested F for GDPgrowth interaction with GovInterference, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*GDPGrowth, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between GovInterference and TaxBurdenCent:
-```{r AW Nested F for TaxBurdenCent interaction with GovInterference, echo=TRUE}
+```{r AW Nested F for TaxBurdenCent interaction with GovInterference, echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TaxBurdenCent, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
@@ -1249,28 +1258,28 @@ Thus, we choose to include the interaction term GovInterference*TariffRate into 
 We now test for interaction between Region and the 4 quantitative variables.
 
 Interaction between Region and TariffRate:
-```{r AW Nested F for TariffRate interaction with region , echo=TRUE}
+```{r AW Nested F for TariffRate interaction with region , echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*TariffRate, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between Region and logpop:
-```{r AW Nested F for logpop interaction with region , echo=TRUE}
+```{r AW Nested F for logpop interaction with region , echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*logpop, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between Region and GDPGrowth:
-```{r AW Nested F for GDPGrowth interaction with region , echo=TRUE}
+```{r AW Nested F for GDPGrowth interaction with region , echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*GDPGrowth, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 Interaction between Region and TaxBurdenCent:
-```{r AW Nested F for taxburdenCent interaction with region , echo=TRUE}
+```{r AW Nested F for taxburdenCent interaction with region , echo=FALSE}
 reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
 full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*TaxBurdenCent, data = economic_data)
 kable(anova(reduced, full), format="markdown", digits = 3)

@@ -6,36 +6,27 @@ RTists
 ## Section 1: Introduction (includes introduction and exploratory data analysis)
 
 GDP is a measure of the total market value of all goods and services
-produced within a country over a period of time. Consequently, a high
-GDP implies that a country has significant economic influence. As
-emerging markets continue to industrialize, the question of how one
-achieves a larger GDP is becoming a critical one in policy selection;
-failure to design policies that encourage GDP growth can cause
-widespread suffering for a country’s population. Consider the case of
-Venezuela, where GDP-friendly policies were shunned and massive unrest
-appeared as a nearly direct consequence. In order to avoid this fate,
-nations must analyze which economic sectors are most influential on GDP
-in order to create guiding policies.
+produced within a country over a period of time. As emerging markets
+continue to industrialize, the question of how one achieves a larger GDP
+is becomes critical to policy selection; failure to design policies that
+encourage GDP growth can cause widespread suffering for a country’s
+population. Consider the case of Venezuela, where GDP-friendly policies
+were shunned and massive unrest appeared as a nearly direct consequence.
 
 The use of multiple linear regression in the study of GDP and GDP growth
 is not novel. The approach has been widely employed by economists. For
-instance, Anghelache et. al has employed multiple linear regression
-model in analyzing the influence of final consumption and gross
-investment on Romania’s GDP over time. Urrutia et. al, on the other
-hand, modeled Philippines’s real GDP using multiple linear regression
-techniques. (Refer to citation of articles in the Citation section)
+instance, Anghelache et. al has employed MLR in analyzing the influence
+of final consumption and gross investment on Romania’s GDP over time.
+Urrutia et. al did the same with Philippines’s real GDP. (Refer to
+Additional Work section for citations)
 
-In this project, we will address the research question of what
-predictors are most useful in predicting GDP and to what extent GDP can
-be predicted successfully; we expect that factors such as population,
-inflation, GovInterference, and TaxBurden will most effectively predict
-GDP. The predictor variables used in our analysis are used in the
+Our research question is this: what variables explain the size of an
+economy’s GDP and to what is the relative explanatory value of each
+variable. The predictor variables used in our analysis are used in the
 calculation of the annual Economic Freedom Index. These predictors are
 not traditionally used in the multiple linear regression of GDP and we
 are interested to know the composite strength of these particular
-predictor variables. If we can get a better understanding of how these
-economic indicators correlate to GDP, it could provide policy makers and
-economists with a path towards sound governmental decisions.
+predictor variables.
 
 ### Exploratory Data Analysis
 
@@ -78,7 +69,7 @@ variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
     ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
     ##      hist
@@ -90,37 +81,15 @@ China who, due to their population and industrial advantages, have
 significantly greater GDP’s than the average country. We will now show a
 graph of GDP with some of these influential points removed.
 
-    ## Skim summary statistics
-    ##  n obs: 173 
-    ##  n variables: 1 
-    ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
-    ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
-    ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
-    ##      hist
-    ##  ▇▁▁▁▁▁▁▁
-
 The distribution of GDP is unimodal and right-skewed. Since the media
 and interquartile range are less influenced by outliers, we report them
 as measures of center and spread. The median of the distribution is 88.9
 billion and the interquartile range is 411.3. THe values are in billions
 of dollars.
 
-This calls for a log-transform of the response variable, whose
-distribution is visualized below:
-
-    ## Skim summary statistics
-    ##  n obs: 173 
-    ##  n variables: 1 
-    ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
-    ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
-    ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
-    ##      hist
-    ##  ▁▃▅▇▆▅▂▁
-
-This distribution of logGDP is normal and unimodal. We will likely use
-this as our response variable. Since there is minimal skewing and the
+This calls for a log-transform of the response variable. This
+distribution of logGDP is normal and unimodal. We will likely use this
+as our response variable. Since there is minimal skewing and the
 distribution is generally symmetric, we report the mean and standard
 deviation as measures of center and spread. The mean logGDP is 4.61 and
 the standard deviation of its distribution is 2.08.
@@ -137,7 +106,7 @@ to predict GDP, starting with
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
     ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
     ##      hist
@@ -154,7 +123,7 @@ deviation of the distribution is 10.17%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
     ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
     ##      hist
@@ -171,7 +140,7 @@ of GDP and the distribution has a standard deviation of 15.52%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -186,7 +155,7 @@ graph of population without these two points below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
     ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
     ##      hist
@@ -205,7 +174,7 @@ apply a logarithmic transform to population below.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
     ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
 
@@ -220,7 +189,7 @@ IQR is 5.6.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
     ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
 
@@ -237,7 +206,7 @@ examine it further in a pairs plot later in the analysis.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
     ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
     ##      hist
@@ -294,7 +263,7 @@ because government interference is a categorical variable.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
     ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
     ##      hist
@@ -314,7 +283,7 @@ the distribution is 13.4%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
     ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
     ##      hist
@@ -331,7 +300,7 @@ corporate tax rate is 23.89% and the standard deviation is 8.88%.
     ##  n obs: 173 
     ##  n variables: 1 
     ## 
-    ## ── Variable type:numeric ───────────────────────────────────────────────────────────────────────────────
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
     ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
     ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
     ##      hist
@@ -1751,6 +1720,402 @@ without having to resort to these short-term measures.
 
 ## Section 5: Additional Work
 
+### Citations
+
+<https://www.heritage.org/index/ranking>
+
+<https://ideas.repec.org/a/rsr/supplm/v61y2013i1p96-104.html>
+
+<https://iopscience.iop.org/article/10.1088/1742-6596/820/1/012008>
+
+### Detailed Discussion on EDA for every variable
+
+GDP is a measure of the total market value of all goods and services
+produced within a country over a period of time. Consequently, a high
+GDP implies that a country has significant economic influence. As
+emerging markets continue to industrialize, the question of how one
+achieves a larger GDP is becoming a critical one in policy selection;
+failure to design policies that encourage GDP growth can cause
+widespread suffering for a country’s population. Consider the case of
+Venezuela, where GDP-friendly policies were shunned and massive unrest
+appeared as a nearly direct consequence. In order to avoid this fate,
+nations must analyze which economic sectors are most influential on GDP
+in order to create guiding policies.
+
+The use of multiple linear regression in the study of GDP and GDP growth
+is not novel. The approach has been widely employed by economists. For
+instance, Anghelache et. al has employed multiple linear regression
+model in analyzing the influence of final consumption and gross
+investment on Romania’s GDP over time. Urrutia et. al, on the other
+hand, modeled Philippines’s real GDP using multiple linear regression
+techniques. (Refer to citation of articles in the Citation section)
+
+In this project, we will address the research question of what
+predictors are most useful in predicting GDP and to what extent GDP can
+be predicted successfully; we expect that factors such as population,
+inflation, GovInterference, and TaxBurden will most effectively predict
+GDP. The predictor variables used in our analysis are used in the
+calculation of the annual Economic Freedom Index. These predictors are
+not traditionally used in the multiple linear regression of GDP and we
+are interested to know the composite strength of these particular
+predictor variables. If we can get a better understanding of how these
+economic indicators correlate to GDP, it could provide policy makers and
+economists with a path towards sound governmental decisions.
+
+### Exploratory Data Analysis
+
+We will begin our exploratory data analysis by cleaning the data. We
+notice a total of 12 countries which have a “NA” value for one or more
+of the predictor variables that we will investigate. We will omit these
+entries from our analysis, but we expect this to add a slight bias to
+our results; the below 12 countries are all developing and thus our
+model may fit developed countries better than developing countries.
+However, the 12 countries below also have unusual governmental and
+economic structures as well as poor data quality associated with them;
+including them in the model may also significantly influence the
+coefficients associated with predictors. Thus, we have decided to leave
+them out of the model.
+
+    ## # A tibble: 0 x 1
+    ## # … with 1 variable: Country <chr>
+
+#### Response Variable
+
+Now that the data has been cleaned, we can begin exploring our response
+variable.
+
+![](final-writeup_files/figure-gfm/gdp-vis%20AW-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
+    ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of GDP shows significant right skew, which is
+reasonable and expected as the world has countries such as the US and
+China who, due to their population and industrial advantages, have
+significantly greater GDP’s than the average country. We will now show a
+graph of GDP with some of these influential points removed.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n   mean      sd  p0  p25  p50   p75    p100
+    ##       GDP       0      173 173 729.71 2486.04 0.6 28.3 88.9 439.6 23159.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of GDP is unimodal and right-skewed. Since the media
+and interquartile range are less influenced by outliers, we report them
+as measures of center and spread. The median of the distribution is 88.9
+billion and the interquartile range is 411.3. THe values are in billions
+of dollars.
+
+This calls for a log-transform of the response variable, whose
+distribution is visualized below:
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##  variable missing complete   n mean   sd    p0  p25  p50  p75  p100
+    ##    logGDP       0      173 173 4.61 2.08 -0.51 3.34 4.49 6.09 10.05
+    ##      hist
+    ##  ▁▃▅▇▆▅▂▁
+
+This distribution of logGDP is normal and unimodal. We will likely use
+this as our response variable. Since there is minimal skewing and the
+distribution is generally symmetric, we report the mean and standard
+deviation as measures of center and spread. The mean logGDP is 4.61 and
+the standard deviation of its distribution is 2.08.
+
+#### Predictor Variables
+
+We will now look at each of the 12 predictor variables that we will use
+to predict GDP, starting with
+`TaxBurden`.
+
+![](final-writeup_files/figure-gfm/EDA1%20AW-1.png)<!-- -->![](final-writeup_files/figure-gfm/EDA1%20AW-2.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd  p0 p25  p50  p75 p100
+    ##  TaxBurden       0      173 173 22.19 10.25 1.6  14 20.7 30.2   47
+    ##      hist
+    ##  ▂▅▇▆▅▅▂▂
+
+`TaxBurden` represents the amount of tax paid by the citizens of a
+country as a proportion of the GDP of that country. The distribution of
+tax burden is unimodal and only slightly right skewed. The mode is
+around 14-15%. In general, the tax burden across countries appears
+normally distributed. The mean tax burden is 22.19% and the standard
+deviation of the distribution is 10.17%.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##     variable missing complete   n mean    sd   p0  p25  p50  p75 p100
+    ##  GovSpending       0      173 173 32.2 10.67 10.6 23.6 31.6 39.8 64.2
+    ##      hist
+    ##  ▂▇▇▇▇▃▁▁
+
+`GovSpending` represents the amount spent by the government as a
+percentage of the GDP of the country. The distribution of government
+spending is generally symmmetric and unimodal. The mode of the
+distribution is around 25%. Since there is minimal skewing, we report
+the mean and standard deviation. The mean government spending is 33.87%
+of GDP and the distribution has a standard deviation of 15.52%.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+`Population` represents the number of individuals living in a country.
+The distribution of population is unimodal and right-skewed. Because
+there are two influential points in “population”, we will plot another
+graph of population without these two points below.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean     sd  p0 p25 p50  p75   p100
+    ##  Population       0      173 173 42.16 149.89 0.1 2.9 9.5 31.4 1390.1
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+The distribution of population is unimodal and right-skewed. The mode of
+the distribution is around 1 million. Since the median and IQR are more
+robust to skewing, we report them instead as a measures of center and
+spread. The median is 9.15 and the IQR is 26.85. Additionally, when
+conducting our analysis, we may need to apply a log-transform to make
+the distribution of the variable more normal; based on a pairs plot,
+population has a logarithmic relationship with logGDP and thus we will
+apply a logarithmic transform to population below.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##      variable missing complete   n mean   sd  p0 p25 p50 p75 p100     hist
+    ##  Unemployment       0      173 173 7.27 5.67 0.1 3.7 5.5 9.3 27.3 ▆▇▅▂▁▁▁▁
+
+`Unemployment` represents the percantage of the workforce of a country
+that is currently not working. The distribution of unemployment is
+unimodal and right-skewed. The mode of the distribution is around 4-5%.
+Since the median and IQR are more robust to skewing, we report them
+instead as a measures of center and spread. The median is 5.7 and the
+IQR is 5.6.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n mean  sd p0 p25 p50 p75 p100     hist
+    ##  TariffRate       0      173 173 5.61 4.4  0   2 4.2 8.7 18.6 ▇▅▃▃▃▁▁▁
+
+`TariffRate` represents the average percentage tax on imports that the
+country has outstanding as of 2019. The distribution of tariff rate is
+generally right skewed and unimodal. There are several outlier economies
+with 50% tariff rate such as Central African Republic and North Korea.
+The mode of the distribution is around 2%. The median tariff rate is 4.3
+and the interquartile range of the distribution is 6.7. Because of this
+right-skew, log-transforming this variable might be necessary; we will
+examine it further in a pairs plot later in the analysis.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##   variable missing complete   n  mean    sd   p0 p25 p50 p75   p100
+    ##  Inflation       0      173 173 10.87 82.56 -0.9 1.3 2.8 5.5 1087.5
+    ##      hist
+    ##  ▇▁▁▁▁▁▁▁
+
+    ## # A tibble: 4 x 2
+    ## # Groups:   cat_inflation [4]
+    ##   cat_inflation        n
+    ##   <chr>            <int>
+    ## 1 Dangerously High    39
+    ## 2 Healthy             62
+    ## 3 High                42
+    ## 4 Low                 30
+
+![](final-writeup_files/figure-gfm/EDA2%20AW-1.png)<!-- -->![](final-writeup_files/figure-gfm/EDA2%20AW-2.png)<!-- -->
+
+`Inflation` represents the change in prices of goods and services in a
+year in the country. The first distribution of inflation rates includes
+all outliers. Because of the size and resolution of the diagram, the
+distribution of most economies are not visible. The second diagram shows
+the distribution of inflation rates without the outlier with more than
+1000% inflation. The distribution of inflation rate is generally
+unimodal and right skewed. The mode of the distribution is around 2%.
+Given significant skewing, we report the median and IQR as measures of
+center and spread. The median inflation rate is 2.7% and the IQR is 4%.
+Because inflation can vary widely between countries, we have recoded it
+into a categorical variable that better captures whether a country’s
+inflation is healthy or unhealthy. Above is a plot to show the frequency
+of each level of inflation.
+
+`Region` represents the geographical continent/area that the country is
+situated in. The bar graph and piechart of `Region` shows that there is
+a relatively equal representation of countries from different regions of
+the world. The Americas, Asia-Pacific, Sub-Saharan Africa, and Europe
+each represent around 25% of all the countries in the data. The smallest
+representation is from the Middle East and North Africa at 8.1%. We are
+not too concerned with the distribution because there are 195 countries
+in the world and our data has 173 countries. The difference in
+distribution across region is likely to be largely reflective of the
+actual geographical distribution of nation-states.
+
+`GovInterference` represents the amount of interference that the
+government has in the economy as determined by the World Economic Index.
+The distribution of government interference shows that most countries
+either have extensive or moderate government inteference. The mode of
+the distribution is moderate government interference. Economies with
+limited and repressive intervention are significanly lesser, each having
+around 10-15 countries. We do not report the center or spread here
+because government interference is a categorical
+variable.
+
+![](final-writeup_files/figure-gfm/Income%20Tax%20Rate%20AW-1.png)<!-- -->
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##       variable missing complete   n  mean    sd p0 p25 p50 p75 p100
+    ##  IncomeTaxRate       0      173 173 28.78 13.32  0  20  30  35   60
+    ##      hist
+    ##  ▂▅▂▇▇▅▂▁
+
+`IncomeTaxRate` represents the average tax rate applied to individuals
+on their incomes. The distribution of income tax rate is unimodal and
+generally symmetric. While its general shape resembles a normal
+distribution, there are several values of income tax rate which have
+particularly high frequency such as 10%, 25% and 34-35%. The mode of the
+distribution occurs at 35%. Since there is relatively minimal skewing,
+we report the mean and standard deviation as measures of center and
+spread. The mean income tax rate is 28.23% and the standard deviation of
+the distribution is 13.4%.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##          variable missing complete   n  mean   sd p0 p25 p50 p75 p100
+    ##  CorporateTaxRate       0      173 173 23.95 8.89  0  20  25  30   50
+    ##      hist
+    ##  ▁▂▂▇▆▂▁▁
+
+`CorporateTaxRate` represents the average tax rate applied to
+corporations on their revenues. The distribution of corporate tax rate
+is unimodal and only slightly right skewed. The mode of the distribution
+is around 28-30%. Since there is minimal skewing, we report the mean and
+the standard deviation as measures of center and spread. The mean
+corporate tax rate is 23.89% and the standard deviation is 8.88%.
+
+    ## Skim summary statistics
+    ##  n obs: 173 
+    ##  n variables: 1 
+    ## 
+    ## ── Variable type:numeric ────────────────────────────────────────────────────────────────────────────────
+    ##    variable missing complete   n  mean   sd p0  p25  p50  p75  p100
+    ##  PublicDebt       0      173 173 56.46 33.8  0 35.2 49.4 69.9 236.4
+    ##      hist
+    ##  ▃▇▃▂▁▁▁▁
+
+`PublicDebt` represents the debt of the country as a percentage of the
+country’s GDP. The distribution of public debt is unimodal and right
+skewed. There are several outliers with public debt more than 175%. The
+mode of the distribution is around 30%. The median public debt is 49.4%
+and the interquartile range is 35%.
+
+### Multivariate Exploration
+
+Finally, we can visualize paired scatter plots of the relationship
+between GDP and each of our predictor variables. This is shown below.
+Many of the plots are visually difficult and don’t offer good
+information as there are outliers that skew the
+visualization.
+
+![](final-writeup_files/figure-gfm/scatterplot%20matrix%20GDP%20growth%20AW-1.png)<!-- -->![](final-writeup_files/figure-gfm/scatterplot%20matrix%20GDP%20growth%20AW-2.png)<!-- -->
+
+To better help us visualize the relationship between the predictor and
+response variables for most data points, we plotted a scatterplot matrix
+with most of the outliers
+removed.
+
+![](final-writeup_files/figure-gfm/Scatterplot%20GDP%20without%20outliers%20AW-1.png)<!-- -->![](final-writeup_files/figure-gfm/Scatterplot%20GDP%20without%20outliers%20AW-2.png)<!-- -->
+
+Based on the scatterplots above, we observe that most predictor
+variables do not have a clear linear relationship with the response
+variable GDP. Thus, we log transform GDP to see if there is a stronger
+linear relationship. As seen previously, logGDP has a normal
+distribution while GDP is extremely right
+skewed.
+
+![](final-writeup_files/figure-gfm/Scatterplot%20logGDP%20AW-1.png)<!-- -->![](final-writeup_files/figure-gfm/Scatterplot%20logGDP%20AW-2.png)<!-- -->
+
+Based on the scatterplots of the response variables against the
+quantitative predictor variables, we see that there is now a much
+stronger a linear relationship between the two. Particularly, we note
+that the logGDP against population scatterplot shows a curved
+distribution which resembles a logarithimic function. This is why we
+transformed population into the logpop variable, which has a linear
+relationship with GDP. Furthermore, the pairs plot validates all of the
+transformations we have applied in the univariate analysis, so they will
+remain in place for our regression.
+
+Moreover, we also noticed some multicollinearity issues between
+predictor variables. In specific, the relationship between GovSpending
+and TaxBurden appears very strongly if not almost linear. Other
+variables suspect of multicollinearity problems include tariff rate and
+unemployment as well as tariff rate and unemployment.
+
+Within this analysis, we have split the pairs plot for visual
+convenience, but we did analyze multicollinearity via a full pairs plot
+with all of our variables in one visualization; unfortunately, due to
+the large number of variables, this isn’t visually convenient and we
+have split the plots within the
+markdown.
+
+![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical%20AW-1.png)<!-- -->![](final-writeup_files/figure-gfm/Boxplots%20for%20response%20vs%20categorical%20AW-2.png)<!-- -->
+
+For the relationship between the response and categorical variables, the
+various boxplots suggest that there are generally normally distributed
+with minimal skewing. This means that a linear regression between log
+GDP and the categorical variables of region and government interference
+are appropriate.
+
+We will now mean-center a few of the variables investigated thus far to
+ensure meaningful intercepts during the regression.
+
 ### Detailed Discussion on Model Selection Proess
 
 Our approach to model selection is as such: we will be running model
@@ -1766,31 +2131,11 @@ moderate government interference are often seen as the norm. Excessive
 government intervention and unhealthy inflation - whether is it too low,
 high, or dangerously high - are, in contrast, deviant conditions.
 
-``` r
-economic_data <- economic_data %>%
-  mutate(cat_inflation = relevel(cat_inflation, ref = "Healthy", ordered = FALSE))
-```
-
-``` r
-economic_data <- economic_data %>%
-  mutate(GovInterference = as.factor(GovInterference))
-
-economic_data <- economic_data %>%
-  mutate(GovInterference = relevel(GovInterference, ref = "Moderate", ordered = FALSE))
-```
-
 #### Selection using AIC
 
 Below, we conduct model selection using AIC. We first use backward
 selection then forward selection and check if the final model selected
-is
-different.
-
-``` r
-aic_full_model <- lm(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + Region + GovInterference, data = economic_data)
-
-aic_backward_model <- step(aic_full_model, direction = "backward")
-```
+is different.
 
     ## Start:  AIC=-100.41
     ## logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + 
@@ -1864,12 +2209,6 @@ aic_backward_model <- step(aic_full_model, direction = "backward")
     ## - GDPGrowth         1      8.83  88.14  -88.662
     ## - Region            4     27.65 106.96  -61.184
     ## - logpop            1    467.16 546.47  226.983
-
-``` r
-aic_null_model <- lm(logGDP ~ 1, data = economic_data)
-
-aic_forward_model <- step(aic_null_model, scope = formula(aic_full_model), direction = "forward")
-```
 
     ## Start:  AIC=254.65
     ## logGDP ~ 1
@@ -2046,15 +2385,7 @@ R^2.
 #### Selection using BIC
 
 We now conduct model selection using BIC. Same as before, we do both
-forward and backward selection for
-comparison.
-
-``` r
-regfit_backward <- regsubsets(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + GovInterference + Region, data = economic_data, method="backward")
-
-sel_summary <- summary(regfit_backward)
-coef(regfit_backward, which.min(sel_summary$bic))
-```
+forward and backward selection for comparison.
 
     ##                   (Intercept)                    TariffRate 
     ##                    3.84221675                   -0.05541749 
@@ -2064,13 +2395,6 @@ coef(regfit_backward, which.min(sel_summary$bic))
     ##                   -0.57317368                   -0.08294272 
     ##      GovInterferenceExtensive      RegionSub-Saharan Africa 
     ##                   -0.66337220                   -1.13792903
-
-``` r
-regfit_forward <- regsubsets(logGDP ~ TariffRate + logpop + Unemployment + cat_inflation + PublicDebt + GovSpendingCent + IncomeTaxRate + CorporateTaxRate + TaxBurdenCent + GDPGrowth + GovInterference + Region, data = economic_data, method="forward")
-
-sel_summary <- summary(regfit_forward)
-coef(regfit_forward, which.min(sel_summary$bic))
-```
 
     ##                   (Intercept)                    TariffRate 
     ##                    3.84221675                   -0.05541749 
@@ -2089,11 +2413,6 @@ process rendered the same model.
 We now conduct model selection using adj R^2. Same as before, we do both
 forward and backward selection for comparison.
 
-``` r
-sel_summary <- summary(regfit_backward)
-coef(regfit_backward, which.max(sel_summary$adjr2))
-```
-
     ##                   (Intercept)                    TariffRate 
     ##                    3.74431705                   -0.04998866 
     ##                        logpop cat_inflationDangerously High 
@@ -2104,11 +2423,6 @@ coef(regfit_backward, which.max(sel_summary$adjr2))
     ##                   -0.08029032                   -0.62499945 
     ##      RegionSub-Saharan Africa 
     ##                   -1.12006020
-
-``` r
-sel_summary <- summary(regfit_forward)
-coef(regfit_forward, which.max(sel_summary$adjr2))
-```
 
     ##                   (Intercept)                    TariffRate 
     ##                    3.74431705                   -0.04998866 
@@ -2187,14 +2501,7 @@ to the model with predictor variables which we have decided to include
 thus far (TariffRate + logpop + GDPGrowth + cat\_inflation +
 GovInterference + Region) based on the above reasoning.
 
-Nested F test for
-GovSpendingCent:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + GovSpendingCent, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Nested F test for GovSpendingCent:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
@@ -2208,14 +2515,7 @@ is also highly contested in economic literature depending on which
 school of thought you subscribe to. That it is not a significant
 determinant of GDP reflect this ambuiguity in academic literature.
 
-Nested F test for
-TaxBurdenCent:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + cat_inflation + GovInterference + Region + TaxBurdenCent, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Nested F test for TaxBurdenCent:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
@@ -2233,56 +2533,28 @@ we will conducted nested F tests.
 We do so by first testing for interaction between cat\_inflation and the
 4 quantitative variables.
 
-Interaction between cat\_inflation and
-TariffRate:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*TariffRate, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between cat\_inflation and TariffRate:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    157 | 80.249 |  3 |     1.724 | 1.124 |   0.341 |
 
-Interaction between cat\_inflation and
-logpop:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*logpop, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between cat\_inflation and logpop:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    157 | 81.133 |  3 |      0.84 | 0.542 |   0.654 |
 
-Interaction between cat\_inflation and
-GDPGrowth:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*GDPGrowth, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between cat\_inflation and GDPGrowth:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    157 | 80.441 |  3 |     1.533 | 0.997 |   0.396 |
 
-Interaction between cat\_inflation and
-TaxBurdenCent:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent+ cat_inflation + GovInterference + Region + cat_inflation*GDPGrowth, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between cat\_inflation and TaxBurdenCent:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
@@ -2298,56 +2570,28 @@ We thus include no interaction variables for cat\_inflation.
 We now test for interaction between GovInterference and the 4
 quantitative variables.
 
-Interaction between GovInterference and
-TariffRate:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TariffRate, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between GovInterference and TariffRate:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    159 | 80.259 |  1 |     1.714 | 3.396 |   0.067 |
 
-Interaction between GovInterference and
-logpop:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*logpop, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between GovInterference and logpop:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    159 | 80.833 |  1 |      1.14 | 2.242 |   0.136 |
 
-Interaction between GovInterference and
-GDPGrowth:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*GDPGrowth, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between GovInterference and GDPGrowth:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    159 | 81.944 |  1 |     0.029 | 0.056 |   0.813 |
 
-Interaction between GovInterference and
-TaxBurdenCent:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + GovInterference*TaxBurdenCent, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between GovInterference and TaxBurdenCent:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
@@ -2370,56 +2614,28 @@ GovInterference\*TariffRate into the final model.
 We now test for interaction between Region and the 4 quantitative
 variables.
 
-Interaction between Region and
-TariffRate:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*TariffRate, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between Region and TariffRate:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    156 | 74.820 |  4 |     7.153 | 3.729 |   0.006 |
 
-Interaction between Region and
-logpop:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*logpop, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between Region and logpop:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    156 | 80.486 |  4 |     1.487 | 0.721 |   0.579 |
 
-Interaction between Region and
-GDPGrowth:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*GDPGrowth, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between Region and GDPGrowth:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
 |    160 | 81.973 | NA |        NA |    NA |      NA |
 |    156 | 78.894 |  4 |     3.079 | 1.522 |   0.198 |
 
-Interaction between Region and
-TaxBurdenCent:
-
-``` r
-reduced <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region, data = economic_data)
-full <- lm(logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + cat_inflation + GovInterference + Region + Region*TaxBurdenCent, data = economic_data)
-kable(anova(reduced, full), format="markdown", digits = 3)
-```
+Interaction between Region and TaxBurdenCent:
 
 | Res.Df |    RSS | Df | Sum of Sq |     F | Pr(\>F) |
 | -----: | -----: | -: | --------: | ----: | ------: |
