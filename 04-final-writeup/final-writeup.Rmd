@@ -203,7 +203,8 @@ d <- ggplot(data = economic_data, mapping = aes(x = Region)) +
   labs(x = "Region",
        y = "Frequency",
        title = "Distribution of Region") +
-    theme(axis.text.x = element_text(size = 5))+  theme_classic()
+    theme(axis.text.x = element_text(size = 5))+  theme_classic() +
+  coord_flip()
 
 
 e <- ggplot(mapping = aes(x = "", y = prop, fill = Region), data = regional) +
