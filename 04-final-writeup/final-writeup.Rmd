@@ -84,13 +84,9 @@ c <- ggplot(data = economic_data, mapping = aes(x = log(GDP))) +
        title = "Distribution of log-GDPs")
 
 grid.arrange(a, b, c, nrow =2, ncol=2)
-
-economic_data %>%
-select(GDP) %>%
-skim()
 ```
 
-From our EDA, we decided to log-transform the response variable since the histogram of GDP (without outlier) shows a unimodal and right-skewed distribution. The logGDP distribution on the other hand is unimodal and symmetric. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. LogGDP's summary statistics are printed below.
+From our EDA, we decided to log-transform the response variable since the histogram of GDP (even without outlier) shows a unimodal and right-skewed distribution. The logGDP distribution on the other hand is unimodal and symmetric. The mean logGDP is 4.61 and the standard deviation of its distribution is 2.08. LogGDP's summary sstatistics are printed below.
 
 ```{r log-gdp-vis}
 economic_data %>%
@@ -100,7 +96,7 @@ skim()
 
 #### Univariate Analysis of Predictor Variables
 
-The quantitative predictor variables are TariffRate, IncomeTaxRate, CorporateTaxRate, TaxBurden, GovSpending, Population, GDPGrowth, Unemployment, and PublicDebt. Out of these, we will discuss two predictor variables, Population and Inflation. (Discussion of the rest of the variables will be in Additional Work).
+The quantitative predictor variables are TariffRate, IncomeTaxRate, CorporateTaxRate, TaxBurden, GovSpending, Population, GDPGrowth, Unemployment, and PublicDebt. Out of these, we will discuss two predictor variables that need to be modified prior to building the model: Population and Inflation. (Discussion of the rest of the variables will be in Additional Work).
 The distribution of each of the quantitative predictor variables is shown below.
 
 ```{r EDA1}
@@ -142,11 +138,10 @@ g <- ggplot(mapping = aes(x = TariffRate), data = economic_data) +
   geom_histogram(binwidth = 1, fill = "forestgreen") +
   labs(title = "Histogram of Tariff Rate", x  = "Tariff Rate", y = "Frequency")
 
-grid.arrange(a, b, c, d, nrow = 2, ncol=2)
-grid.arrange(f, g, nrow = 2, ncol=2)
+grid.arrange(a, b, c, d, f, g, nrow = 3, ncol=2)
 ```
 
-From this histogram of population without outliers, the distribution of population is unimodal and right-skewed. The median is 9.15 and the IQR is 26.85. Based on the subsequent pairs plot (in multivariate EDA), population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below. The summary statistics of this transformed variable are also printed.
+From the histogram of population without outliers above, the distribution of population is unimodal and right-skewed. The median is 9.15 and the IQR is 26.85. Based on the subsequent pairs plot (in multivariate EDA), population has a logarithmic relationship with logGDP and thus we will apply a logarithmic transform to population below. The summary statistics of this transformed variable are also printed.
 
 ```{r Population without Outlier}
 economic_data <- economic_data %>%
@@ -210,8 +205,7 @@ g <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   labs(title = "Bar Graph of Government Inteference in \n Economy", x  = "Levels of Government Interference", y = "Frequency") + 
   theme(plot.title = element_text(size = 12))
 
-grid.arrange(a, b, d, e, nrow = 2, ncol=2)
-grid.arrange(f, g, nrow = 2, ncol=2)
+grid.arrange(a, b, d, e, f, g, nrow = 3, ncol=2)
 ```
 
 
@@ -255,6 +249,7 @@ ggplot(mapping = aes(x = cat_inflation)) +
 temp <- economic_data %>%
   filter(GDP<3000 & Inflation < 100)
 
+pairs(logGDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt + GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 pairs(logGDP ~ TariffRate + logpop + Population + Unemployment + Inflation + PublicDebt, data=temp, lower.panel = NULL)
 pairs(logGDP ~ GovSpending + IncomeTaxRate + CorporateTaxRate + TaxBurden, data=temp, lower.panel = NULL)
 ```
@@ -266,25 +261,27 @@ There is some multicollinearity issues between predictor variables. The relation
 A similar analysis is conducted between the response and the categorical variables using side-by-side boxplots. 
 
 ```{r Boxplots for response vs categorical}
-economic_data %>%
+a <- economic_data %>%
 ggplot(mapping = aes(x = Region, y = logGDP)) +
   geom_boxplot(position="dodge") +
   labs(title = "Boxplots of log GDP versus Region")+
   theme_classic()
 
-economic_data %>%
+b <- economic_data %>%
 ggplot(mapping = aes(x = GovInterference, y = logGDP))+
   theme_classic() +
   geom_boxplot(position="dodge") +
   labs(title = "Boxplots of log GDP versus Government Interference")+
   theme_classic()
 
-economic_data %>%
+c <- economic_data %>%
 ggplot(mapping = aes(x = cat_inflation, y = logGDP))+
   theme_classic() +
   geom_boxplot(position="dodge") +
   labs(title = "Boxplots of log GDP versus Inflation")+
   theme_classic()
+
+grid.arrange(a, b, c, nrow = 2, ncol=2)
 ```
 
 In each case, it seems apparent that across the different levels of each of our three categorical variables, the mean logGDP values tend to be different from one another. This suggests that these variables, or at least some of their levels, may end up in our final model.
