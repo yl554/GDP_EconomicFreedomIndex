@@ -106,10 +106,8 @@ Inflation. The distribution of these variables is printed below.
 
 `Inflation` represents the change in prices of goods and services in a
 year in the country. The distribution of inflation rate is generally
-unimodal and right skewed. The mode of the distribution is around 2%.
-Given significant skewing, we report the median and IQR as measures of
-center and spread. The median inflation rate is 2.7% and the IQR is 4%.
-These summary statistics are printed below.
+unimodal and right skewed. The median inflation rate is 2.7% and the IQR
+is 4%. These summary statistics are printed below.
 
     ## Skim summary statistics
     ##  n obs: 173 
@@ -131,7 +129,8 @@ The categories are as follows: Inflation \> 6% = “Dangerously High”
 Inflation 3-4% = “High” Inflation 1-3% = “Healthy” Inflation \<1% =
 “Low”
 
-This categorization is informed
+This categorization is informed by extant economic literature (Refer to
+Citations)
 
     ## # A tibble: 4 x 2
     ## # Groups:   cat_inflation [4]

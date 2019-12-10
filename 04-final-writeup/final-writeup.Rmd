@@ -190,7 +190,7 @@ b <- ggplot(data = economic_data_temp, mapping = aes(x = Inflation)) +
   geom_histogram(binwidth = 1, fill = "forestgreen") + 
   labs(x = "Inflation (%)",
        y = "Frequency",
-       title = "Distribution of Inflation without Outlier") + 
+       title = "Distribution of Inflation w/o Outlier") + 
   theme(plot.title = element_text(size = 12))+  theme_classic()
 
 
@@ -219,14 +219,14 @@ economic_data <- economic_data %>%
 
 g <- ggplot(mapping = aes(x = GovInterference), data = economic_data) +
   geom_bar(fill = "forestgreen") +
-  labs(title = "Bar Graph of Government Inteference in \n Economy", x  = "Levels of Government Interference", y = "Frequency") + 
+  labs(title = "Bar Graph of GovInterference", x  = "Levels of Government Interference", y = "Frequency") + 
   theme(plot.title = element_text(size = 12))+  theme_classic()
 
 
 grid.arrange(a, b, d, e, f, g, nrow = 3, ncol=2)
 ```
 
-`Inflation` represents the change in prices of goods and services in a year in the country. The distribution of inflation rate is generally unimodal and right skewed. The mode of the distribution is around 2%. Given significant skewing, we report the median and IQR as measures of center and spread. The median inflation rate is 2.7% and the IQR is 4%. These summary statistics are printed below.
+`Inflation` represents the change in prices of goods and services in a year in the country. The distribution of inflation rate is generally unimodal and right skewed. The median inflation rate is 2.7% and the IQR is 4%. These summary statistics are printed below.
 
 ```{r inflation-sum}
 economic_data %>%
@@ -242,7 +242,7 @@ Inflation 3-4% = "High"
 Inflation 1-3% = "Healthy"
 Inflation <1% = "Low"
 
-This categorization is informed 
+This categorization is informed by extant economic literature (Refer to Citations)
 ```{r inflation-eda}
 economic_data <- economic_data %>%
   mutate(cat_inflation = case_when(
@@ -267,7 +267,6 @@ ggplot(mapping = aes(x = cat_inflation)) +
 
 ```
 
-
 ### Multivariate Exploration
 
 ```{r Scatterplot logGDP}
@@ -290,14 +289,17 @@ a <- economic_data %>%
 ggplot(mapping = aes(x = Region, y = logGDP)) +
   geom_boxplot(position="dodge") +
   labs(title = "Boxplots of log GDP versus Region")+
-  theme_classic()
+  theme_classic() +
+  coord_flip()
 
 b <- economic_data %>%
 ggplot(mapping = aes(x = GovInterference, y = logGDP))+
   theme_classic() +
   geom_boxplot(position="dodge") +
   labs(title = "Boxplots of log GDP versus Government Interference")+
-  theme_classic()
+  theme_classic() +
+  theme(plot.title = element_text(size = 8))+  theme_classic()
+
 
 c <- economic_data %>%
 ggplot(mapping = aes(x = cat_inflation, y = logGDP))+
@@ -397,7 +399,7 @@ One may suspect non-independence to be violated due to spatial correlation. We i
 a <- ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
-  labs(title="Scatterplot of Residuals vs. Predicted Values")+
+  labs(title="Scatterplot of Resid. vs. Predicted Values")+
   theme_classic() + 
   theme(plot.title = element_text(size = 11))
 
@@ -406,7 +408,7 @@ b <- ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) +
   geom_hline(yintercept=0,color="red") +
   labs(x = "TariffRate", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. TariffRate")+
+       title = "Scatterplot of Resid. vs. TariffRate")+
   theme_classic() + 
   theme(plot.title = element_text(size = 11))
 
@@ -415,7 +417,7 @@ c <- ggplot(data=economic_data,aes(x=logpop, y=residuals)) +
   geom_hline(yintercept=0,color="red") +
   labs(x = "log of Population", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. log of Population")+
+       title = "Scatterplot of Resid. vs. log of Population")+
   theme_classic() + 
   theme(plot.title = element_text(size = 11))
 
@@ -424,7 +426,7 @@ d <- ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) +
   geom_hline(yintercept=0,color="red") +
   labs(x = "CorporateTaxRate", 
        y = "Residuals",
-       title = "Scatterplot of Residuals vs. CorporateTaxRate")+
+       title = "Scatterplot of Resid. vs. CorporateTaxRate")+
   theme_classic() + 
   theme(plot.title = element_text(size = 11))
 
@@ -642,7 +644,7 @@ b <- ggplot(data = economic_data, mapping = aes(x = GovSpending)) +
   geom_histogram(binwidth = 3, fill = "forestgreen") + 
   labs(x = "Government Spending (% of Country's GDP)",
        y = "Frequency",
-       title = "Distribution of Government Spending") + 
+       title = "Dist. of GovSpending") + 
   theme(plot.title = element_text(size = 12))+  theme_classic()
 
 
@@ -659,7 +661,7 @@ d <- ggplot(data = economic_data_temp, mapping = aes(x = Population)) +
   geom_histogram(binwidth = 10, fill = "forestgreen") + 
   labs(x = "Population (Million)",
        y = "Frequency",
-       title = "Distribution of Population (No Outliers)") + 
+       title = "Dist. of Population (No Outliers)") + 
   theme(plot.title = element_text(size = 12))+  theme_classic()
 
 
