@@ -392,15 +392,13 @@ One may suspect non-independence to be violated due to spatial correlation. We i
 #### Constant Variance & Linearity
 
 ```{r residual vs. predicted}
-ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
+a <- ggplot(data=economic_data,aes(x=predicted, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(title="Residuals vs. Predicted Values")+
   theme_classic()
-```
 
-```{r residuals vs. predictor variables}
-ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
+b <- ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "TariffRate", 
@@ -408,7 +406,7 @@ ggplot(data=economic_data,aes(x=TariffRate, y=residuals)) +
        title = "Scatterplot of Residuals vs. TariffRate")+
   theme_classic()
 
-ggplot(data=economic_data,aes(x=logpop, y=residuals)) + 
+c <- ggplot(data=economic_data,aes(x=logpop, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "log of Population", 
@@ -416,7 +414,7 @@ ggplot(data=economic_data,aes(x=logpop, y=residuals)) +
        title = "Scatterplot of Residuals vs. log of Population")+
   theme_classic()
 
-ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) + 
+d <- ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "CorporateTaxRate", 
@@ -424,7 +422,7 @@ ggplot(data=economic_data,aes(x=TaxBurdenCent, y=residuals)) +
        title = "Scatterplot of Residuals vs. CorporateTaxRate")+
   theme_classic()
 
-ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) + 
+e <- ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "GDPGrowth", 
@@ -432,14 +430,14 @@ ggplot(data=economic_data,aes(x=GovInterference, y=residuals)) +
        title = "Scatterplot of Residuals vs. GovInterference")+
   theme_classic()
 
-ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
+f <- ggplot(data=economic_data,aes(x=cat_inflation,y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Inflation", 
        y="Residuals")+
   theme_classic()
 
-ggplot(data=economic_data,aes(x=Region, y=residuals)) + 
+g <- ggplot(data=economic_data,aes(x=Region, y=residuals)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red") +
   labs(x = "Region", 
@@ -447,14 +445,17 @@ ggplot(data=economic_data,aes(x=Region, y=residuals)) +
        title = "Scatterplot of Residuals vs. Region")+
   theme_classic()
 
-ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=Region)) + 
+grid.arrange(a, b, c, d, nrow = 2, ncol=2)
+grid.arrange(e, f, g, nrow = 2, ncol=2)
+
+h <- ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=Region)) + 
   geom_point() +
   labs(x = "TariffRate",
        y = "Residuals",
        color = "Region")+
   theme_classic()
 
-ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=GovInterference)) + 
+i <- ggplot(data = economic_data, mapping=aes(x=TariffRate, y=residuals, color=GovInterference)) + 
   geom_point() +
   labs(x = "TariffRate",
        y = "Residuals",
@@ -467,18 +468,20 @@ From the residual plots above, we conclude the constant variance and linearity a
 #### Normality Check
 
 ```{r residual normality check}
-ggplot(data = economic_data, aes(x = residuals)) +
+a <- ggplot(data = economic_data, aes(x = residuals)) +
   geom_histogram(binwidth = 0.2)+
   labs(x = "Residuals",
        y = "Frequency of Given Residual",
        title = "Histogram of Residuals")+
   theme_classic()
 
-ggplot(data=economic_data, aes(sample=residuals)) + 
+b <- ggplot(data=economic_data, aes(sample=residuals)) + 
   stat_qq() + 
   stat_qq_line() +
   labs(title="Normal QQ Plot of Residuals")+
   theme_classic()
+
+grid.arrange(a, b, nrow = 1, ncol=2)
 ```
 
 The normality assumption is satisfied since the distribution of residuals appears to be unimodal and approximately normal. Also, the normal QQ plot of points fit the theoretical line very well.

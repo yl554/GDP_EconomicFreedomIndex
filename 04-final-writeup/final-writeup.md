@@ -1148,9 +1148,7 @@ independent.
 
 #### Constant Variance & Linearity
 
-![](final-writeup_files/figure-gfm/residual%20vs.%20predicted-1.png)<!-- -->
-
-![](final-writeup_files/figure-gfm/residuals%20vs.%20predictor%20variables-1.png)<!-- -->![](final-writeup_files/figure-gfm/residuals%20vs.%20predictor%20variables-2.png)<!-- -->![](final-writeup_files/figure-gfm/residuals%20vs.%20predictor%20variables-3.png)<!-- -->![](final-writeup_files/figure-gfm/residuals%20vs.%20predictor%20variables-4.png)<!-- -->![](final-writeup_files/figure-gfm/residuals%20vs.%20predictor%20variables-5.png)<!-- -->![](final-writeup_files/figure-gfm/residuals%20vs.%20predictor%20variables-6.png)<!-- -->![](final-writeup_files/figure-gfm/residuals%20vs.%20predictor%20variables-7.png)<!-- -->![](final-writeup_files/figure-gfm/residuals%20vs.%20predictor%20variables-8.png)<!-- -->
+![](final-writeup_files/figure-gfm/residual%20vs.%20predicted-1.png)<!-- -->![](final-writeup_files/figure-gfm/residual%20vs.%20predicted-2.png)<!-- -->
 
 From the residual plots above, we conclude the constant variance and
 linearity assumptions are satisified. Residuals are all randomly
@@ -1160,7 +1158,7 @@ predictors.
 
 #### Normality Check
 
-![](final-writeup_files/figure-gfm/residual%20normality%20check-1.png)<!-- -->![](final-writeup_files/figure-gfm/residual%20normality%20check-2.png)<!-- -->
+![](final-writeup_files/figure-gfm/residual%20normality%20check-1.png)<!-- -->
 
 The normality assumption is satisfied since the distribution of
 residuals appears to be unimodal and approximately normal. Also, the
