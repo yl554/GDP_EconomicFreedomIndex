@@ -336,7 +336,7 @@ economic_data <- economic_data %>%
   mutate(GovInterference = relevel(GovInterference, ref = "Moderate", ordered = FALSE))
 ```
 
-Our approach is this: running model selection using all three selection criteria - AIC, BIC, and adjusted R^2 - and comparing all three models to decide on the final model.
+Our approach is: running model selection using all three selection criteria - AIC, BIC, and adjusted R^2 - and comparing all three models to decide on the final model.
 
 Model selected using AIC:
 logGDP ~ TariffRate + logpop + GDPGrowth + TaxBurdenCent + GovSpendingCent + cat_inflationDangerouslyHigh + cat_inflationHigh + cat_inflationLow + RegionAsia-Pacific + RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica (plus) GovInterferenceExtensive + GovInterferenceRepressive + GovInterferenceLimited 

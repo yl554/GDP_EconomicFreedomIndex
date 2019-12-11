@@ -175,7 +175,7 @@ GovSpending.
 
 ## Section 2: Regression Analysis (includes the final model and discussion of assumptions)
 
-Our approach is this: running model selection using all three selection
+Our approach is: running model selection using all three selection
 criteria - AIC, BIC, and adjusted R^2 - and comparing all three models
 to decide on the final model.
 
