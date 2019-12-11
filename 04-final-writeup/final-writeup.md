@@ -183,8 +183,8 @@ Model selected using AIC: logGDP ~ TariffRate + logpop + GDPGrowth +
 TaxBurdenCent + GovSpendingCent + cat\_inflationDangerouslyHigh +
 cat\_inflationHigh + cat\_inflationLow + RegionAsia-Pacific +
 RegionEurope + RegionMiddleEastandNorthAfrica + RegionSub-SaharanAfrica
-+ GovInterferenceLimited + GovInterferenceExtensive +
-GovInterferenceRepressive
+(plus) GovInterferenceExtensive + GovInterferenceRepressive +
+GovInterferenceLimited
 
 Model selected using BIC: logGDP ~ TariffRate + logpop + GDPGrowth +
 cat\_inflationDangerouslyHigh + cat\_inflationHigh +
